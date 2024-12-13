@@ -1,0 +1,104 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+require('dotenv').config();
+
+// Se requiere el módulo de la aplicación
+var app = require('../app');
+// Se requiere el módulo de depuración
+var debug = require('debug')('test:server');
+// Se requiere el módulo de HTTP
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+// Se obtiene el puerto del entorno y se almacena en Express
+var port = normalizePort(process.env.PORT || '4000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+// Se crea el servidor HTTP
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+// El servidor escucha en el puerto proporcionado, en todas las interfaces de red
+server.listen(port);
+// Se maneja el evento de error del servidor
+server.on('error', onError);
+// Se maneja el evento de escucha del servidor
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+// Normaliza un puerto en un número, cadena o falso
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // Si el puerto no es un número, se devuelve el valor original
+    return val;
+  }
+
+  if (port >= 0) {
+    // Si el puerto es un número válido, se devuelve el número
+    return port;
+  }
+
+  // Si el puerto no es válido, se devuelve falso
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+// Manejador de eventos para el evento "error" del servidor HTTP
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    // Si el error no es de tipo 'listen', se lanza una excepción
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // Se manejan errores específicos de escucha con mensajes amigables
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+// Manejador de eventos para el evento "listening" del servidor HTTP
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
