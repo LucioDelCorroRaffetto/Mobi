@@ -1,4 +1,3 @@
-const theme = document.getElementById("theme");
 // Función para cambiar el tema del sitio
 // Esta función se utiliza para alternar entre el tema claro y oscuro
 function changeTheme() {
