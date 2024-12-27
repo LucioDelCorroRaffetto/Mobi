@@ -1,0 +1,98 @@
+main{
+    margin: 10px;
+}
+
+.login-container {
+    background-color: var(--var-background-color-light-shadow);
+    border-radius: 8px;
+    box-shadow: var(--var-background-color-light-shadow) 0px -23px 25px 0px inset,
+    var(--var-background-color-light-shadow) 0px -36px 30px 0px inset,
+    var(--var-background-color-light-shadow) 0px -79px 40px 0px inset,var(--var-background-color-light-shadow) 0px 2px 1px,
+    var(--var-background-color-light-shadow) 0px 4px 2px,var(--var-background-color-light-shadow) 0px 8px 4px,
+    var(--var-background-color-light-shadow) 0px 16px 8px,var(--var-background-color-light-shadow) 0px 32px 16px;
+    padding: 40px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .heading {
+    color: var(--var-text-color-light);
+    font-weight: 500;
+    font-size: 40px;
+    margin-bottom: 5px;
+  }
+  
+  .paragraph {
+    color: var(--var-text-color-light);
+    font-weight: 400;
+    font-size: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-group input {
+    background: none;
+    border: 1px solid #353535;
+    padding: 15px 23px;
+    font-size: 16px;
+    border-radius: 8px;
+    color: var(--var-text-color-light);
+    width: 100%;
+    box-shadow: var(--var-background-color-light-shadow) 0px -23px 25px 0px inset,
+    var(--var-background-color-light-shadow) 0px -36px 30px 0px inset,
+    var(--var-background-color-light-shadow) 0px -79px 40px 0px inset, var(--var-background-color-light-shadow) 0px 2px 1px,
+    var(--var-background-color-light-shadow) 0px 4px 2px,var(--var-background-color-light-shadow) 0px 8px 4px,
+    var(--var-background-color-light-shadow) 0px 16px 8px,var(--var-background-color-light-shadow) 0px 32px 16px;
+  }
+  
+  .input-group input:focus {
+    border-color: #0173ed;
+    outline: none;
+  }
+  
+  button {
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #0173ed;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0173ed;
+  }
+  
+  .bottom-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    color: var(--var-text-color-light);
+    font-size: 15px;
+    font-weight: 400;
+  }
+  
+  .bottom-text a {
+    color: #0173ed;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .bottom-text a:hover {
+    color: #3f95f2;
+  }
+  

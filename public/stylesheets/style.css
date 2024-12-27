@@ -1,7 +1,7 @@
 /* Navegación principal */
 nav {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     padding: 1rem 2rem;
     width: 100%;
@@ -11,6 +11,17 @@ nav {
     position: sticky;
     top: 0;
     z-index: 100;
+}
+
+.forms a{
+    text-decoration: none;
+    color: var(--var-white);
+}
+
+.forms{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 10px;
 }
 
 .links {
@@ -129,7 +140,7 @@ nav {
 #register,
 .button-group button,
 button {
-    padding: 0.8rem 1.8rem;
+    padding: 1rem 1.8rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -162,12 +173,14 @@ h1, h2, h3 {
 h1 {
     font-size: 2.2rem;
     margin-top: 1rem;
+    margin-bottom: 1rem;
     font-weight: 700;
 }
 
 /* Grupos de botones y búsqueda */
 .button-group,
 .search {
+    margin-top: 1rem;
     margin-bottom: 1rem;
     transition: all 0.3s ease;
     gap: 1rem;
@@ -237,12 +250,13 @@ h1 {
     display: grid;
     gap: 1rem;
     transition: all 0.3s ease;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .social-media-buttons {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 1rem;
 }
 
@@ -311,7 +325,9 @@ footer textarea:focus {
     border-color: var(--var-text-color-dark);
 }
 
-.darkMode button {
+.darkMode button,
+.darkMode #login, 
+.darkMode #register {
     background: linear-gradient(to right, var(--var-button-color-primary), var(--var-button-color-secondary));
     color: var(--var-white);
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
@@ -355,7 +371,6 @@ footer textarea:focus {
 /* Media Queries */
 @media (max-width: 768px) {
     nav {
-        grid-template-columns: 1fr;
         gap: 1rem;
         padding: 1rem;
     }
@@ -399,10 +414,6 @@ footer textarea:focus {
         transform: translateX(20px);
     }
 
-    .menu-icon-action {
-        display: block;
-    }
-    
     footer {
         align-items: flex-start;
         padding: 2rem 1.5rem;
@@ -428,10 +439,6 @@ footer textarea:focus {
         display: block;
     }
 
-    .navlist {
-        display: none;
-    }
-
     #menu-toggle:checked + label.menu-icon-action + ul {
         display: block;
         position: absolute;
@@ -445,32 +452,6 @@ footer textarea:focus {
     }
 }
 
-@media (min-width: 768px) {
-    .links a { 
-        margin: 0 0.8rem;
-        font-size: 1rem;
-    }
-    
-    .banner { 
-        padding: 2rem 1rem; 
-    }
-    
-    .contact-container {
-        padding: 1.5rem;
-        gap: 1.5rem;
-    }
-    
-    .menu-icon-action {
-        display: none;
-    }
-
-    .navlist {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 2rem;
-    }
-}
 
 @media (min-width: 1023px) {
     .container {
@@ -488,4 +469,17 @@ footer textarea:focus {
     .navlist a {
         font-size: 1rem;
     }
+
+.social-media-buttons button {
+    padding: 1rem 1rem;
+}
+
+.svgContainer{
+    width: auto;
+    height: auto;
+}
+
+footer{
+    display: flex;
+}
 }

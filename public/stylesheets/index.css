@@ -349,3 +349,40 @@ input:checked + .slider .stars {
     z-index: 10;
     padding: 1rem;
 }
+
+@media (min-width: 768px) {
+    .links a { 
+        margin: 0 0.8rem;
+        font-size: 1rem;
+    }
+    
+    .banner { 
+        padding: 2rem 1rem; 
+    }
+    
+    .contact-container {
+        display: flex;
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+    
+    .menu-icon-action {
+        display: none;
+    }
+
+    .navlist li {
+        list-style: none;
+    }
+
+    .navlist {
+        display: block;
+    }
+
+    .navlist {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+        margin: 10px 10px 10px 10px;
+    }
+}
