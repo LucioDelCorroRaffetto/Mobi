@@ -1,211 +1,170 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/style.css">
-    <link rel="stylesheet" href="/stylesheets/index.css">
-    <title>Document</title>
-</head>
-<body>
-    <header>
-        <nav>
-            <div class="logo">
-                <img src="/images/logo.png" alt="Logo del sitio">
-            </div>
-            <input type="checkbox" name="checkbox" id="menu-toggle">
-            <label for="menu-toggle" class="menu-icon-action">
-                <svg class="ham hamRotate ham1" viewBox="0 0 100 100" width="80"
-                    onclick="this.classList.toggle('active')">
-                    <path class="line top"
-                        d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40" />
-                    <path class="line middle" d="m 30,50 h 40" />
-                    <path class="line bottom"
-                        d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
-                </svg>
-            </label>
-            <ul class="navlist">
-                <li>
-                    <a href="./home">Inicio</a>
-                </li>
-                <li>
-                    <a href="#servicios">Servicios</a>
-                </li>
-                <li>
-                    <a href="#productos">Productos</a>
-                </li>
-                <li>
-                    <a href="#portafolio">Portafolio</a>
-                </li>
-                <li>
-                    <a href="#blog">Blog</a>
-                </li>
-                <li>
-                    <a href="#nosotros">Nosotros</a>
-                </li>
-                <li>
-                    <a href="#contacto">Contacto</a>
-                </li>
-            </ul>
-            <div class="forms">
-                <button id="login"><a href="./login">Inicia Sesión</a></button>
-                <button id="register"><a href="./register">Registrarse</a></button>
-            </div>
-        </nav>
-    </header>
-    <main>
-    <h1>Hola</h1>
-                        <!-- Switch para Tema Claro/Oscuro -->
-                        <label class="switch">
-                            <input id="input" type="checkbox" checked />
-                            <div class="slider round">
-                                <!-- Elementos del Sol y Luna -->
-                                <div class="sun-moon">
-                                    <!-- Puntos de la Luna -->
-                                    <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <!-- Rayos de Luz -->
-                                    <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <!-- Nubes Oscuras -->
-                                    <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <!-- Nubes Claras -->
-                                    <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                    <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="50"></circle>
-                                    </svg>
-                                </div>
-                                <!-- Estrellas -->
-                                <div class="stars">
-                                    <svg id="star-1" class="star" viewBox="0 0 20 20">
-                                        <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
-                                    </svg>
-                                    <svg id="star-2" class="star" viewBox="0 0 20 20">
-                                        <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
-                                    </svg>
-                                    <svg id="star-3" class="star" viewBox="0 0 20 20">
-                                        <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
-                                    </svg>
-                                    <svg id="star-4" class="star" viewBox="0 0 20 20">
-                                        <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
-                                    </svg>
-                                </div>
+<%- include('./partials/headIndex.ejs')%>
+
+<%-include('./partials/header.ejs')%>
+
+        <!-- Contenido Principal -->
+        <main>
+            <!-- Banner Principal -->
+            <div class="banner">
+                <div>
+                    <h1>Título</h1>
+                    <!-- Switch para Tema Claro/Oscuro -->
+                    <label class="switch">
+                        <input id="input" type="checkbox" checked />
+                        <div class="slider round">
+                            <!-- Elementos del Sol y Luna -->
+                            <div class="sun-moon">
+                                <!-- Puntos de la Luna -->
+                                <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <!-- Rayos de Luz -->
+                                <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <!-- Nubes Oscuras -->
+                                <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <!-- Nubes Claras -->
+                                <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
+                                <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="50"></circle>
+                                </svg>
                             </div>
-                        </label>
-        <P>apreta debajo para ingresar al home</P>
-        <a href="./home">Click aqui</a>
-    </main>
-    <footer>
-        <div class="contact-container">
-            <!-- Formulario de Contacto -->
-            <div class="contact-form">
-                <h2>Contacto</h2>
-                <input type="email" id="emailInput" name="emailInput" placeholder="Correo electrónico" />
-                <textarea id="messageInput" name="messageInput" placeholder="Mensaje"></textarea>
-                <button>Enviar</button>
-            </div>
-            <!-- Sección de Recursos -->
-            <div class="resources">
-                <h3>Recursos</h3>
-                <ul>
-                    <li>Blog</li>
-                    <li>Mejores prácticas</li>
-                    <li>Colores</li>
-                    <li>Rueda de color</li>
-                    <li>Soporte</li>
-                    <li>Desarrolladores</li>
-                    <li>Biblioteca de recursos</li>
-                </ul>
-            </div>
-            <!-- Sección de Exploración -->
-            <div class="explore">
-                <h3>Explorar</h3>
-                <ul>
-                    <li>Diseño</li>
-                    <li>Prototipado</li>
-                    <li>Características de desarrollo</li>
-                    <li>Sistemas de diseño</li>
-                    <li>Características de colaboración</li>
-                    <li>Proceso de diseño</li>
-                    <li>FigJam</li>
-                </ul>
-            </div>
-            <!-- Redes Sociales -->
-            <div class="social-media">
-                <h3>Redes Sociales</h3>
-                <div class="social-media-buttons">
-                    <!-- WhatsApp -->
-                <button class="Btn" aria-label="WhatsApp">
-                    <span class="svgContainer">
-                        <svg viewBox="0 0 448 512" fill="white" height="1.6em" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path>
-                        </svg>
-                    </span>
-                    <span class="BG"></span>
-                </button>
-                <!-- Facebook -->
-                <button class="Btn" aria-label="Facebook">
-                    <span class="svgContainer">
-                        <svg viewBox="0 0 320 512" height="1.3em" xmlns="http://www.w3.org/2000/svg" class="svgIcon" fill="white">
-                            <path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"></path>
-                        </svg>
-                    </span>
-                    <span class="BG"></span>
-                </button>
-                <!-- Twitter -->
-                <button class="Btn" aria-label="Twitter">
-                    <span class="svgContainer">
-                        <svg viewBox="0 0 512 512" height="1.7em" xmlns="http://www.w3.org/2000/svg" class="svgIcon" fill="white">
-                            <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
-                        </svg>
-                    </span>
-                    <span class="BG"></span>
-                </button>
-                <!-- LinkedIn -->
-                <button class="Btn" aria-label="LinkedIn">
-                    <span class="svgContainer">
-                        <svg viewBox="0 0 448 512" height="1.6em" xmlns="http://www.w3.org/2000/svg" class="svgIcon" fill="white">
-                            <path d="M100.3 448H7.4V148.9h92.9zM53.8 108.1C24.1 108.1 0 83.5 0 53.8a53.8 53.8 0 0 1 107.6 0c0 29.7-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z"></path>
-                        </svg>
-                    </span>
-                    <span class="BG"></span>
-                    </button>
+                            <!-- Estrellas -->
+                            <div class="stars">
+                                <svg id="star-1" class="star" viewBox="0 0 20 20">
+                                    <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
+                                </svg>
+                                <svg id="star-2" class="star" viewBox="0 0 20 20">
+                                    <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
+                                </svg>
+                                <svg id="star-3" class="star" viewBox="0 0 20 20">
+                                    <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
+                                </svg>
+                                <svg id="star-4" class="star" viewBox="0 0 20 20">
+                                    <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </label>
+                    <!-- Grupo de Botones -->
+                    <div class="button-group">
+                        <button>Opción 1</button>
+                        <button>Opción 2</button>
+                        <button>Opción 3</button>
+                        <button>Opción 4</button>
+                    </div>
+                    <!-- Barra de Búsqueda -->
+                    <div class="search">
+                        <button>Filtrar</button>
+                        <input type="text" id="searchInput" name="searchInput" placeholder="Buscar...">
+                        <button>Buscar</button>
+                    </div>
                 </div>
             </div>
+            <!-- Contenedor Principal -->
+            <div class="container" id="content-section">
+                <!-- Sección de Nuestra Empresa -->
+                <div class="content-section">
+                    <img src="/images/empresa.webp" alt="Imagen de Propiedad">
+                    <h2>Nuestra Empresa</h2>
+                    <p>
+                        Nuestra empresa se especializa en ofrecer propiedades de alta calidad, diseñadas para satisfacer las necesidades de nuestros clientes. Con años de experiencia en el mercado, nos hemos ganado una reputación por nuestra atención al detalle y nuestro compromiso con la excelencia.
+                    </p>
+                </div>
+                <!-- Sección de Confianza -->
+                <div class="content-section">
+                    <img src="/images/toretto.webp" alt="Imagen de Propiedad">
+                    <h2>¿Por qué confiar en nosotros?</h2>
+                    <p>
+                        Deberías confiar en nosotros porque nos enfocamos en entender las necesidades específicas de cada cliente y ofrecer soluciones personalizadas. Nuestro equipo de expertos trabajará contigo para encontrar la propiedad perfecta para ti, asegurándose de que tu experiencia sea lo más agradable posible.
+                    </p>
+                </div>
+            </div>
+            
+<section class="review" id="Reviews">
+    <div class="reviews-section">
+        <h2>Últimas reseñas</h2>
+        <div class="reviews-container">
+          <div class="review-card">
+            <div class="stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+            </div>
+            <div class="review-title">Título de la reseña</div>
+            <div class="review-body">Cuerpo de la reseña</div>
+            <div class="review-footer">
+              <div class="reviewer-img"></div>
+              <div class="reviewer-details">
+                Nombre del reseñador<br>
+                Fecha
+              </div>
+            </div>
+          </div>
+    
+          <div class="review-card">
+            <div class="stars">
+              <span>★</span><span>★</span><span>★</span><span>☆</span><span>☆</span>
+            </div>
+            <div class="review-title">Título de la reseña</div>
+            <div class="review-body">Cuerpo de la reseña</div>
+            <div class="review-footer">
+              <div class="reviewer-img"></div>
+              <div class="reviewer-details">
+                Nombre del reseñador<br>
+                Fecha
+              </div>
+            </div>
+          </div>
+    
+          <div class="review-card">
+            <div class="stars">
+              <span>★</span><span>★</span><span>☆</span><span>☆</span><span>☆</span>
+            </div>
+            <div class="review-title">Título de la reseña</div>
+            <div class="review-body">Cuerpo de la reseña</div>
+            <div class="review-footer">
+              <div class="reviewer-img"></div>
+              <div class="reviewer-details">
+                Nombre del reseñador<br>
+                Fecha
+              </div>
+            </div>
+          </div>
         </div>
-    </footer>
-            <!-- Scripts -->
-            <script src="/javascripts/home.js"></script>
-            <script>
-                // Agregar evento de cambio al checkbox
-                document.getElementById("input").addEventListener("change", changeTheme);
-            </script>
-</body>
+      </div>
+</section>
+        </main>
+        <%-include('./partials/footer.ejs')%>
+        <!-- Scripts -->
+        <script src="/javascripts/home.js"></script>
+        <script src="/javascripts/index.js"></script>
+        <script>
+            // Agregar evento de cambio al checkbox
+            document.getElementById("input").addEventListener("change", changeTheme);
+        </script>
 </html>

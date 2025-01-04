@@ -1,5 +1,5 @@
 main{
-    margin: 10px;
+  margin-bottom: 100px;
 }
 
 .login-container {
@@ -15,6 +15,15 @@ main{
     width: 100%;
     text-align: center;
     margin: 0 auto;
+  }
+  
+  .darkMode .login-container{
+    background-color: var(--var-background-color-dark-shadow);
+    box-shadow: var(--var-background-color-dark-shadow) 0px -23px 25px 0px inset,
+    var(--var-background-color-dark-shadow) 0px -36px 30px 0px inset,
+    var(--var-background-color-dark-shadow) 0px -79px 40px 0px inset,var(--var-background-color-dark-shadow) 0px 2px 1px,
+    var(--var-background-color-dark-shadow) 0px 4px 2px,var(--var-background-color-dark-shadow) 0px 8px 4px,
+    var(--var-background-color-dark-shadow) 0px 16px 8px,var(--var-background-color-dark-shadow) 0px 32px 16px;
   }
   
   .login-form {
@@ -95,4 +104,18 @@ main{
   .bottom-text a:hover {
     color: #3f95f2;
   }
-  
+
+  .darkMode .bottom-text,
+  .darkMode .heading,
+  .darkMode .paragraph {
+    color: var(--var-text-color-dark);
+  }
+
+  .darkMode .input-group input {
+    color: var(--var-text-color-dark);
+    box-shadow: var(--var-background-color-dark-shadow) 0px -23px 25px 0px inset,
+    var(--var-background-color-dark-shadow) 0px -36px 30px 0px inset,
+    var(--var-background-color-dark-shadow) 0px -79px 40px 0px inset, var(--var-background-color-dark-shadow) 0px 2px 1px,
+    var(--var-background-color-dark-shadow) 0px 4px 2px,var(--var-background-color-dark-shadow) 0px 8px 4px,
+    var(--var-background-color-dark-shadow) 0px 16px 8px,var(--var-background-color-dark-shadow) 0px 32px 16px;
+  }

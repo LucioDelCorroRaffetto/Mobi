@@ -1,0 +1,134 @@
+<%- include('./partials/headProduct.ejs')%>
+
+<%-include('./partials/header.ejs')%>
+
+    <main>
+      <!-- Switch para Tema Claro/Oscuro -->
+      <label class="switch">
+        <input id="input" type="checkbox" checked />
+        <div class="slider round">
+          <!-- Elementos del Sol y Luna -->
+          <div class="sun-moon">
+            <!-- Puntos de la Luna -->
+            <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <!-- Rayos de Luz -->
+            <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <!-- Nubes Oscuras -->
+            <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <!-- Nubes Claras -->
+            <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+            <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="50"></circle>
+            </svg>
+          </div>
+          <!-- Estrellas -->
+          <div class="stars">
+            <svg id="star-1" class="star" viewBox="0 0 20 20">
+              <path
+                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+              ></path>
+            </svg>
+            <svg id="star-2" class="star" viewBox="0 0 20 20">
+              <path
+                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+              ></path>
+            </svg>
+            <svg id="star-3" class="star" viewBox="0 0 20 20">
+              <path
+                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+              ></path>
+            </svg>
+            <svg id="star-4" class="star" viewBox="0 0 20 20">
+              <path
+                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </label>
+      
+    <section class="product-mobile">
+      <div class="card">
+        <img src="/images/budapest.jpg" alt="ImagenDelProducto">
+        <div class="card-body">
+            <h2 class="card-title">Nombre del Producto</h2>
+            <p class="card-price">$99.99</p>
+            <p class="card-description">Esta es una breve descripción del producto. Es muy útil y tiene características increíbles.</p>
+        </div>
+      </div>
+    </section>
+    <section class="product-desktop">
+      <div class="product-container">
+        <!-- Carrusel de imágenes -->
+          <div class="product-carousel">
+              <div class="carousel-images">
+                <img src="/images/budapest.jpg" alt="Imagen 1">
+                <img src="/images/buenaSuerteCharlie.jpg" alt="Imagen 2">
+                <img src="/images/principeBelAir.jpg" alt="Imagen 3">
+              </div>
+          </div>
+
+        <!-- Contenido del producto (dividido en dos columnas) -->
+          <div class="product-content">
+            <!-- Columna izquierda: Imagen -->
+              <div class="product-image">
+                <img src="/images/budapest.jpg" alt="Producto">
+              </div>
+
+            <!-- Columna derecha: Información -->
+            <div class="product-details">
+                <h2 class="product-title">Text Heading</h2>
+                <span class="product-tag">Tag</span>
+                <h3 class="product-price">$50</h3>
+                <p class="product-description">
+                    Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.
+                </p>
+                <button class="product-button">Button</button>
+            </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+    </main>
+    <%-include('./partials/footer.ejs')%>
+
+    <!-- Scripts -->
+    <script src="/javascripts/home.js"></script>
+    <script>
+      // Agregar evento de cambio al checkbox
+      document.getElementById("input").addEventListener("change", changeTheme);
+    </script>
+    <!-- Script del carrusel -->
+    <script src="/javascripts/script.js"></script>
+  </body>
+</html>

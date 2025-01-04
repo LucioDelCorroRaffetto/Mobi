@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Courgette&family=Noto+Serif+Vithkuqi:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Chonburi&display=swap");
+
 /* Navegación principal */
 nav {
     display: grid;
@@ -73,6 +77,15 @@ nav {
 /* ============================
     MAIN
    ============================ */
+
+.product img{
+    width: 100%;
+    height: 100%;
+}
+
+.darkMode .product-item p,span{
+    color: var(--var-text-color-dark);
+}
 
 /* Botones personalizados */
 .Btn {
@@ -176,6 +189,110 @@ h1 {
     margin-bottom: 1rem;
     font-weight: 700;
 }
+.review {
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.reviews-section {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.reviews-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.reviews-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.review-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    flex: 1;
+    max-width: 300px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.stars {
+    display: flex;
+    gap: 5px;
+}
+
+.stars span {
+    font-size: 18px;
+}
+
+.review-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+
+.review-body {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.review-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reviewer-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+}
+
+.reviewer-details {
+    font-size: 12px;
+    color: #666;
+}
+
+.darkMode .review {
+    background-color: #333;
+}
+
+.darkMode .reviews-section h2 {
+    color: #fff;
+}
+
+.darkMode .review-card {
+    background: #444;
+    border: 1px solid #555;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.darkMode .stars span {
+    color: #fff;
+}
+
+.darkMode .review-title {
+    color: #fff;
+}
+
+.darkMode .review-body {
+    color: #ccc;
+}
+
+.darkMode .reviewer-img {
+    background-color: #555;
+}
+
+.darkMode .reviewer-details {
+    color: #999;
+}
 
 /* Grupos de botones y búsqueda */
 .button-group,
@@ -211,11 +328,29 @@ h1 {
     border-radius: 10px;
     background-color: var(--var-section-color-light);
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-/* Banner y contenedor de contacto */
-.banner,
+.content-section img {
+    width: 60%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.content-section h2 {
+    font-size: 1.8rem;
+    color: var(--var-accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.content-section p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* contenedor de contacto */
 .contact-container {
     display: grid;
     grid-template-columns: 1fr;

@@ -1,13 +1,14 @@
-var express = require('express'); // Se requiere el módulo de Express
-var router = express.Router(); // Se crea un objeto Router de Express
+const express = require('express');
+const router = express.Router();
+const productsRouter = require('./inmuebles');
+const cartController = require('../controllers/productCart');
 
-/* GET página de inicio. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Página de Inicio' });
+  res.render('index', { title: 'Página de Inicio', products: [] });
 });
 
 router.get('/home', function(req, res, next) {
-  res.render('home', { title: 'home' });
+  res.render('index', { title: 'home', products: [] });
 });
 
 router.get('/login', function(req, res, next) {
@@ -19,8 +20,21 @@ router.get('/register', function(req, res, next) {
 });
 
 router.get('/product', function(req, res, next) {
-  res.render('product', { title: 'product' });
+  res.render('productDetail', { title: 'product' });
 });
 
-// Se exporta el objeto Router
+router.get('/carrousel', function(req, res, next) {
+  res.render('partials/carrousel', { title: 'carrousel' });
+});
+
+router.get('/productDetail', function(req, res, next) {
+  res.render('productDetail', { title: 'carrousel' });
+});
+
+router.get('/productCart', cartController.loadCart);
+
+// Rutas de productos
+router.use('/cart', productsRouter);
+router.use('/index', productsRouter);
+
 module.exports = router;

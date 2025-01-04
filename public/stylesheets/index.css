@@ -59,7 +59,7 @@ body {
     transition: transform 0.3s ease;
 }
 
-img {
+.logo img {
     width: 2.5rem;
     height: auto;
     transition: width 0.3s ease;
