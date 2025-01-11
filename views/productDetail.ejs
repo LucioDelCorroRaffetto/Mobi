@@ -3,79 +3,6 @@
 <%-include('./partials/header.ejs')%>
 
     <main>
-      <!-- Switch para Tema Claro/Oscuro -->
-      <label class="switch">
-        <input id="input" type="checkbox" checked />
-        <div class="slider round">
-          <!-- Elementos del Sol y Luna -->
-          <div class="sun-moon">
-            <!-- Puntos de la Luna -->
-            <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <!-- Rayos de Luz -->
-            <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <!-- Nubes Oscuras -->
-            <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <!-- Nubes Claras -->
-            <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-            <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="50"></circle>
-            </svg>
-          </div>
-          <!-- Estrellas -->
-          <div class="stars">
-            <svg id="star-1" class="star" viewBox="0 0 20 20">
-              <path
-                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-              ></path>
-            </svg>
-            <svg id="star-2" class="star" viewBox="0 0 20 20">
-              <path
-                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-              ></path>
-            </svg>
-            <svg id="star-3" class="star" viewBox="0 0 20 20">
-              <path
-                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-              ></path>
-            </svg>
-            <svg id="star-4" class="star" viewBox="0 0 20 20">
-              <path
-                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </label>
-      
     <section class="product-mobile">
       <div class="card">
         <img src="/images/budapest.jpg" alt="ImagenDelProducto">
@@ -92,7 +19,7 @@
           <div class="product-carousel">
               <div class="carousel-images">
                 <img src="/images/budapest.jpg" alt="Imagen 1">
-                <img src="/images/buenaSuerteCharlie.jpg" alt="Imagen 2">
+                <img src="/images/budapest.jpg" alt="Imagen 2">
                 <img src="/images/principeBelAir.jpg" alt="Imagen 3">
               </div>
           </div>
@@ -100,20 +27,36 @@
         <!-- Contenido del producto (dividido en dos columnas) -->
           <div class="product-content">
             <!-- Columna izquierda: Imagen -->
-              <div class="product-image">
-                <img src="/images/budapest.jpg" alt="Producto">
-              </div>
-
+            <div class="product-image">
+              <% if (locals.products) { %>
+                <img src="<%= products[0].foto %>" alt="<%= products[0].direccion %>">
+              <% } %>
+            </div>
             <!-- Columna derecha: Información -->
             <div class="product-details">
-                <h2 class="product-title">Text Heading</h2>
-                <span class="product-tag">Tag</span>
-                <h3 class="product-price">$50</h3>
-                <p class="product-description">
-                    Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.
-                </p>
-                <button class="product-button">Button</button>
-            </div>
+                <% if(locals.products) {%>
+
+                  <h2 class="product-title"><%= products[0]?.direccion || 'Dirección no disponible' %></h2>
+                  <p class="product-description">Cantidad de metros cuadrados: <%= products[0]?.m2 || 'Datos no disponible' %></p>
+                  <p class="product-description">Cantidad de ambientes: <%= products[0]?.ambientes || 'Datos no disponible' %></p>
+                  <h3 class="product-price">$<%= products[0]?.precio || 'Datos no disponible' %></h3>
+                  <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2502.5964531062596!2d14.9876113!3d51.152792399999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4708dc3ac70a5227%3A0x8fa1a1d513a7407d!2sKaufhaus%20G%C3%B6rlitz!5e0!3m2!1ses!2sar!4v1736600519244!5m2!1ses!2sar"
+                  width="600" 
+                  height="200" 
+                  style="border:0;" 
+                  allowfullscreen="" 
+                  loading="lazy">
+                  </iframe>
+                  <% } %>
+                <div class="product-button">
+                  <button class="contact-button" onclick="contactar('<%= products[0].direccion %>')">Contactar</button>
+                  <button class="reserve-button" onclick="reservar('<%= products[0].id %>')">Reservar</button>
+                  <button class="favorite-button" onclick="toggleFavorite('<%= products[0].id %>')">
+                    <span id="favorite-<%= products[0].id %>">🤍</span> Agregar a Favoritos
+                  </button>
+                </div>
+              </div>
         </div>
       </div>
     </div>

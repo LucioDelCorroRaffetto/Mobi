@@ -1,0 +1,1 @@
+@stylesheets llama a todos los colores de mis archivos css dependiendo al root y elijiendo coherentemente entre light mode y dark mode (cambia todos los colores segun esos parametros excepto el switch toggle del main)

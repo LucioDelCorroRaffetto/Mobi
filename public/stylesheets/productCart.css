@@ -1,27 +1,4 @@
 /* Variables de colores */
-:root {
-    /* Colores tema claro */
-    --var-background-color-light: #F5F5F5;
-    --var-background-color-light-shadow: #E0E0E0;
-    --var-text-color-light: #333333;
-    --var-footer-color-light: #E0E0E0;
-    --var-section-color-light: #FFFFFF;
-
-    /* Colores tema oscuro */
-    --var-background-color-dark: #1A1A1A;
-    --var-background-color-dark-shadow: #121212;
-    --var-text-color-dark: #F5F5F5;
-    --var-footer-color-dark: #2A2A2A;
-    --var-section-color-dark: #333333;
-
-    /* Colores comunes */
-    --var-border-color: #333333;
-    --var-button-color-primary: #4361EE;
-    --var-button-color-secondary: #48B783;
-    --var-accent-color: #CBA135;
-    --var-white: #FFFFFF;
-}
-
 body {
     background-color: var(--var-background-color-light);
     color: var(--var-text-color-light);
@@ -71,16 +48,6 @@ main {
     background-color: var(--var-button-color-secondary);
 }
 
-footer {
-    background-color: var(--var-footer-color-light);
-    text-align: center;
-    padding: 1rem;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-/* Modo oscuro */
 body.darkMode {
     background-color: var(--var-background-color-dark);
     color: var(--var-text-color-dark);

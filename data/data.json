@@ -1,102 +1,112 @@
 [
-      {
-        "id": 1,
-        "direccion": "Calle Falsa 123",
-        "barrio": "Villa del Parque",
-        "zona": "Zona Norte",
-        "ambientes": 3,
-        "precio": 100000,
-        "tipo": "departamento",
-        "foto": "images/breakinBad.webp"
-      },
-      {
-        "id": 2,
-        "direccion": "Av. Rivadavia 4567",
-        "barrio": "Almagro",
-        "zona": "Zona Oeste",
-        "ambientes": 2,
-        "precio": 120000,
-        "tipo": "casa",
-        "foto":  "images/budapest.jpg"
-      },
-      {
-        "id": 3,
-        "direccion": "Calle Junín 890",
-        "barrio": "Recoleta",
-        "zona": "Zona Centro",
-        "ambientes": 5,
-        "precio": 250000,
-        "tipo": "departamento",
-        "foto":  "images/buenaSuerteCharlie.jpg"
-      },
-      {
-        "id": 4,
-        "direccion": "Calle Pescadores 512",
-        "barrio": "San Telmo",
-        "zona": "Zona Sur",
-        "ambientes": 4,
-        "precio": 180000,
-        "tipo": "casa",
-        "foto":  "images/casadosConHijos.jpg"
-      },
-      {
-        "id": 5,
-        "direccion": "Calle Moreno 304",
-        "barrio": "Villa Devoto",
-        "zona": "Zona Norte",
-        "ambientes": 3,
-        "precio": 95000,
-        "tipo": "departamento",
-        "foto":  "images/casaRosada.jpg"
-      },
-      {
-        "id": 6,
-        "direccion": "Av. 9 de Julio 456",
-        "barrio": "Monserrat",
-        "zona": "Zona Centro",
-        "ambientes": 6,
-        "precio": 300000,
-        "tipo": "departamento",
-        "foto":  "images/principeBelAir.jpg"
-      },
-      {
-        "id": 7,
-        "direccion": "Calle Tacuarí 780",
-        "barrio": "La Boca",
-        "zona": "Zona Sur",
-        "ambientes": 2,
-        "precio": 80000,
-        "tipo": "casa",
-        "foto":  "images/toretto.webp"
-      },
-      {
-        "id": 8,
-        "direccion": "Calle Libertador 2345",
-        "barrio": "Palermo",
-        "zona": "Zona Norte",
-        "ambientes": 4,
-        "precio": 220000,
-        "tipo": "departamento",
-        "foto":  "images/breakinBad.webp"
-      },
-      {
-        "id": 9,
-        "direccion": "Calle Azcuénaga 1010",
-        "barrio": "Caballito",
-        "zona": "Zona Oeste",
-        "ambientes": 3,
-        "precio": 110000,
-        "tipo": "departamento",
-        "foto":  "images/budapest.jpg"
-      },
-      {
-        "id": 10,
-        "direccion": "Calle Pueyrredón 1401",
-        "barrio": "Barracas",
-        "zona": "Zona Sur",
-        "ambientes": 4,
-        "precio": 150000,
-        "tipo": "casa",
-        "foto":  "images/buenaSuerteCharlie.jpg"
-      }
-  ]
+  {
+    "id": 1,
+    "direccion": "Calle Falsa 123",
+    "barrio": "Villa del Parque",
+    "zona": "Zona Norte",
+    "ambientes": 3,
+    "precio": 100000,
+    "tipo": "departamento",
+    "foto": "images/breakinBad.webp",
+    "m2": 70
+  },
+  {
+    "id": 2,
+    "direccion": "Av. Rivadavia 4567",
+    "barrio": "Almagro",
+    "zona": "Zona Oeste",
+    "ambientes": 2,
+    "precio": 120000,
+    "tipo": "casa",
+    "foto": "images/budapest.jpg",
+    "m2": 50
+  },
+  {
+    "id": 3,
+    "direccion": "Calle Junín 890",
+    "barrio": "Recoleta",
+    "zona": "Zona Centro",
+    "ambientes": 5,
+    "precio": 250000,
+    "tipo": "departamento",
+    "foto": "images/buenaSuerteCharlie.jpg",
+    "m2": 120
+  },
+  {
+    "id": 4,
+    "direccion": "Calle Pescadores 512",
+    "barrio": "San Telmo",
+    "zona": "Zona Sur",
+    "ambientes": 4,
+    "precio": 180000,
+    "tipo": "casa",
+    "foto": "images/casadosConHijos.jpg",
+    "m2": 90
+  },
+  {
+    "id": 5,
+    "direccion": "Calle Moreno 304",
+    "barrio": "Villa Devoto",
+    "zona": "Zona Norte",
+    "ambientes": 3,
+    "precio": 95000,
+    "tipo": "departamento",
+    "foto": "images/casaRosada.jpg",
+    "m2": 65
+  },
+  {
+    "id": 6,
+    "direccion": "Av. 9 de Julio 456",
+    "barrio": "Monserrat",
+    "zona": "Zona Centro",
+    "ambientes": 6,
+    "precio": 300000,
+    "tipo": "departamento",
+    "foto": "images/principeBelAir.jpg",
+    "m2": 140
+  },
+  {
+    "id": 7,
+    "direccion": "Calle Tacuarí 780",
+    "barrio": "La Boca",
+    "zona": "Zona Sur",
+    "ambientes": 2,
+    "precio": 80000,
+    "tipo": "casa",
+    "foto": "images/toretto.webp",
+    "m2": 55
+  },
+  {
+    "id": 8,
+    "direccion": "Calle Libertador 2345",
+    "barrio": "Palermo",
+    "zona": "Zona Norte",
+    "ambientes": 4,
+    "precio": 220000,
+    "tipo": "departamento",
+    "foto": "images/breakinBad.webp",
+    "m2": 100
+  },
+  {
+    "id": 9,
+    "direccion": "Calle Azcuénaga 1010",
+    "barrio": "Caballito",
+    "zona": "Zona Oeste",
+    "ambientes": 3,
+    "precio": 110000,
+    "tipo": "departamento",
+    "foto": "images/budapest.jpg",
+    "m2": 75
+  },
+  {
+    "id": 10,
+    "direccion": "Calle Pueyrredón 1401",
+    "barrio": "Barracas",
+    "zona": "Zona Sur",
+    "ambientes": 4,
+    "precio": 150000,
+    "tipo": "casa",
+    "foto": "images/buenaSuerteCharlie.jpg",
+    "m2": 85
+  }
+]

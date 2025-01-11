@@ -4,9 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./router/index');
-var inmueblesRouter = require('./router/inmuebles');
-var cartRouter = require('./router/cart');
+var indexRouter = require('./routes/index');
+var inmueblesRouter = require('./routes/inmuebles');
+var cartRouter = require('./routes/cart');
 
 var app = express();
 

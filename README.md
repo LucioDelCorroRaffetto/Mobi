@@ -29,3 +29,7 @@ Nuestra plataforma inmobiliaria está diseñada para ofrecer una amplia variedad
 **Sobre mí**
 
 Soy un diseñador web apasionado por crear sitios web modernos, funcionales y visualmente atractivos. Me enfoco en combinar creatividad con las últimas técnicas de diseño para ofrecer experiencias digitales únicas y personalizadas. Estoy emocionado de presentarte esta plataforma y espero que disfrutes de tu experiencia aquí.
+
+**Mesa de Trabajo**
+
+* ("https://trello.com/b/JREXGAYv/mobi")
