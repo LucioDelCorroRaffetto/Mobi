@@ -6,7 +6,7 @@
 require('dotenv').config();
 
 // Se requiere el módulo de la aplicación
-var app = require('../app');
+var app = require('../src/app');
 // Se requiere el módulo de depuración
 var debug = require('debug')('test:server');
 // Se requiere el módulo de HTTP

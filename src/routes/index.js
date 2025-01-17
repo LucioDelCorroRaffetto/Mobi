@@ -5,34 +5,39 @@ const cartController = require('../controllers/productCart');
 const fs = require('fs');
 const products = JSON.parse(fs.readFileSync('./data/data.json', 'utf-8'));
 
+// Ruta principal - muestra el carrusel de publicidad
 router.get('/', function(req, res, next) {
-    res.render('partials/carrousel', { title: 'Publicidad'});
+    res.render('carrousel', { title: 'Publicidad'});
 });
 
+// Ruta de inicio
 router.get('/home', function(req, res, next) {
   res.render('index', { title: 'Página de Inicio', products });
 });
 
+router.get('/admin', function(req, res, next) {
+  res.render('products/admin', { title: 'Página de edicion', products });
+});
+
+// Rutas de autenticación
 router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'login' });
+  res.render('users/login', { title: 'Iniciar Sesión' });
 });
 
 router.get('/register', function(req, res, next) {
-  res.render('register', { title: 'register' });
+  res.render('users/register', { title: 'Registrarse' });
 });
 
+// Rutas de productos - unificadas
 router.get('/product', function(req, res, next) {
-  res.render('productDetail', { title: 'product', products });
+  res.render('products/productDetail', { title: 'Detalle del Inmueble', products });
 });
 
-router.get('/productDetail', function(req, res, next) {
-  res.render('productDetail', { title: 'productDetail', products });
-});
-
+// Ruta del carrito
 router.get('/productCart', cartController.loadCart);
 
-// Rutas de productos
+// Rutas adicionales de productos
 router.use('/cart', productsRouter);
-router.use('/index', productsRouter);
+router.use('/inmuebles', productsRouter);
 
 module.exports = router;

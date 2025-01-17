@@ -5,11 +5,11 @@ const productsController = {
         const inmueble = req.params.inmueble;
         const products = JSON.parse(fs.readFileSync('./data/data.json', 'utf-8'));
         const resultadoInmueble = products.filter(product => product.inmueble === inmueble);
-        resultadoInmueble.length > 0 ? res.render('products', { title: 'Lista de Productos', resultadoInmueble }) : res.render('products', { title: 'Error', message: 'Producto no encontrado', products });
+        resultadoInmueble.length > 0 ? res.render('products/products', { title: 'Lista de Productos', resultadoInmueble }) : res.render('products/products', { title: 'Error', message: 'Producto no encontrado', products });
     },
-    allProducts: (req, res, next) => {
+    allProducts: (_req, res, next) => {
         const products = JSON.parse(fs.readFileSync('./data/data.json', 'utf-8'));
-        res.render('products', { title: 'Lista de Todos los Productos', resultadoInmueble: products });
+        res.render('products/products', { title: 'Lista de Todos los Productos', resultadoInmueble: products });
     }
 };
 

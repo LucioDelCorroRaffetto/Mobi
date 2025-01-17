@@ -1,0 +1,60 @@
+<%-include('../partials/headForm.ejs')%>
+
+<%-include('../partials/header.ejs')%>
+
+<main>
+        
+        <div class="login-container">
+            <form class="login-form" action="/users/profile" method="POST">
+                <p class="heading">Profile</p>
+                <p class="paragraph">Edit your profile</p>
+                <div class="input-group">
+                    <input
+                        required=""
+                        placeholder="Username"
+                        name="nombre"
+                        id="name"
+                        type="text"
+                        value="<%= locals.nombre ? nombre : "" %>"
+                    />
+                    <% if(locals.errores && locals.errores.nombre) {%>
+                        <p><%= errores.nombre.msg %></p>
+                    <% } %>
+                </div>
+                <div class="input-group">
+                    <input
+                        required=""
+                        placeholder="Email"
+                        name="correo"
+                        id="email"
+                        type="text"
+                        value="<%= locals.correo ? correo : ""%>" 
+                    />
+                    <% if(locals.errores && locals.errores.correo) {%>
+                        <p><%= errores.correo.msg %></p>
+                    <% } %>
+                </div>
+                <div class="input-group">
+                    <input
+                        required=""
+                        placeholder="Password"
+                        name="contrasena"
+                        id="password"
+                        type="password"
+                        value="<%= locals.contrasena ? contrasena : ""%>"
+                    />
+                    <% if(locals.errores && locals.errores.contrasena) {%>
+                        <p><%= errores.contrasena.msg %></p>
+                    <% } %>
+                </div>
+                <button type="submit">Edit</button>    
+</main>
+
+<%-include('../partials/footer.ejs')%>
+    <!-- Scripts -->
+    <script src="/javascripts/home.js"></script>
+    <script>
+        // Agregar evento de cambio al checkbox
+        document.getElementById("input").addEventListener("change", changeTheme);
+    </script>
+</html>

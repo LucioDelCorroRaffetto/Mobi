@@ -1,0 +1,33 @@
+<%- include('../partials/headAdmin') %>
+
+<%- include('../partials/header') %>
+
+<h1>Editar Producto</h1>
+<form action="/admin/edit/<%= product.id %>" method="POST">
+    <label>Imagen (URL):</label>
+  <input type="text" name="imagen" value="<%= product.foto %>" required>
+  <label>Direccion:</label>
+  <input name="direccion" required><%= product.direccion %>
+  <label>Barrio:</label>
+  <input type="text" name="barrio" value="<%= product.barrio %>">
+  <label>Zona:</label>
+  <input type="text" name="zona" value="<%= product.zona %>" required>
+  <label>Categoría:</label>
+  <input type="text" name="tipo" value="<%= product.tipo %>">
+  <label>Ambientes:</label>
+  <input type="number" name="ambientes" value="<%= product.ambientes %>">
+  <label>Precio:</label>
+  <input type="number" name="precio" value="<%= product.precio %>" required>
+  <label>Metros Cuadrados:</label>
+  <input type="number" name="m2" value="<%= product.m2 %>" required>
+  <button type="submit">Actualizar</button>
+</form>
+
+<%- include('../partials/footer') %>
+
+<script src="/javascripts/home.js"></script>
+<script>
+    // Agregar evento de cambio al checkbox
+    document.getElementById("input").addEventListener("change", changeTheme);
+</script>
+</html>

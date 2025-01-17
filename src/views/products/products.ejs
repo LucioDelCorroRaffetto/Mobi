@@ -1,6 +1,6 @@
-<%- include('./partials/headCart.ejs')%>
+<%- include('../partials/headCart.ejs')%>
 
-<%-include('./partials/header.ejs')%>
+<%-include('../partials/header.ejs')%>
 
 <main>
     <!-- Banner Principal -->
@@ -13,7 +13,7 @@
     <div class="product-carousel">
         <% if(locals.resultadoInmueble) {%>
         <% resultadoInmueble.forEach(elemento => { %>
-            <a href="./productDetail">
+            <a href="./product">
                 <div class="product-item">
                     <img src="<%= elemento.foto %>" alt="<%= elemento.direccion %>">
                     <h3><%= elemento.direccion %></h3>
@@ -25,7 +25,7 @@
         <% })} else { %>
             <h2><% message %></h2>
             <% products.forEach(elemento => { %>
-                <a href="./productDetail">
+                <a href="./product">
                     <div class="product-item">
                         <img src="<%= elemento.foto %>" alt="<%= elemento.direccion %>">
                         <h3><%= elemento.direccion %></h3>
@@ -37,7 +37,7 @@
             <% })} %>
     </div>
 </main>
-<%-include('./partials/footer.ejs')%>
+<%-include('../partials/footer.ejs')%>
 <!-- Scripts -->
 <script src="/javascripts/home.js"></script>
 <script>

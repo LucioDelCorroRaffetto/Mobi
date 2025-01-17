@@ -1,0 +1,39 @@
+<%- include('../partials/headAdmin') %>
+<%- include('../partials/header') %>
+<h1>Administración de Productos</h1>
+<a href="/admin/add">Agregar Producto</a>
+<table>
+  <thead>
+    <tr>
+        <th>Imagen</th>
+        <th>Direccion</th>
+        <th>Barrio</th>
+        <th>Categoría</th>
+        <th>Ambientes</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% products.forEach(product => { %>
+      <tr>
+        <td><img src="<%= product.foto %>" alt="<%= product.direccion %>"></td>
+        <td><%= product.direccion %></td>
+        <td><%= product.barrio %></td>
+        <td><%= product.tipo %></td>
+        <td><%= product.ambientes %></td>
+        <td>$<%= product.precio %></td>
+        <td>
+            <a href="/admin/edit/<%= product.id %>">Editar</a>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+<%- include('../partials/footer') %>
+<script src="/javascripts/home.js"></script>
+<script>
+    // Agregar evento de cambio al checkbox
+    document.getElementById("input").addEventListener("change", changeTheme);
+</script>
+</html>

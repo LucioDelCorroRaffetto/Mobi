@@ -1,0 +1,33 @@
+<%- include('../partials/headAdmin') %>
+
+<%- include('../partials/header') %>
+
+<h1>Agregar Producto</h1>
+<form action="/admin/add" method="POST">
+  <label>Imagen (URL):</label>
+  <input type="text" name="imagen" required>
+  <label>Direccion:</label>
+  <input name="direccion" required>
+  <label>Barrio:</label>
+  <input type="text" name="barrio">
+  <label>Zona:</label>
+  <input type="text" name="zona">
+  <label>Categoría:</label>
+  <input type="text" name="tipo">
+  <label>Ambientes:</label>
+  <input type="number" name="ambientes">
+  <label>Precio:</label>
+  <input type="number" name="precio" required>
+  <label>Metros Cuadrados:</label>
+  <input type="number" name="m2" required>
+  <button type="submit">Guardar</button>
+</form>
+
+<%- include('../partials/footer') %>
+
+<script src="/javascripts/home.js"></script>
+<script>
+    // Agregar evento de cambio al checkbox
+    document.getElementById("input").addEventListener("change", changeTheme);
+</script>
+</html>

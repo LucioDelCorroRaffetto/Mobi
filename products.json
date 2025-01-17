@@ -1,14 +1,14 @@
 [
   {
     "id": 1,
-    "direccion": "Calle Falsa 123",
-    "barrio": "Palermo",
+    "imagen": "images/breakinBad.webp",
+    "direccion": "qqasasasa",
+    "barrio": "Villa del Parque",
     "zona": "Zona Norte",
-    "ambientes": 2,
-    "precio": 120000,
     "tipo": "departamento",
-    "foto": "images/breakinBad.webp",
-    "m2": 50
+    "ambientes": "2",
+    "precio": "100000",
+    "m2": "70"
   },
   {
     "id": 2,
@@ -108,5 +108,15 @@
     "tipo": "casa",
     "foto": "images/buenaSuerteCharlie.jpg",
     "m2": 85
+  },
+  {
+    "id": 11,
+    "direccion": "qqasasasa",
+    "barrio": "asasassa",
+    "zona": "sasas",
+    "ambientes": 1,
+    "precio": 1,
+    "tipo": "sasasa",
+    "m2": 1
   }
 ]

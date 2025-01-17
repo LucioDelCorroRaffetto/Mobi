@@ -1,28 +1,40 @@
-<%-include('./partials/headForm.ejs')%>
+<%-include('../partials/headForm.ejs')%>
 
-<%-include('./partials/header.ejs')%>
+<%-include('../partials/header.ejs')%>
 
 <main>
         <div class="login-container">
-        <form class="login-form">
+        <form class="login-form" action="/users/login" method="POST">
             <p class="heading">Login</p>
             <p class="paragraph">Login to your account</p>
             <div class="input-group">
+                <% if(locals.errores) {%>
+                    <p><%= errores.all %></p>
+                <% } %>
             <input
                 required=""
                 placeholder="Username"
-                id="username name="
+                name="correo"
+                id="email"
                 type="text"
+                value="<%= locals.correo ? correo : ""%>"
                 />
+                <% if(locals.errores && locals.errores.correo) {%>
+                    <p><%= errores.correo.msg %></p>
+                <% } %>
             </div>
             <div class="input-group">
             <input
                 required=""
                 placeholder="Password"
-                name="password"
+                name="contrasena"
                 id="password"
                 type="password"
+                value="<%= locals.contrasena ? contrasena : ""%>"
             />
+            <% if(locals.errores && locals.errores.contrasena) {%>
+                <p><%= errores.contrasena.msg %></p>
+            <% } %>
             </div>
             <button type="submit">Login</button>
             <div class="bottom-text">
@@ -33,7 +45,7 @@
         </div>
     </main>
 
-    <%-include('./partials/footer.ejs')%>
+    <%-include('../partials/footer.ejs')%>
 
             <!-- Scripts -->
             <script src="/javascripts/home.js"></script>
