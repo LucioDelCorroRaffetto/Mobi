@@ -6,7 +6,7 @@
   <thead>
     <tr>
         <th>Imagen</th>
-        <th>Direccion</th>
+        <th>Dirección</th>
         <th>Barrio</th>
         <th>Categoría</th>
         <th>Ambientes</th>
@@ -15,25 +15,37 @@
     </tr>
   </thead>
   <tbody>
-    <% products.forEach(product => { %>
+    <% if (locals.products && products.length > 0) { %>
+      <% products.forEach(product => { %>
+        <tr>
+          <td><img src="<%= product.foto || '/images/default.jpg' %>" alt="<%= product.direccion %>" width="100"></td>
+          <td><%= product.direccion %></td>
+          <td><%= product.barrio %></td>
+          <td><%= product.tipo %></td>
+          <td><%= product.ambientes %></td>
+          <td>$<%= product.precio.toLocaleString('es-AR') %></td>
+          <td>
+              <a href="/inmuebles/products/<%= product.id %>/edit" class="btn-editar">Editar</a>
+              <form action="/inmuebles/products?_method=DELETE" method="delete" style="display: inline;">
+                  <button type="submit" class="btn-eliminar" onclick="return confirm('¿Está seguro que desea eliminar este producto?')">Eliminar</button>
+              </form>
+          </td>
+        </tr>
+      <% }); %>
+    <% } else { %>
       <tr>
-        <td><img src="<%= product.foto %>" alt="<%= product.direccion %>"></td>
-        <td><%= product.direccion %></td>
-        <td><%= product.barrio %></td>
-        <td><%= product.tipo %></td>
-        <td><%= product.ambientes %></td>
-        <td>$<%= product.precio %></td>
-        <td>
-            <a href="/admin/edit/<%= product.id %>">Editar</a>
-        </td>
+        <td colspan="7">No hay productos disponibles</td>
       </tr>
-    <% }); %>
+    <% } %>
   </tbody>
 </table>
 <%- include('../partials/footer') %>
 <script src="/javascripts/home.js"></script>
 <script>
-    // Agregar evento de cambio al checkbox
-    document.getElementById("input").addEventListener("change", changeTheme);
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggle = document.getElementById("input");
+        if (themeToggle) {
+            themeToggle.addEventListener("change", changeTheme);
+        }
+    });
 </script>
-</html>

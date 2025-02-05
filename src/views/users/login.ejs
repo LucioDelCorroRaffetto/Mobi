@@ -14,26 +14,26 @@
             <input
                 required=""
                 placeholder="Username"
-                name="correo"
+                name="email"
                 id="email"
                 type="text"
-                value="<%= locals.correo ? correo : ""%>"
+                value="<%= locals.email ? email : ""%>"
                 />
-                <% if(locals.errores && locals.errores.correo) {%>
-                    <p><%= errores.correo.msg %></p>
+                <% if(locals.errores && locals.errores.email) {%>
+                    <p><%= errores.email.msg %></p>
                 <% } %>
             </div>
             <div class="input-group">
             <input
                 required=""
                 placeholder="Password"
-                name="contrasena"
+                name="password"
                 id="password"
                 type="password"
-                value="<%= locals.contrasena ? contrasena : ""%>"
+                value="<%= locals.password ? password : ""%>"
             />
-            <% if(locals.errores && locals.errores.contrasena) {%>
-                <p><%= errores.contrasena.msg %></p>
+            <% if(locals.errores && locals.errores.password) {%>
+                <p><%= errores.password.msg %></p>
             <% } %>
             </div>
             <button type="submit">Login</button>

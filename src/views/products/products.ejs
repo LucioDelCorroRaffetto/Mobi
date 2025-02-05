@@ -11,33 +11,41 @@
     
     <!-- Carrusel de Productos -->
     <div class="product-carousel">
-        <% if(locals.resultadoInmueble) {%>
-        <% resultadoInmueble.forEach(elemento => { %>
-            <a href="./product">
-                <div class="product-item">
-                    <img src="<%= elemento.foto %>" alt="<%= elemento.direccion %>">
-                    <h3><%= elemento.direccion %></h3>
-                    <p>Barrio: <%= elemento.barrio %></p>
-                    <span class="price">$<%= elemento.precio %></span>
-                    <a href="./productCart"><button class="add-to-cart">Agregar al Carrito</button></a>
-                </div>
-            </a>
-        <% })} else { %>
-            <h2><% message %></h2>
-            <% products.forEach(elemento => { %>
-                <a href="./product">
+        <% if(locals.resultadoInmueble) { %>
+            <% resultadoInmueble.forEach(elemento => { %>
+                <a href="/inmuebles/products/<%= elemento.id %>">
                     <div class="product-item">
                         <img src="<%= elemento.foto %>" alt="<%= elemento.direccion %>">
                         <h3><%= elemento.direccion %></h3>
                         <p>Barrio: <%= elemento.barrio %></p>
                         <span class="price">$<%= elemento.precio %></span>
-                        <a href="./productCart"><button class="add-to-cart">Agregar al Carrito</button></a>
+                        <a href="/inmuebles/products/<%= elemento.id %>"><button class="add-to-cart">Agregar al Carrito</button></a>
                     </div>
                 </a>
-            <% })} %>
+            <% }) %>
+        <% } else { %>
+            <% if (typeof message !== 'undefined') { %>
+                <h2><%= message %></h2>
+            <% } %>
+            <% if (locals.products && products.length > 0) { %>
+                <% products.forEach(elemento => { %>
+                    <a href="/inmuebles/products/<%= elemento.id %>">
+                        <div class="product-item">
+                            <img src="<%= elemento.foto %>" alt="<%= elemento.direccion %>">
+                            <h3><%= elemento.direccion %></h3>
+                            <p>Barrio: <%= elemento.barrio %></p>
+                            <span class="price">$<%= elemento.precio %></span>
+                            <a href="/inmuebles/products/<%= elemento.id %>"><button class="add-to-cart">Agregar al Carrito</button></a>
+                        </div>
+                    </a>
+                <% }) %>
+            <% } %>
+        <% } %>
     </div>
 </main>
+
 <%-include('../partials/footer.ejs')%>
+
 <!-- Scripts -->
 <script src="/javascripts/home.js"></script>
 <script>

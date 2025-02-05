@@ -3,11 +3,11 @@
 <%- include('../partials/header') %>
 
 <h1>Editar Producto</h1>
-<form action="/admin/edit/<%= product.id %>" method="POST">
+<form action="/inmuebles/products/<%= product.id %>?_method=PUT" method="POST">
     <label>Imagen (URL):</label>
-  <input type="text" name="imagen" value="<%= product.foto %>" required>
+  <input type="text" name="foto" value="<%= product.foto %>" required>
   <label>Direccion:</label>
-  <input name="direccion" required><%= product.direccion %>
+  <input type="text" name="direccion" value="<%= product.direccion %>" required>
   <label>Barrio:</label>
   <input type="text" name="barrio" value="<%= product.barrio %>">
   <label>Zona:</label>

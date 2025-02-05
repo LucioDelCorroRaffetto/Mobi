@@ -3,7 +3,7 @@ const router = express.Router();
 const productsRouter = require('./inmuebles');
 const cartController = require('../controllers/productCart');
 const fs = require('fs');
-const products = JSON.parse(fs.readFileSync('./data/data.json', 'utf-8'));
+const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
 
 // Ruta principal - muestra el carrusel de publicidad
 router.get('/', function(req, res, next) {
@@ -26,11 +26,6 @@ router.get('/login', function(req, res, next) {
 
 router.get('/register', function(req, res, next) {
   res.render('users/register', { title: 'Registrarse' });
-});
-
-// Rutas de productos - unificadas
-router.get('/product', function(req, res, next) {
-  res.render('products/productDetail', { title: 'Detalle del Inmueble', products });
 });
 
 // Ruta del carrito

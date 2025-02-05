@@ -7,7 +7,7 @@
     "ambientes": 2,
     "precio": 120000,
     "tipo": "departamento",
-    "foto": "images/breakinBad.webp",
+    "foto": "/images/breakinBad.webp",
     "m2": 50
   },
   {
@@ -18,7 +18,7 @@
     "ambientes": 2,
     "precio": 120000,
     "tipo": "casa",
-    "foto": "images/budapest.jpg",
+    "foto": "/images/budapest.jpg",
     "m2": 50
   },
   {
@@ -29,7 +29,7 @@
     "ambientes": 5,
     "precio": 250000,
     "tipo": "departamento",
-    "foto": "images/buenaSuerteCharlie.jpg",
+    "foto": "/images/buenaSuerteCharlie.jpg",
     "m2": 120
   },
   {
@@ -40,7 +40,7 @@
     "ambientes": 4,
     "precio": 180000,
     "tipo": "casa",
-    "foto": "images/casadosConHijos.jpg",
+    "foto": "/images/casadosConHijos.jpg",
     "m2": 90
   },
   {
@@ -51,7 +51,7 @@
     "ambientes": 3,
     "precio": 95000,
     "tipo": "departamento",
-    "foto": "images/casaRosada.jpg",
+    "foto": "/images/casaRosada.jpg",
     "m2": 65
   },
   {
@@ -62,7 +62,7 @@
     "ambientes": 6,
     "precio": 300000,
     "tipo": "departamento",
-    "foto": "images/principeBelAir.jpg",
+    "foto": "/images/principeBelAir.jpg",
     "m2": 140
   },
   {
@@ -73,7 +73,7 @@
     "ambientes": 2,
     "precio": 80000,
     "tipo": "casa",
-    "foto": "images/toretto.webp",
+    "foto": "/images/toretto.webp",
     "m2": 55
   },
   {
@@ -84,7 +84,7 @@
     "ambientes": 4,
     "precio": 220000,
     "tipo": "departamento",
-    "foto": "images/breakinBad.webp",
+    "foto": "/images/breakinBad.webp",
     "m2": 100
   },
   {
@@ -95,7 +95,7 @@
     "ambientes": 3,
     "precio": 110000,
     "tipo": "departamento",
-    "foto": "images/budapest.jpg",
+    "foto": "/images/budapest.jpg",
     "m2": 75
   },
   {
@@ -106,7 +106,38 @@
     "ambientes": 4,
     "precio": 150000,
     "tipo": "casa",
-    "foto": "images/buenaSuerteCharlie.jpg",
+    "foto": "/images/buenaSuerteCharlie.jpg",
     "m2": 85
+  },
+  {
+    "id": 11,
+    "direccion": "13215 S. 5390 West en Harriman, Utah.",
+    "barrio": "hola",
+    "zona": "hola",
+    "ambientes": 2,
+    "precio": 399,
+    "tipo": "hola",
+    "m2": 22
+  },
+  {
+    "id": 12,
+    "ambientes": 0,
+    "precio": 0,
+    "foto": "/images/default.jpg",
+    "m2": 0
+  },
+  {
+    "id": 13,
+    "ambientes": 0,
+    "precio": 0,
+    "foto": "/images/default.jpg",
+    "m2": 0
+  },
+  {
+    "id": 14,
+    "ambientes": 0,
+    "precio": 0,
+    "foto": "/images/default.jpg",
+    "m2": 0
   }
 ]

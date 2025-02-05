@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "firstName": "Julian",
+    "lastName": "",
+    "email": "julian.eduardo.aquino@gmail.com",
+    "password": "$2b$10$M33A4NyVHf2a4.P8mh7kiOhxaZ/YLqxn.Z8Cq0n6Ipy7CFE8rpvmm",
+    "category": "",
+    "image": ""
+  },
+  {
+    "id": 2,
+    "firstName": "Adrian",
+    "lastName": "",
+    "email": "adrian@gmail.com",
+    "password": "$2b$10$2E3BHHrtirqTrZjw9dCgZORuv2A6hOAgRoM.r6ehavY1xGseEvaiW",
+    "category": "",
+    "image": ""
+  },
+  {
+    "id": 3,
+    "firstName": "dsdsd",
+    "lastName": "",
+    "email": "hola@gmail.com",
+    "password": "$2b$10$GFmUMsXGzQTZHNWCaN0ANeuIAHygHP/nJalfmgiVlYzQrC1VRxT4O",
+    "category": "",
+    "image": ""
+  }
+]

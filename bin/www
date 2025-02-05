@@ -102,3 +102,8 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+console.log('===========================================');
+console.log('🚀 Servidor corriendo en el puerto ' + port + ' 🚀');
+console.log('📱 Visita: http://localhost:' + port);
+console.log('===========================================');

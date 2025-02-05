@@ -7,43 +7,88 @@
         <form class="login-form" action="/users/register" method="POST">
             <p class="heading">Register</p>
             <p class="paragraph">Register to get your account</p>
+
             <div class="input-group">
             <input
                 required=""
-                placeholder="Username"
-                name="nombre"
-                id="name"
+                placeholder="First Name"
+                name="firstName"
+                id="firstName"
                 type="text"
-                value="<%= locals.nombre ? nombre : "" %>"
+                value="<%= locals.firstName ? firstName : "" %>"
             />
-            <% if(locals.errores && locals.errores.nombre) {%>
-                <p><%= errores.nombre.msg %></p>
+            <% if(locals.errores && locals.errores.firstName) {%>
+                <p><%= errores.firstName.msg %></p>
             <% } %>
             </div>
-            <div class="input-group">
+
+        <div class="input-group">
+            <input
+                required=""
+                placeholder="Last Name"
+                name="lastName"
+                id="lastName"
+                type="text"
+                value="<%= locals.lastName ? lastName : "" %>"
+            />
+            <% if(locals.errores && locals.errores.lastName) {%>
+                <p><%= errores.lastName.msg %></p>
+            <% } %>
+            </div>
+
+        <div class="input-group">
             <input
                 required=""
                 placeholder="Email"
-                name="correo"
+                name="email"
                 id="email"
                 type="text"
-                value="<%= locals.correo ? correo : ""%>" 
+                value="<%= locals.email ? email : "" %>"
             />
-            <% if(locals.errores && locals.errores.correo) {%>
-                <p><%= errores.correo.msg %></p>
+            <% if(locals.errores && locals.errores.email) {%>
+                <p><%= errores.email.msg %></p>
             <% } %>
             </div>
-            <div class="input-group">
+
+        <div class="input-group">
             <input
                 required=""
                 placeholder="Password"
-                name="contrasena"
+                name="password"
                 id="password"
                 type="password"
-                value="<%= locals.contrasena ? contrasena : ""%>"
+                value="<%= locals.password ? password : ""%>"
             />
-            <% if(locals.errores && locals.errores.contrasena) {%>
-                <p><%= errores.contrasena.msg %></p>
+            <% if(locals.errores && locals.errores.password) {%>
+                <p><%= errores.password.msg %></p>
+            <% } %>
+            </div>
+
+        <div class="input-group">
+            <input
+                required=""
+                placeholder="Indique su sexo    "
+                name="category"
+                id="category"
+                type="text"
+                value="<%= locals.category ? category : "" %>"
+            />
+            <% if(locals.errores && locals.errores.category) {%>
+                <p><%= errores.category.msg %></p>
+            <% } %>
+            </div>
+
+        <div class="input-group">
+            <input
+                required=""
+                placeholder="Imagen"
+                name="image"
+                id="image"
+                type="file"
+                value="<%= locals.image ? image : "" %>"
+            />
+            <% if(locals.errores && locals.errores.image) {%>
+                <p><%= errores.image.msg %></p>
             <% } %>
             </div>
             <button type="submit">Register</button>

@@ -23,23 +23,22 @@
                 <img src="/images/principeBelAir.jpg" alt="Imagen 3">
               </div>
           </div>
-
+          
         <!-- Contenido del producto (dividido en dos columnas) -->
           <div class="product-content">
             <!-- Columna izquierda: Imagen -->
             <div class="product-image">
-              <% if (locals.products) { %>
-                <img src="<%= products[0].foto %>" alt="<%= products[0].direccion %>">
+              <% if (locals.product) { %>
+                <img src="<%= product.foto %>" alt="<%= product.direccion %>">
               <% } %>
             </div>
             <!-- Columna derecha: Información -->
             <div class="product-details">
-                <% if(locals.products) {%>
-
-                  <h2 class="product-title"><%= products[0]?.direccion || 'Dirección no disponible' %></h2>
-                  <p class="product-description">Cantidad de metros cuadrados: <%= products[0]?.m2 || 'Datos no disponible' %></p>
-                  <p class="product-description">Cantidad de ambientes: <%= products[0]?.ambientes || 'Datos no disponible' %></p>
-                  <h3 class="product-price">$<%= products[0]?.precio || 'Datos no disponible' %></h3>
+                <% if (locals.product) { %>
+                  <h2 class="product-title"><%= product.direccion || 'Dirección no disponible' %></h2>
+                  <p class="product-description">Cantidad de metros cuadrados: <%= product.m2 || 'Datos no disponible' %></p>
+                  <p class="product-description">Cantidad de ambientes: <%= product.ambientes || 'Datos no disponible' %></p>
+                  <h3 class="product-price">$<%= product.precio || 'Datos no disponible' %></h3>
                   <iframe 
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2502.5964531062596!2d14.9876113!3d51.152792399999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4708dc3ac70a5227%3A0x8fa1a1d513a7407d!2sKaufhaus%20G%C3%B6rlitz!5e0!3m2!1ses!2sar!4v1736600519244!5m2!1ses!2sar"
                   width="600" 
@@ -50,10 +49,10 @@
                   </iframe>
                   <% } %>
                 <div class="product-button">
-                  <button class="contact-button" onclick="contactar('<%= products[0].direccion %>')">Contactar</button>
-                  <button class="reserve-button" onclick="reservar('<%= products[0].id %>')">Reservar</button>
-                  <button class="favorite-button" onclick="toggleFavorite('<%= products[0].id %>')">
-                    <span id="favorite-<%= products[0].id %>">🤍</span> Agregar a Favoritos
+                  <button class="contact-button" onclick="contactar('<%= product.direccion %>')">Contactar</button>
+                  <button class="reserve-button" onclick="reservar('<%= product.id %>')">Reservar</button>
+                  <button class="favorite-button" onclick="toggleFavorite('<%= product.id %>')">
+                    <span id="favorite-<%= product.id %>">🤍</span> Agregar a Favoritos
                   </button>
                 </div>
               </div>

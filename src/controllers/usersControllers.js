@@ -1,5 +1,5 @@
 const path = require("path");
-const directory = path.join(__dirname, "../db/users.json");
+const directory = path.join(__dirname, "../../data/users.json");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const {
@@ -16,21 +16,21 @@ const usersControllers = {
     res.render("users/login", { title: "Login" });
   },
   processLogin: (req, res, next) => {
-    const { correo } = req.body;
+    const { email } = req.body;
     const errores = validationResult(req);
     if (errores.array().length > 0) {
       res.render("users/login", {
         errores: errores.mapped(),
-        correo
+        email
       });
     } else {
-      const user = users.find(user => user.correo === correo);
-      const { nombre } = user;
-      req.session.user = { correo, nombre };
+      const user = users.find(user => user.email === email);
+      const { firstName } = user;
+      req.session.user = { email, firstName };
       console.log("body",req.body);
       
       if (req.body.recuerdame) {
-        res.cookie("user", { correo, nombre }, { maxAge: 1000 * 60 * 30 });
+        res.cookie("user", { email, firstName }, { maxAge: 1000 * 60 * 30 });
       }
       res.redirect("/users/profile");
     }
@@ -46,28 +46,33 @@ const usersControllers = {
   },
   store: function (req, res, next) {
     try {
-      const { nombre, correo, contrasena } = req.body;
+      const { firstName, lastName, email, password, category, image} = req.body;
       const errores = validationResult(req);
 
       if (errores.array().length > 0) {
         res.render("users/register", {
           errores: errores.mapped(),
-          nombre,
-          correo,
-          contrasena,
+          firstName,
+          lastName,
+          email,
+          password,
+          category,
+          image,
         });
       } else {
 
-        bcrypt.hash(contrasena, 10,function(err, hash) {
+        bcrypt.hash(password, 10,function(err, hash) {
           if(err){
             console.log("error en el hash",err);
           }
         
           users.push({
-            nombre,
-            correo,
-            contrasena:hash
-          });
+            firstName,
+            lastName,
+            email,
+            password:hash,
+            image,
+            category,});
 
           writeFile(directory, stringifyFile(users));
 

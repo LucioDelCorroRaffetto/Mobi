@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const cartController = {
     loadCart: (req, res) => {
-        const products = JSON.parse(fs.readFileSync('./data/data.json', 'utf-8'));
+        const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
         res.render('products/productCart', { 
             title: 'Carrito de Compras', 
             cartItems: products, // Cambié products a cartItems

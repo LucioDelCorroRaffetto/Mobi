@@ -11,7 +11,7 @@ var indexRouter = require('./routes/index');
 var inmueblesRouter = require('./routes/inmuebles');
 var cartRouter = require('./routes/cart');
 const adminRoutes = require('./routes/admin');
-var usersRouter = require('./routes/users');
+const usersRouter = require('./routes/users');
 
 var app = express();
 
