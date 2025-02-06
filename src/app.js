@@ -6,6 +6,8 @@ var logger = require('morgan');
 const bodyParser = require('body-parser');
 const sessionVerify = require('../middlewares/sessionVerify');
 var session = require('express-session');
+const methodOverride = require('method-override');
+
 
 var indexRouter = require('./routes/index');
 var inmueblesRouter = require('./routes/inmuebles');
@@ -26,6 +28,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
+
 
 app.use(session({
   secret: "1234567890",

@@ -1,16 +1,5 @@
 [
   {
-    "id": 1,
-    "direccion": "Calle Falsa 123",
-    "barrio": "Palermo",
-    "zona": "Zona Norte",
-    "ambientes": 2,
-    "precio": 120000,
-    "tipo": "departamento",
-    "foto": "/images/breakinBad.webp",
-    "m2": 50
-  },
-  {
     "id": 2,
     "direccion": "Av. Rivadavia 4567",
     "barrio": "Almagro",
@@ -111,33 +100,13 @@
   },
   {
     "id": 11,
-    "direccion": "13215 S. 5390 West en Harriman, Utah.",
-    "barrio": "hola",
-    "zona": "hola",
-    "ambientes": 2,
-    "precio": 399,
-    "tipo": "hola",
-    "m2": 22
-  },
-  {
-    "id": 12,
-    "ambientes": 0,
-    "precio": 0,
-    "foto": "/images/default.jpg",
-    "m2": 0
-  },
-  {
-    "id": 13,
-    "ambientes": 0,
-    "precio": 0,
-    "foto": "/images/default.jpg",
-    "m2": 0
-  },
-  {
-    "id": 14,
-    "ambientes": 0,
-    "precio": 0,
-    "foto": "/images/default.jpg",
-    "m2": 0
+    "direccion": "wdwd",
+    "barrio": "wdw",
+    "zona": "dwdw",
+    "ambientes": 11,
+    "precio": 111,
+    "tipo": "dwdw",
+    "foto": "dwdw",
+    "m2": 11
   }
 ]

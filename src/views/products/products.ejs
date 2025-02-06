@@ -8,20 +8,30 @@
         <h1>Bienvenido a Nuestra Tienda</h1>
         <p>Explora nuestros productos destacados y ofertas especiales.</p>
     </div>
-    
+                <!-- Botón para crear nuevo producto -->
+                <div class="create-button-container">
+                    <a href="/inmuebles/products/create" class="btn-create">Crear Nuevo Producto</a>
+                </div>
+                
     <!-- Carrusel de Productos -->
     <div class="product-carousel">
         <% if(locals.resultadoInmueble) { %>
+
             <% resultadoInmueble.forEach(elemento => { %>
-                <a href="/inmuebles/products/<%= elemento.id %>">
-                    <div class="product-item">
+                <div class="product-item">
+                    <a href="/inmuebles/products/<%= elemento.id %>">
                         <img src="<%= elemento.foto %>" alt="<%= elemento.direccion %>">
                         <h3><%= elemento.direccion %></h3>
                         <p>Barrio: <%= elemento.barrio %></p>
                         <span class="price">$<%= elemento.precio %></span>
-                        <a href="/inmuebles/products/<%= elemento.id %>"><button class="add-to-cart">Agregar al Carrito</button></a>
+                    </a>
+                    <div class="product-actions">
+                        <a href="/inmuebles/products/<%= elemento.id %>/edit" class="btn-detail">Editar</a>
+                        <form action="/inmuebles/products/<%= elemento.id %>?_method=DELETE" method="POST" style="display: inline;">
+                            <button type="submit" class="btn-delete">Eliminar</button>
+                        </form>
                     </div>
-                </a>
+                </div>
             <% }) %>
         <% } else { %>
             <% if (typeof message !== 'undefined') { %>

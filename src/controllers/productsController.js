@@ -107,16 +107,12 @@ const productsController = {
 
     destroy: (req, res, next) => {
         try {
+            const id = req.params.id;
             const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-            const productIndex = products.findIndex(p => p.id === parseInt(req.params.id));
+            const filteredProducts = products.filter(product => product.id !== parseInt(id));
             
-            if (productIndex === -1) {
-                return res.status(404).render('error', { message: 'Producto no encontrado' });
-            }
-
-            products.splice(productIndex, 1);
-            fs.writeFileSync('./data/products.json', JSON.stringify(products, null, 2));
-            res.redirect('/inmuebles/products');
+            fs.writeFileSync('./data/products.json', JSON.stringify(filteredProducts, null, 2));
+            res.redirect('/inmuebles/products?message=Producto eliminado exitosamente');
         } catch (error) {
             next(error);
         }
