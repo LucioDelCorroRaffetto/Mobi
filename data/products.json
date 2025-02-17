@@ -41,7 +41,8 @@
     "precio": 95000,
     "tipo": "departamento",
     "foto": "/images/casaRosada.jpg",
-    "m2": 65
+    "m2": 65,
+    "mapsUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.8459958104368!2d-58.37478391114504!3d-34.60805559999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a3352cbe276f75%3A0xe16921ef0545f86d!2sCasa%20Rosada!5e0!3m2!1ses-419!2sar!4v1739405239104!5m2!1ses-419!2sar\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade"
   },
   {
     "id": 6,
@@ -97,16 +98,5 @@
     "tipo": "casa",
     "foto": "/images/buenaSuerteCharlie.jpg",
     "m2": 85
-  },
-  {
-    "id": 11,
-    "direccion": "wdwd",
-    "barrio": "wdw",
-    "zona": "dwdw",
-    "ambientes": 11,
-    "precio": 111,
-    "tipo": "dwdw",
-    "foto": "dwdw",
-    "m2": 11
   }
 ]

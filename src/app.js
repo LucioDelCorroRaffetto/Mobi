@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const sessionVerify = require('../middlewares/sessionVerify');
 var session = require('express-session');
 const methodOverride = require('method-override');
+const multer = require('multer');
 
 
 var indexRouter = require('./routes/index');

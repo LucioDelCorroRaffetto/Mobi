@@ -45,6 +45,28 @@ const productsController = {
         }
     },
 
+    getHighlightedProperties: (_req, res, next) => {
+        try {
+            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
+            // Filtramos propiedades destacadas (puedes ajustar los criterios)
+            const destacadas = products.filter(p => p.destacada === true);
+            res.json(destacadas);
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    filterByCategory: (req, res, next) => {
+        try {
+            const { categoria } = req.params;
+            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
+            const filteredProducts = products.filter(p => p.categoria === categoria);
+            res.json(filteredProducts);
+        } catch (error) {
+            next(error);
+        }
+    },
+
     store: (req, res, next) => {
         try {
             const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
@@ -57,7 +79,10 @@ const productsController = {
                 precio: parseFloat(req.body.precio) || 0,
                 tipo: req.body.tipo,
                 foto: req.body.foto || '/images/default.jpg',
-                m2: parseInt(req.body.m2) || 0
+                m2: parseInt(req.body.m2) || 0,
+                mapsUrl: req.body.mapsUrl || '',
+                categoria: req.body.categoria,
+                destacada: req.body.destacada === 'true',
             };
             products.push(newProduct);
             fs.writeFileSync('./data/products.json', JSON.stringify(products, null, 2));
@@ -96,7 +121,8 @@ const productsController = {
                 precio: parseFloat(req.body.precio) || products[productIndex].precio,
                 tipo: req.body.tipo,
                 foto: req.body.foto || products[productIndex].foto,
-                m2: parseInt(req.body.m2) || products[productIndex].m2
+                m2: parseInt(req.body.m2) || products[productIndex].m2,
+                mapsUrl: req.body.mapsUrl || products[productIndex].mapsUrl
             };
             fs.writeFileSync('./data/products.json', JSON.stringify(products, null, 2));
             res.redirect('/inmuebles/products');
@@ -112,7 +138,7 @@ const productsController = {
             const filteredProducts = products.filter(product => product.id !== parseInt(id));
             
             fs.writeFileSync('./data/products.json', JSON.stringify(filteredProducts, null, 2));
-            res.redirect('/inmuebles/products?message=Producto eliminado exitosamente');
+            res.redirect('/admin?message=Producto eliminado exitosamente');
         } catch (error) {
             next(error);
         }

@@ -25,10 +25,12 @@
           <td><%= product.ambientes %></td>
           <td>$<%= product.precio.toLocaleString('es-AR') %></td>
           <td>
-              <a href="/inmuebles/products/<%= product.id %>/edit" class="btn-editar">Editar</a>
-              <form action="/inmuebles/products?_method=DELETE" method="delete" style="display: inline;">
-                  <button type="submit" class="btn-eliminar" onclick="return confirm('¿Está seguro que desea eliminar este producto?')">Eliminar</button>
+            <div class="product-actions">
+              <a href="/inmuebles/products/<%= product.id %>/edit" class="btn-detail">Editar</a>
+              <form action="/inmuebles/products/<%= product.id %>?_method=DELETE" method="POST" style="display: inline;">
+                <button type="submit" class="btn-delete">Eliminar</button>
               </form>
+            </div>
           </td>
         </tr>
       <% }); %>

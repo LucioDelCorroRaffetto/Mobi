@@ -50,40 +50,60 @@
             </div>
 
 <!-- Sección de Carrusel -->
-<h2 id="carrousel">Propiedades Destacadas</h2>
+<section class="featured-properties">
+    <div class="section-header">
+        <h2>Propiedades Destacadas</h2>
+        <div class="filter-wrapper">
+            <select id="propertyFilter">
+                <option value="todos">Todas las Propiedades</option>
+                <option value="casa">Casas</option>
+                <option value="departamento">Departamentos</option>
+                <option value="local">Locales</option>
+            </select>
+        </div>
+    </div>
 
-<div class="carousel-container">
-    <div class="carousel-wrapper">
-        <div class="carousel-slide">
-            <img src="/images/budapest.jpg" alt="Propiedad 1">
-            <% if(locals.products) {%>
-                <h3><%= products[0]?.direccion || 'Dirección no disponible' %></h3>
-                <p>Hermosa hotel con vista al mar</p>
-            <% } %>
+    <div class="carousel">
+        <button class="carousel-button prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="carousel-container">
+            <div class="carousel-track">
+                <% if (locals.products && locals.products.length > 0) { %>
+                    <% locals.products.forEach(producto => { %>
+                        <div class="carousel-item" data-tipo="<%= producto.tipo %>">
+                            <div class="property-card">
+                                <div class="property-image">
+                                    <img src="<%= producto.foto || '/images/default-property.jpg' %>" 
+                                          alt="<%= producto.direccion %>">
+                                    <span class="tag"><%= producto.tipo %></span>
+                                </div>
+                                <div class="property-info">
+                                    <h3><%= producto.direccion %></h3>
+                                    <p class="location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <%= producto.barrio %> - <%= producto.zona %>
+                                    </p>
+                                    <div class="property-footer">
+                                        <span class="price">Consultar precio</span>
+                                        <a href="inmuebles/products/<%=producto.id%>"><button class="details-btn">Ver más</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p class="no-properties">No hay propiedades disponibles</p>
+                <% } %>
+            </div>
         </div>
-        <div class="carousel-slide">
-            <img src="/images/casadosConHijos.jpg" alt="Propiedad 2">
-            <% if(locals.products) {%>
-                <h3><%= products[1]?.direccion || 'Dirección no disponible' %></h3>
-                <p>Departamento moderno en el centro</p>
-            <% } %>
-        </div>
-        <div class="carousel-slide">
-            <img src="/images/breakinBad.webp" alt="Propiedad 3">
-            <% if(locals.products) {%>
-                <h3><%= products[2]?.direccion || 'Dirección no disponible' %></h3>
-                <p>Casa familiar con amplio jardín</p>
-            <% } %>
-        </div>
+
+        <button class="carousel-button next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
     </div>
-    <button class="carousel-button prev">&#10094;</button>
-    <button class="carousel-button next">&#10095;</button>
-    <div class="carousel-dots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-    </div>
-</div>
+</section>
 
 <section class="review" id="Reviews">
     <div class="reviews-section">

@@ -9,17 +9,47 @@
   <label>Direccion:</label>
   <input name="direccion" required>
   <label>Barrio:</label>
-  <input type="text" name="barrio">
+  <select name="barrio">
+    <option value="">Seleccione un barrio</option>
+    <option value="Palermo">Palermo</option>
+    <option value="Recoleta">Recoleta</option>
+    <option value="Belgrano">Belgrano</option>
+    <option value="Caballito">Caballito</option>
+    <option value="Nuñez">Nuñez</option>
+  </select>
   <label>Zona:</label>
-  <input type="text" name="zona">
+  <select name="zona">
+    <option value="">Seleccione una zona</option>
+    <option value="Norte">Norte</option>
+    <option value="Sur">Sur</option>
+    <option value="Este">Este</option>
+    <option value="Oeste">Oeste</option>
+    <option value="Centro">Centro</option>
+  </select>
   <label>Categoría:</label>
-  <input type="text" name="tipo">
+  <select name="tipo">
+    <option value="">Seleccione una categoría</option>
+    <option value="Casa">Casa</option>
+    <option value="Departamento">Departamento</option>
+    <option value="PH">PH</option>
+    <option value="Terreno">Terreno</option>
+    <option value="Local">Local</option>
+  </select>
   <label>Ambientes:</label>
-  <input type="number" name="ambientes">
+  <select name="ambientes">
+    <option value="">Seleccione cantidad de ambientes</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5+">5 o más</option>
+  </select>
   <label>Precio:</label>
   <input type="number" name="precio" required>
   <label>Metros Cuadrados:</label>
   <input type="number" name="m2" required>
+  <label>URL de Google Maps:</label>
+  <input type="text" name="mapsUrl" placeholder="Pega aquí el enlace de Google Maps" required>
   <button type="submit">Guardar</button>
 </form>
 

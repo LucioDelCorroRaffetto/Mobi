@@ -8,49 +8,49 @@
         <h1>Bienvenido a Nuestra Tienda</h1>
         <p>Explora nuestros productos destacados y ofertas especiales.</p>
     </div>
-                <!-- Botón para crear nuevo producto -->
-                <div class="create-button-container">
-                    <a href="/inmuebles/products/create" class="btn-create">Crear Nuevo Producto</a>
-                </div>
                 
-    <!-- Carrusel de Productos -->
-    <div class="product-carousel">
-        <% if(locals.resultadoInmueble) { %>
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="todos">Todas las Propiedades</button>
+            <button class="tab-btn" data-tab="casa">Casas</button>
+            <button class="tab-btn" data-tab="departamento">Departamentos</button>
+            <button class="tab-btn" data-tab="local">Locales</button>
+        </div>
 
-            <% resultadoInmueble.forEach(elemento => { %>
-                <div class="product-item">
-                    <a href="/inmuebles/products/<%= elemento.id %>">
-                        <img src="<%= elemento.foto %>" alt="<%= elemento.direccion %>">
-                        <h3><%= elemento.direccion %></h3>
-                        <p>Barrio: <%= elemento.barrio %></p>
-                        <span class="price">$<%= elemento.precio %></span>
-                    </a>
-                    <div class="product-actions">
-                        <a href="/inmuebles/products/<%= elemento.id %>/edit" class="btn-detail">Editar</a>
-                        <form action="/inmuebles/products/<%= elemento.id %>?_method=DELETE" method="POST" style="display: inline;">
-                            <button type="submit" class="btn-delete">Eliminar</button>
-                        </form>
+        <div class="properties-grid" id="propertiesContainer">
+            <% 
+            const productos = locals.resultadoInmueble || locals.products || [];
+            productos.forEach((producto) => { %>
+                <div class="property-card" data-tipo="<%= producto.tipo %>">
+                    <div class="property-image">
+                        <% if (producto.foto) { %>
+                            <img src="<%= producto.foto %>" alt="<%= producto.direccion %>">
+                        <% } else { %>
+                            <img src="/images/default-property.jpg" alt="Imagen por defecto">
+                        <% } %>
+                        <span class="property-tag"><%= producto.tipo %></span>
+                    </div>
+                    <div class="property-info">
+                        <h3><%= producto.direccion || 'Dirección no disponible' %></h3>
+                        <p class="location"><%= producto.barrio %> - <%= producto.zona %></p>
+                        <div class="property-details">
+                            <span class="price">$<%= producto.precio %></span>
+                            <a href="/inmuebles/products/<%= producto.id %>" class="view-details">Ver Detalles</a>
+                        </div>
                     </div>
                 </div>
             <% }) %>
-        <% } else { %>
-            <% if (typeof message !== 'undefined') { %>
-                <h2><%= message %></h2>
+
+            <% if (productos.length === 0) { %>
+                <div class="no-properties">
+                    <p>No hay propiedades disponibles</p>
+                </div>
             <% } %>
-            <% if (locals.products && products.length > 0) { %>
-                <% products.forEach(elemento => { %>
-                    <a href="/inmuebles/products/<%= elemento.id %>">
-                        <div class="product-item">
-                            <img src="<%= elemento.foto %>" alt="<%= elemento.direccion %>">
-                            <h3><%= elemento.direccion %></h3>
-                            <p>Barrio: <%= elemento.barrio %></p>
-                            <span class="price">$<%= elemento.precio %></span>
-                            <a href="/inmuebles/products/<%= elemento.id %>"><button class="add-to-cart">Agregar al Carrito</button></a>
-                        </div>
-                    </a>
-                <% }) %>
-            <% } %>
-        <% } %>
+        </div>
+
+        <div class="pagination">
+            <button class="load-more">Ver más propiedades</button>
+        </div>
     </div>
 </main>
 
@@ -59,8 +59,32 @@
 <!-- Scripts -->
 <script src="/javascripts/home.js"></script>
 <script>
-    // Agregar evento de cambio al checkbox
-    document.getElementById("input").addEventListener("change", changeTheme);
+// Agregar evento de cambio al checkbox
+document.getElementById("input").addEventListener("change", changeTheme);
+
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const propertyCards = document.querySelectorAll('.property-card');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Actualizar botones activos
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            // Filtrar propiedades
+            const filterValue = button.getAttribute('data-tab');
+            
+            propertyCards.forEach(card => {
+                if (filterValue === 'todos' || card.getAttribute('data-tipo') === filterValue) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
 </script>
 </body>
 </html>

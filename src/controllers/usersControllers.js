@@ -15,38 +15,41 @@ const usersControllers = {
   login: (req, res, next) => {
     res.render("users/login", { title: "Login" });
   },
-  processLogin: (req, res, next) => {
+  processLogin: (req, res) => {
     const { email } = req.body;
     const errores = validationResult(req);
+    
     if (errores.array().length > 0) {
-      res.render("users/login", {
+      return res.render("users/login", {
         errores: errores.mapped(),
         email
       });
-    } else {
-      const user = users.find(user => user.email === email);
-      const { firstName } = user;
-      req.session.user = { email, firstName };
-      console.log("body",req.body);
-      
-      if (req.body.recuerdame) {
-        res.cookie("user", { email, firstName }, { maxAge: 1000 * 60 * 30 });
-      }
-      res.redirect("/users/profile");
     }
 
+    const user = users.find(user => user.email === email);
+    const { firstName } = user;
+    
+    req.session.user = { email, firstName };
+    
+    if (req.body.recuerdame) {
+      res.cookie("user", { email, firstName }, { maxAge: 1000 * 60 * 30 });
+    }
+    
+    res.redirect("/users/profile");
   },
   logout: (req, res) => {
     req.session.destroy();
     res.clearCookie("user");
     res.redirect("/users/login");
   },
-  register: function (req, res, next) {
+    register: function (req, res, next) {
     res.render("users/register", { title: "registro de usuario" });
   },
   store: function (req, res, next) {
     try {
-      const { firstName, lastName, email, password, category, image} = req.body;
+      console.log('Archivo recibido:', req.file);
+      const { firstName, lastName, email, password, category } = req.body;
+      const image = req.file ? req.file.filename : 'default-user.jpg';
       const errores = validationResult(req);
 
       if (errores.array().length > 0) {
@@ -57,11 +60,9 @@ const usersControllers = {
           email,
           password,
           category,
-          image,
         });
       } else {
-
-        bcrypt.hash(password, 10,function(err, hash) {
+        bcrypt.hash(password, 10, function(err, hash) {
           if(err){
             console.log("error en el hash",err);
           }
@@ -78,14 +79,21 @@ const usersControllers = {
 
           res.redirect("/users/login");
         });
-
-        
       }
     } catch (error) {
       console.log("el error capturado: ", error);
     }
   },
-  profile: (req, res) => { },
+  profile: (req, res) => {
+    if (!req.session.user) {
+      return res.redirect('/users/login');
+    }
+    const user = users.find(user => user.email === req.session.user.email);
+    res.render('users/profile', { 
+      title: 'Perfil',
+      user 
+    });
+  },
 };
 
 module.exports = usersControllers;

@@ -18,9 +18,11 @@
         <!-- Carrusel de imágenes -->
           <div class="product-carousel">
               <div class="carousel-images">
-                <img src="/images/budapest.jpg" alt="Imagen 1">
-                <img src="/images/budapest.jpg" alt="Imagen 2">
-                <img src="/images/principeBelAir.jpg" alt="Imagen 3">
+                <% if (locals.product) { %>
+                  <img src="<%= product.foto %>" alt="<%= product.direccion %>">
+                  <img src="<%= product.foto %>" alt="<%= product.direccion %>">
+                  <img src="<%= product.foto %>" alt="<%= product.direccion %>">
+                <% } %>
               </div>
           </div>
           
@@ -39,14 +41,20 @@
                   <p class="product-description">Cantidad de metros cuadrados: <%= product.m2 || 'Datos no disponible' %></p>
                   <p class="product-description">Cantidad de ambientes: <%= product.ambientes || 'Datos no disponible' %></p>
                   <h3 class="product-price">$<%= product.precio || 'Datos no disponible' %></h3>
-                  <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2502.5964531062596!2d14.9876113!3d51.152792399999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4708dc3ac70a5227%3A0x8fa1a1d513a7407d!2sKaufhaus%20G%C3%B6rlitz!5e0!3m2!1ses!2sar!4v1736600519244!5m2!1ses!2sar"
-                  width="600" 
-                  height="200" 
-                  style="border:0;" 
-                  allowfullscreen="" 
-                  loading="lazy">
-                  </iframe>
+                  
+                  <!-- Iframe actualizado para usar la URL personalizada -->
+                  <% if (product.mapsUrl) { %>
+                      <iframe 
+                          src="<%= product.mapsUrl %>"
+                          width="600" 
+                          height="200" 
+                          style="border:0;" 
+                          allowfullscreen="" 
+                          loading="lazy">
+                      </iframe>
+                  <% } else { %>
+                      <p>Ubicación no disponible</p>
+                  <% } %>
                   <% } %>
                 <div class="product-button">
                   <button class="contact-button" onclick="contactar('<%= product.direccion %>')">Contactar</button>

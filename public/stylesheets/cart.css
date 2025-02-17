@@ -155,6 +155,206 @@ a {
     box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
 }
 
+.featured-properties {
+    padding: 2rem 0;
+}
+
+.tabs-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.darkMode .tabs {
+    border-bottom: 2px solid var(--var-border-color-dark);
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: none;
+    font-size: 1rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.darkMode .tab-btn {
+    color: var(--var-text-color-dark);
+}
+
+.tab-btn.active {
+    color: #007bff;
+    font-weight: bold;
+    position: relative;
+}
+
+.darkMode .tab-btn.active {
+    color: var(--var-button-color-primary);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #007bff;
+}
+
+.darkMode .tab-btn.active::after {
+    background: var(--var-button-color-primary);
+}
+
+.properties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.property-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    background: white;
+}
+
+.darkMode .property-card {
+    background: var(--var-background-color-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+}
+
+.property-image {
+    position: relative;
+    height: 200px;
+}
+
+.property-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.property-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
+.property-info {
+    padding: 1.5rem;
+    background: white;
+}
+
+.darkMode .property-info {
+    background: var(--var-background-color-dark);
+}
+
+.property-info h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.darkMode .property-info h3 {
+    color: var(--var-text-color-dark);
+}
+
+.location {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.darkMode .location {
+    color: var(--var-text-color-dark);
+}
+
+.property-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.darkMode .price {
+    color: var(--var-button-color-primary);
+}
+
+.view-details {
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.darkMode .view-details {
+    background: var(--var-button-color-primary);
+}
+
+.view-details:hover {
+    background: #0056b3;
+}
+
+.darkMode .view-details:hover {
+    background: var(--var-button-color-secondary);
+}
+
+.load-more {
+    display: block;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    background: transparent;
+    border: 2px solid #007bff;
+    color: #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.darkMode .load-more {
+    border: 2px solid var(--var-button-color-primary);
+    color: var(--var-button-color-primary);
+}
+
+.load-more:hover {
+    background: #007bff;
+    color: white;
+}
+
+.darkMode .load-more:hover {
+    background: var(--var-button-color-primary);
+    color: var(--var-white);
+}
+
 .darkMode .product-item {
     background-color: var(--var-background-color-dark);
     color: var(--var-text-color-dark);

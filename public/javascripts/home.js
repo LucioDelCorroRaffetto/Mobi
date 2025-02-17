@@ -53,3 +53,69 @@ setInterval(() => {
     currentSlide = (currentSlide + 1) % slides.length;
     updateCarousel();
 }, 5000);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const track = document.querySelector('.carousel-track');
+    const items = document.querySelectorAll('.carousel-item');
+    const prevButton = document.querySelector('.prev');
+    const nextButton = document.querySelector('.next');
+    const filter = document.getElementById('propertyFilter');
+    
+    let currentIndex = 0;
+    let itemsPerView = window.innerWidth > 768 ? 3 : 1;
+    
+    function updateCarousel() {
+        const itemWidth = items[0].offsetWidth;
+        track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        
+        // Actualizar estado de los botones
+        prevButton.disabled = currentIndex === 0;
+        nextButton.disabled = currentIndex >= items.length - itemsPerView;
+    }
+    
+    function filterProperties(tipo) {
+        items.forEach(item => {
+            if (tipo === 'todos' || item.dataset.tipo === tipo) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+        // Reset position
+        currentIndex = 0;
+        updateCarousel();
+    }
+    
+    // Event Listeners
+    prevButton.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    });
+    
+    nextButton.addEventListener('click', () => {
+        const visibleItems = Array.from(items).filter(
+            item => item.style.display !== 'none'
+        );
+        if (currentIndex < visibleItems.length - itemsPerView) {
+            currentIndex++;
+            updateCarousel();
+        }
+    });
+    
+    filter.addEventListener('change', (e) => {
+        filterProperties(e.target.value);
+    });
+    
+    // Responsive handling
+    window.addEventListener('resize', () => {
+        itemsPerView = window.innerWidth > 768 ? 3 : 1;
+        currentIndex = 0;
+        updateCarousel();
+    });
+    
+    // Initial setup
+    updateCarousel();
+});

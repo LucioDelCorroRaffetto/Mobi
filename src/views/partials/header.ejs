@@ -40,8 +40,13 @@
         </ul>
         
         <div class="forms">
-            <button id="login"><a href="../login">Inicia Sesión</a></button>
-            <button id="register"><a href="../register">Registrarse</a></button>
+            <% if (locals.user) { %>
+                    <button id="profile"><a href="/users/profile">Mi Perfil</a></button>
+                    <button id="logout"><a href="/users/logout">Cerrar Sesión</a></button>
+            <% } else { %>
+                <button id="login"><a href="/users/login">Inicia Sesión</a></button>
+                <button id="register"><a href="/users/register">Registrarse</a></button>
+            <% } %>
         </div>
     </nav>
 </header>

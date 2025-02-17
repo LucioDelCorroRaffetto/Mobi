@@ -9,43 +9,47 @@
             <p class="paragraph">Login to your account</p>
             <div class="input-group">
                 <% if(locals.errores) {%>
-                    <p><%= errores.all %></p>
+                    <p class="error-msg"><%= errores.all %></p>
                 <% } %>
-            <input
-                required=""
-                placeholder="Username"
-                name="email"
-                id="email"
-                type="text"
-                value="<%= locals.email ? email : ""%>"
+                <input
+                    required
+                    placeholder="Email"
+                    name="email"
+                    id="email"
+                    type="email"
+                    value="<%= locals.email ? email : '' %>"
                 />
                 <% if(locals.errores && locals.errores.email) {%>
-                    <p><%= errores.email.msg %></p>
+                    <p class="error-msg"><%= errores.email.msg %></p>
                 <% } %>
             </div>
             <div class="input-group">
-            <input
-                required=""
-                placeholder="Password"
-                name="password"
-                id="password"
-                type="password"
-                value="<%= locals.password ? password : ""%>"
-            />
-            <% if(locals.errores && locals.errores.password) {%>
-                <p><%= errores.password.msg %></p>
-            <% } %>
+                <input
+                    required
+                    placeholder="Password"
+                    name="password"
+                    id="password"
+                    type="password"
+                    value="<%= locals.password ? password : '' %>"
+                />
+                <% if(locals.errores && locals.errores.password) {%>
+                    <p class="error-msg"><%= errores.password.msg %></p>
+                <% } %>
             </div>
-            <button type="submit">Login</button>
+            <div class="checkbox">
+                <input type="checkbox" name="recuerdame" id="recuerdame">
+                <label for="recuerdame">Recuérdame</label>
+            </div>
+            <button class="submit-btn" type="submit">Login</button>
             <div class="bottom-text">
-            <p>Don't have an account? <a href="#">Sign Up</a></p>
-            <p><a href="#">Forgot password?</a></p>
+                <p class="account">Don't have an account? <a href="/users/register">Sign Up</a></p>
+                <p><a href="/users/forgot-password">Forgot password?</a></p>
             </div>
         </form>
         </div>
-    </main>
+</main>
 
-    <%-include('../partials/footer.ejs')%>
+<%-include('../partials/footer.ejs')%>
 
             <!-- Scripts -->
             <script src="/javascripts/home.js"></script>

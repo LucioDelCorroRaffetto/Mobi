@@ -7,7 +7,7 @@ const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
 
 // Ruta principal - muestra el carrusel de publicidad
 router.get('/', function(req, res, next) {
-    res.render('carrousel', { title: 'Publicidad'});
+    res.render('index', { title: 'Página de Inicio', products: productos });
 });
 
 // Ruta de inicio

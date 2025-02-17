@@ -106,6 +106,74 @@ main{
     color: #3f95f2;
   }
 
+  label{
+    display: flex;
+  }
+
+  .account{
+    color: var(--var-text-color-light);
+  }
+
+  .darkMode .account{
+    color: var(--var-text-color-dark);
+  }
+
+  p{
+    color: red;
+  }
+
+  .profile-image{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .profile-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #0173ed;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+
+  .checkbox{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    gap: 8px;
+  }
+
+  .checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #0173ed;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .checkbox input[type="checkbox"]:checked {
+    background-color: #0173ed;
+  }
+
+  .checkbox input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+  }
+
+  .checkbox label {
+    cursor: pointer;
+    user-select: none;
+  }
+
   .darkMode .bottom-text,
   .darkMode .heading,
   .darkMode .paragraph {

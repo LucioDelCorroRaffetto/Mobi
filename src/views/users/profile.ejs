@@ -3,10 +3,12 @@
 <%-include('../partials/header.ejs')%>
 
 <main>
-        
         <div class="login-container">
             <form class="login-form" action="/users/profile" method="POST">
                 <p class="heading">Profile</p>
+                <div class="profile-image">
+                    <img src="/images/users/<%= user.image %>" alt="Foto de perfil">
+                </div>
                 <p class="paragraph">Edit your profile</p>
                 <div class="input-group">
                     <input
@@ -15,11 +17,9 @@
                         name="nombre"
                         id="name"
                         type="text"
-                        value="<%= locals.nombre ? nombre : "" %>"
+                        value="<%= user.firstName %>"
+                        readonly
                     />
-                    <% if(locals.errores && locals.errores.nombre) {%>
-                        <p><%= errores.nombre.msg %></p>
-                    <% } %>
                 </div>
                 <div class="input-group">
                     <input
@@ -28,11 +28,9 @@
                         name="correo"
                         id="email"
                         type="text"
-                        value="<%= locals.correo ? correo : ""%>" 
+                        value="<%= user.email %>"
+                        readonly
                     />
-                    <% if(locals.errores && locals.errores.correo) {%>
-                        <p><%= errores.correo.msg %></p>
-                    <% } %>
                 </div>
                 <div class="input-group">
                     <input
@@ -48,6 +46,8 @@
                     <% } %>
                 </div>
                 <button type="submit">Edit</button>    
+            </form>
+        </div>
 </main>
 
 <%-include('../partials/footer.ejs')%>
