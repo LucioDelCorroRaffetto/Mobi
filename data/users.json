@@ -1,1 +1,54 @@
-[{"id":1,"firstName":"Julian","lastName":"","email":"julian.eduardo.aquino@gmail.com","password":"$2b$10$M33A4NyVHf2a4.P8mh7kiOhxaZ/YLqxn.Z8Cq0n6Ipy7CFE8rpvmm","category":"","image":""},{"id":2,"firstName":"Adrian","lastName":"","email":"adrian@gmail.com","password":"$2b$10$2E3BHHrtirqTrZjw9dCgZORuv2A6hOAgRoM.r6ehavY1xGseEvaiW","category":"","image":""},{"id":3,"firstName":"dsdsd","lastName":"","email":"hola@gmail.com","password":"$2b$10$GFmUMsXGzQTZHNWCaN0ANeuIAHygHP/nJalfmgiVlYzQrC1VRxT4O","category":"","image":""},{"firstName":"lucio","lastName":"lucio","email":"Lucio@gmail.com","password":"$2b$10$qEuTJVR3wAMCYLQChbbBkujiyLM3F0aLIJNhUKeyVrfQTNGAR2Oj2","category":"de"},{"firstName":"Lucio","lastName":"Lucio","email":"dwdw@gmail.com","password":"$2b$10$pLRPSYJMUq.AXwMpevIW7eDi19SuNAD.WcHw.ZOeq3YidQR8Wmc42","category":"1"},{"firstName":"dwdww","lastName":"dwdwd","email":"dwdwdwd@gmail.com","password":"$2b$10$iWcX275J4.USUrGOWExPDusWPat23H1XO5i.q.Y3I1UVg3IXqF.AK","image":"user-1739134763308.jpg","category":"2"},{"firstName":"luchi","lastName":"luchi","email":"luchi@gmail.com","password":"$2b$10$uwssw.fC.inXmziDv.pjleAKrAH/wkrStC2ExgiN70AUyuqC7YO4G","image":"image-1739335500624-58861295.jpg","category":"3"}]
+[
+    {
+        "id": 1,
+        "firstName": "dsdsd",
+        "lastName": "",
+        "email": "hola@gmail.com",
+        "password": "$2b$10$GFmUMsXGzQTZHNWCaN0ANeuIAHygHP/nJalfmgiVlYzQrC1VRxT4O",
+        "category": "",
+        "image": ""
+    },
+    {
+        "id": 2,
+        "firstName": "lucio",
+        "lastName": "lucio",
+        "email": "Lucio@gmail.com",
+        "password": "$2b$10$qEuTJVR3wAMCYLQChbbBkujiyLM3F0aLIJNhUKeyVrfQTNGAR2Oj2",
+        "category": "de"
+    },
+    {
+        "id": 3,
+        "firstName": "Lucio",
+        "lastName": "Lucio",
+        "email": "dwdw@gmail.com",
+        "password": "$2b$10$pLRPSYJMUq.AXwMpevIW7eDi19SuNAD.WcHw.ZOeq3YidQR8Wmc42",
+        "category": "1"
+    },
+    {
+        "id": 4,
+        "firstName": "dwdww",
+        "lastName": "dwdwd",
+        "email": "dwdwdwd@gmail.com",
+        "password": "$2b$10$iWcX275J4.USUrGOWExPDusWPat23H1XO5i.q.Y3I1UVg3IXqF.AK",
+        "image": "user-1739134763308.jpg",
+        "category": "2"
+    },
+    {
+        "id": 5,
+        "firstName": "luchi",
+        "lastName": "luchi",
+        "email": "luchi@gmail.com",
+        "password": "$2b$10$uwssw.fC.inXmziDv.pjleAKrAH/wkrStC2ExgiN70AUyuqC7YO4G",
+        "image": "image-1739335500624-58861295.jpg",
+        "category": "3"
+    },
+    {
+        "id": 6,
+        "firstName": "Luchango",
+        "lastName": "godo",
+        "email": "santi@gmail.com",
+        "password": "$2b$10$78aWIdif4diLruG7H0hbHOlReyZ.g/6mmwZTU.OwkjKNOUnlz8ZMu",
+        "image": "image-1739825956789-624460571.jpg",
+        "category": "1"
+    }
+]
