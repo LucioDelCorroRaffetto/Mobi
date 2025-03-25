@@ -1,144 +1,170 @@
-const fs = require('fs');
+const db = require('../../database/models');
+const { Producto, Usuario } = db;
+const { Op } = require('sequelize');
 
 const productsController = {
-    all: (req, res, next) => {
+    allProducts: async (req, res, next) => {
         try {
-            const inmueble = req.params.inmueble;
-            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-            const resultadoInmueble = products.filter(product => product.inmueble === inmueble);
-            res.render('products/products', { 
-                title: resultadoInmueble.length > 0 ? 'Lista de Productos' : 'Error',
-                resultadoInmueble: resultadoInmueble.length > 0 ? resultadoInmueble : products,
-                message: resultadoInmueble.length > 0 ? null : 'Producto no encontrado'
+            const page = parseInt(req.query.page) || 1;
+            const limit = 10; // productos por página
+    
+            const { count, rows: productos } = await Producto.findAndCountAll({
+                include: ['propietario', 'agente'],
+                limit,
+                offset: (page - 1) * limit
             });
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    allProducts: (_req, res, next) => {
-        try {
-            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
+    
+            const totalPages = Math.ceil(count / limit);
+    
             res.render('products/products', { 
                 title: 'Lista de Todos los Productos', 
-                resultadoInmueble: products 
+                resultadoInmueble: productos,
+                currentPage: page,
+                totalPages,
+                hasNextPage: page < totalPages,
+                hasPreviousPage: page > 1
             });
         } catch (error) {
             next(error);
         }
     },
 
-    createForm: (_req, res) => {
-        res.render('products/productAdd', { title: 'Crear Nuevo Producto' });
-    },
-
-    productDetail: (req, res, next) => {
+    productDetail: async (req, res, next) => {
         try {
-            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-            const product = products.find(p => p.id === parseInt(req.params.id));
+            const product = await Producto.findByPk(req.params.id, {
+                include: ['propietario', 'agente']
+            });
             if (!product) {
-                return res.status(404).render('error', { message: 'Producto no encontrado' });
+                return res.status(404).send('Producto no encontrado');
             }
-            res.render('products/productDetail', { title: 'Detalle del Producto', product });
+            res.render('products/productDetail', { 
+                title: 'Detalle del Producto',
+                product 
+            });
         } catch (error) {
             next(error);
         }
     },
 
-    getHighlightedProperties: (_req, res, next) => {
+    store: async (req, res, next) => {
         try {
-            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-            // Filtramos propiedades destacadas (puedes ajustar los criterios)
-            const destacadas = products.filter(p => p.destacada === true);
-            res.json(destacadas);
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    filterByCategory: (req, res, next) => {
-        try {
-            const { categoria } = req.params;
-            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-            const filteredProducts = products.filter(p => p.categoria === categoria);
-            res.json(filteredProducts);
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    store: (req, res, next) => {
-        try {
-            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-            const newProduct = {
-                id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
+            await Producto.create({
                 direccion: req.body.direccion,
                 barrio: req.body.barrio,
                 zona: req.body.zona,
-                ambientes: parseInt(req.body.ambientes) || 0,
-                precio: parseFloat(req.body.precio) || 0,
+                ambientes: parseInt(req.body.ambientes),
+                precio: parseFloat(req.body.precio),
                 tipo: req.body.tipo,
-                foto: req.body.foto || '/images/default.jpg',
-                m2: parseInt(req.body.m2) || 0,
-                mapsUrl: req.body.mapsUrl || '',
-                categoria: req.body.categoria,
-                destacada: req.body.destacada === 'true',
-            };
-            products.push(newProduct);
-            fs.writeFileSync('./data/products.json', JSON.stringify(products, null, 2));
+                foto: req.body.foto,
+                m2: parseInt(req.body.m2),
+                propietario_id: req.body.propietario_id,
+                agente_id: req.body.agente_id
+            });
             res.redirect('/inmuebles/products');
         } catch (error) {
             next(error);
         }
     },
 
-    editForm: (req, res, next) => {
+    update: async (req, res, next) => {
         try {
-            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-            const product = products.find(p => p.id === parseInt(req.params.id));
-            if (!product) {
-                return res.status(404).render('error', { message: 'Producto no encontrado' });
+            const producto = await Producto.findByPk(req.params.id);
+            if (!producto) {
+                return res.status(404).send('Producto no encontrado');
             }
-            res.render('products/productEdit', { title: 'Editar Producto', product });
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    update: (req, res, next) => {
-        try {
-            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-            const productIndex = products.findIndex(p => p.id === parseInt(req.params.id));
-            if (productIndex === -1) {
-                return res.status(404).render('error', { message: 'Producto no encontrado' });
-            }
-            products[productIndex] = {
-                ...products[productIndex],
+            await producto.update({
                 direccion: req.body.direccion,
                 barrio: req.body.barrio,
                 zona: req.body.zona,
-                ambientes: parseInt(req.body.ambientes) || products[productIndex].ambientes,
-                precio: parseFloat(req.body.precio) || products[productIndex].precio,
+                ambientes: parseInt(req.body.ambientes),
+                precio: parseFloat(req.body.precio),
                 tipo: req.body.tipo,
-                foto: req.body.foto || products[productIndex].foto,
-                m2: parseInt(req.body.m2) || products[productIndex].m2,
-                mapsUrl: req.body.mapsUrl || products[productIndex].mapsUrl
-            };
-            fs.writeFileSync('./data/products.json', JSON.stringify(products, null, 2));
+                foto: req.body.foto,
+                m2: parseInt(req.body.m2)
+            });
             res.redirect('/inmuebles/products');
         } catch (error) {
             next(error);
         }
     },
 
-    destroy: (req, res, next) => {
+    search: async (req, res, next) => {
         try {
-            const id = req.params.id;
-            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-            const filteredProducts = products.filter(product => product.id !== parseInt(id));
-            
-            fs.writeFileSync('./data/products.json', JSON.stringify(filteredProducts, null, 2));
+            const { query } = req.query;
+            const page = parseInt(req.query.page) || 1;
+            const limit = 10;
+
+            const { count, rows: productos } = await Producto.findAndCountAll({
+                where: {
+                    [Op.or]: [
+                        { direccion: { [Op.like]: `%${query}%` } },
+                        { barrio: { [Op.like]: `%${query}%` } },
+                        { zona: { [Op.like]: `%${query}%` } }
+                    ]
+                },
+                include: ['propietario', 'agente'],
+                limit,
+                offset: (page - 1) * limit
+            });
+
+            const totalPages = Math.ceil(count / limit);
+
+            res.render('products/search', { 
+                productos, 
+                query,
+                currentPage: page,
+                totalPages,
+                hasNextPage: page < totalPages,
+                hasPreviousPage: page > 1
+            });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    destroy: async (req, res, next) => {
+        try {
+            const producto = await Producto.findByPk(req.params.id);
+            if (!producto) {
+                return res.status(404).send('Producto no encontrado');
+            }
+            await producto.destroy();
             res.redirect('/admin?message=Producto eliminado exitosamente');
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    createForm: async (req, res, next) => {
+        try {
+            const agentes = await Usuario.findAll({
+                where: { tipo: 'agente', activo: true }
+            });
+            res.render('products/productAdd', { 
+                title: 'Crear Nuevo Producto',
+                agentes 
+            });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    editForm: async (req, res, next) => {
+        try {
+            const producto = await Producto.findByPk(req.params.id);
+            if (!producto) {
+                return res.status(404).send('Producto no encontrado');
+            }
+
+            const agentes = await Usuario.findAll({
+                where: { tipo: 'agente', activo: true }
+            });
+
+            res.render('products/productEdit', { 
+                title: 'Editar Producto',
+                producto,
+                agentes 
+            });
         } catch (error) {
             next(error);
         }

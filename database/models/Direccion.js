@@ -1,50 +1,47 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+'use strict';
+const { Model } = require('sequelize');
 
-class Direccion extends Model {}
-
-Direccion.init({
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  calle: {
-    type: DataTypes.STRING(255),
-    allowNull: false
-  },
-  numero: {
-    type: DataTypes.STRING(20),
-    allowNull: false
-  },
-  piso: {
-    type: DataTypes.STRING(10)
-  },
-  departamento: {
-    type: DataTypes.STRING(10)
-  },
-  codigo_postal: {
-    type: DataTypes.STRING(10),
-    allowNull: false
-  },
-  ciudad: {
-    type: DataTypes.STRING(100),
-    allowNull: false
-  },
-  provincia: {
-    type: DataTypes.STRING(100),
-    allowNull: false
-  },
-  pais: {
-    type: DataTypes.STRING(100),
-    allowNull: false,
-    defaultValue: 'Argentina'
+module.exports = (sequelize, DataTypes) => {
+  class Direccion extends Model {
+    static associate(models) {
+      Direccion.hasMany(models.Producto, {
+        foreignKey: 'direccion_id'
+      });
+    }
   }
-}, {
-  sequelize,
-  modelName: 'Direccion',
-  tableName: 'direcciones',
-  timestamps: false
-});
 
-module.exports = Direccion; 
+  Direccion.init({
+    calle: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    numero: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    piso: DataTypes.STRING,
+    departamento: DataTypes.STRING,
+    codigo_postal: DataTypes.STRING,
+    ciudad: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    provincia: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    pais: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      defaultValue: 'Argentina'
+    }
+  }, {
+    sequelize,
+    modelName: 'Direccion',
+    tableName: 'direcciones',
+    timestamps: true,
+    underscored: true
+  });
+
+  return Direccion;
+}; 

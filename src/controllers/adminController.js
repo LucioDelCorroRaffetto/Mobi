@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const dataPath = path.join(__dirname, '../../data/products.json');
+const { Producto, Usuario } = require('../../database/models');
 
 let products;
 try {
@@ -23,9 +24,12 @@ const saveProducts = () => {
 
 const adminController = {
   // Formulario para agregar un producto
-  showAddForm: (req, res) => {
+  showAddForm: async (req, res) => {
     try {
-      res.render('products/productAdd');
+      const agentes = await Usuario.findAll({
+        where: { tipo: 'agente', activo: true }
+      });
+      res.render('products/productAdd', { agentes });
     } catch (error) {
       console.error('Error al mostrar el formulario de agregar:', error);
       res.status(500).send('Error interno del servidor');
@@ -33,13 +37,16 @@ const adminController = {
   },
 
   // Formulario para editar un producto  
-  showEditForm: (req, res) => {
+  showEditForm: async (req, res) => {
     try {
-      const product = products.find(p => p.id === parseInt(req.params.id));
-      if (!product) {
+      const producto = await Producto.findByPk(req.params.id);
+      if (!producto) {
         return res.status(404).send('Producto no encontrado');
       }
-      res.render('products/productEdit', { product });
+      const agentes = await Usuario.findAll({
+        where: { tipo: 'agente', activo: true }
+      });
+      res.render('products/productEdit', { producto, agentes });
     } catch (error) {
       console.error('Error al mostrar el formulario de edición:', error);
       res.status(500).send('Error interno del servidor');

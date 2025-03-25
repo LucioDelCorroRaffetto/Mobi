@@ -1,0 +1,16 @@
+<% if (totalPages > 1) { %>
+    <div class="pagination">
+        <% if (hasPreviousPage) { %>
+            <a href="?page=<%= currentPage - 1 %><%= query ? '&query=' + query : '' %>">Anterior</a>
+        <% } %>
+        
+        <% for(let i = 1; i <= totalPages; i++) { %>
+            <a href="?page=<%= i %><%= query ? '&query=' + query : '' %>" 
+               class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+        <% } %>
+        
+        <% if (hasNextPage) { %>
+            <a href="?page=<%= currentPage + 1 %><%= query ? '&query=' + query : '' %>">Siguiente</a>
+        <% } %>
+    </div>
+<% } %> 

@@ -33,12 +33,20 @@ app.use(methodOverride('_method'));
 
 
 app.use(session({
-  secret: "1234567890",
-  resave: true,
-  saveUninitialized: true
-}))
+    secret: process.env.SESSION_SECRET || 'secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
+}));
 
 app.use(sessionVerify);
+
+app.use((req, res, next) => {
+    res.locals.user = req.session.user;
+    next();
+});
 
 app.use('/', indexRouter);
 app.use('/carts', cartRouter);

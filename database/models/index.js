@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
 
 let sequelize;
@@ -37,49 +37,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-// Relaciones Usuario-Propiedad
-db.Usuario.hasMany(db.Propiedad, {
-  foreignKey: 'propietario_id',
-  as: 'propiedadesEnPropiedad'
-});
-db.Propiedad.belongsTo(db.Usuario, {
-  foreignKey: 'propietario_id',
-  as: 'propietario'
-});
-
-db.Usuario.hasMany(db.Propiedad, {
-  foreignKey: 'agente_id',
-  as: 'propiedadesAsignadas'
-});
-db.Propiedad.belongsTo(db.Usuario, {
-  foreignKey: 'agente_id',
-  as: 'agente'
-});
-
-// Relaciones Direccion-Propiedad
-db.Direccion.hasOne(db.Propiedad, {
-  foreignKey: 'direccion_id'
-});
-db.Propiedad.belongsTo(db.Direccion, {
-  foreignKey: 'direccion_id'
-});
-
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = {
-  Usuario: db.Usuario,
-  Direccion: db.Direccion,
-  Propiedad: db.Propiedad
-};
-
-const sequelize = require('./database/config/database');
-
-async function sincronizarDB() {
-  try {
-    await sequelize.sync({ force: true }); // ¡Cuidado! force: true borrará las tablas existentes
-    console.log('Base de datos sincronizada');
-  } catch (error) {
-    console.error('Error al sincronizar:', error);
-  }
-}
+module.exports = db;

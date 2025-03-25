@@ -57,11 +57,13 @@
                   <% } %>
                   <% } %>
                 <div class="product-button">
-                  <button class="contact-button" onclick="contactar('<%= product.direccion %>')">Contactar</button>
-                  <button class="reserve-button" onclick="reservar('<%= product.id %>')">Reservar</button>
-                  <button class="favorite-button" onclick="toggleFavorite('<%= product.id %>')">
-                    <span id="favorite-<%= product.id %>">🤍</span> Agregar a Favoritos
-                  </button>
+                  <% if (locals.product) { %>
+                    <button class="contact-button" onclick="contactar('<%= product.direccion %>')">Contactar</button>
+                    <button class="reserve-button" onclick="reservar('<%= product.id %>')">Reservar</button>
+                    <button class="favorite-button" onclick="toggleFavorite('<%= product.id %>')">
+                      <span id="favorite-<%= product.id %>">🤍</span> Agregar a Favoritos
+                    </button>
+                  <% } %>
                 </div>
               </div>
         </div>
