@@ -29,20 +29,15 @@ module.exports = [
 
     body('image')
     .custom((value, { req }) => {
-        // Si no hay archivo, permitimos continuar (no es obligatorio)
-        if (!req.file) {
-            return true;
+        if (!req.file) return true;
+        
+        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+        if (!allowedTypes.includes(req.file.mimetype)) {
+            throw new Error('Solo se permiten imágenes PNG, JPG o GIF');
         }
         
-        const file = req.file;
-        const allowedTypes = ['image/png', 'image/jpeg'];
-        
-        if (!allowedTypes.includes(file.mimetype)) {
-            throw new Error('Solo se permiten imágenes PNG o JPG');
-        }
-        
-        const maxSize = 2 * 1024 * 1024; // 2MB
-        if (file.size > maxSize) {
+        const maxSize = 2 * 1024 * 1024;
+        if (req.file.size > maxSize) {
             throw new Error('El archivo no debe superar los 2MB');
         }
         
