@@ -3,10 +3,18 @@
 <%-include('../partials/header.ejs')%>
 
     <main>
-        <div class="login-container">
-        <form class="login-form" action="/users/register" method="POST" enctype="multipart/form-data">
+        <div class="register-container">
+        <form class="register-form" action="/users/register" method="POST" enctype="multipart/form-data" id="registerForm">
             <p class="heading">Registro</p>
-            <p class="paragraph">Registra tu cuenta</p>
+            <p class="paragraph">Crea tu cuenta</p>
+
+            <% if(locals.errores) { %>
+                <div class="error-container">
+                    <% Object.keys(errores).forEach(key => { %>
+                        <p class="error-msg"><%= errores[key].msg %></p>
+                    <% }) %>
+                </div>
+            <% } %>
 
             <div class="input-group">
                 <label for="nombre">Nombre</label>
@@ -16,12 +24,10 @@
                     name="nombre"
                     id="nombre"
                     type="text"
-                    maxlength="100"
                     value="<%= locals.nombre ? nombre : '' %>"
+                    minlength="2"
                 />
-                <% if(locals.errores && locals.errores.nombre) { %>
-                    <p class="error-msg"><%= errores.nombre.msg %></p>
-                <% } %>
+                <div class="invalid-feedback"></div>
             </div>
 
             <div class="input-group">
@@ -32,12 +38,10 @@
                     name="apellido"
                     id="apellido"
                     type="text"
-                    maxlength="100"
                     value="<%= locals.apellido ? apellido : '' %>"
+                    minlength="2"
                 />
-                <% if(locals.errores && locals.errores.apellido) { %>
-                    <p class="error-msg"><%= errores.apellido.msg %></p>
-                <% } %>
+                <div class="invalid-feedback"></div>
             </div>
 
             <div class="input-group">
@@ -48,12 +52,9 @@
                     name="email"
                     id="email"
                     type="email"
-                    maxlength="255"
                     value="<%= locals.email ? email : '' %>"
                 />
-                <% if(locals.errores && locals.errores.email) { %>
-                    <p class="error-msg"><%= errores.email.msg %></p>
-                <% } %>
+                <div class="invalid-feedback"></div>
             </div>
 
             <div class="input-group">
@@ -64,57 +65,39 @@
                     name="password"
                     id="password"
                     type="password"
-                    maxlength="255"
-                    value="<%= locals.password ? password : '' %>"
+                    minlength="8"
                 />
-                <% if(locals.errores && locals.errores.password) { %>
-                    <p class="error-msg"><%= errores.password.msg %></p>
-                <% } %>
+                <div class="invalid-feedback"></div>
             </div>
 
             <div class="input-group">
-                <label for="telefono">Teléfono</label>
+                <label for="confirmPassword">Confirmar Contraseña</label>
                 <input
-                    placeholder="Ingresa tu teléfono"
-                    name="telefono"
-                    id="telefono"
-                    type="tel"
-                    maxlength="20"
-                    value="<%= locals.telefono ? telefono : '' %>"
+                    required
+                    placeholder="Confirma tu contraseña"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    type="password"
+                    minlength="8"
                 />
-                <% if(locals.errores && locals.errores.telefono) { %>
-                    <p class="error-msg"><%= errores.telefono.msg %></p>
-                <% } %>
+                <div class="invalid-feedback"></div>
             </div>
 
             <div class="input-group">
-                <label for="tipo">Tipo de Usuario</label>
-                <select name="tipo" id="tipo" required>
-                    <option value="cliente" <%= locals.tipo === 'cliente' ? 'selected' : '' %>>Cliente</option>
-                    <option value="agente" <%= locals.tipo === 'agente' ? 'selected' : '' %>>Agente</option>
-                </select>
-                <% if(locals.errores && locals.errores.tipo) { %>
-                    <p class="error-msg"><%= errores.tipo.msg %></p>
-                <% } %>
-            </div>
-
-            <div class="input-group">
-                <label for="image">Imagen de Perfil</label>
+                <label for="imagen">Imagen de Perfil</label>
                 <input
                     type="file"
-                    name="image"
-                    id="image"
-                    accept="image/*"
+                    name="imagen"
+                    id="imagen"
+                    accept="image/jpeg,image/jpg,image/png,image/gif"
                 />
-                <% if(locals.errores && locals.errores.image) { %>
-                    <p class="error-msg"><%= errores.image.msg %></p>
-                <% } %>
+                <div class="invalid-feedback"></div>
             </div>
 
-            <button type="submit" class="submit-btn">Registrarse</button>
+            <button class="submit-btn" type="submit">Registrarse</button>
             
             <div class="bottom-text">
-                <p class="account">¿Ya tienes una cuenta? <a href="/users/login">Iniciar Sesión</a></p>
+                <p class="account">¿Ya tienes una cuenta? <a href="/users/login">Inicia Sesión</a></p>
             </div>
         </form>
         </div>
@@ -124,7 +107,125 @@
 
     <!-- Scripts -->
     <script src="/javascripts/home.js"></script>
+    <script src="/javascripts/validations.js"></script>
     <script>
         document.getElementById("input").addEventListener("change", changeTheme);
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (validateRegisterForm(this)) {
+                this.submit();
+            }
+        });
     </script>
+
+<style>
+.register-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.register-form {
+    background-color: var(--bg-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.paragraph {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+.input-group input[type="file"] {
+    padding: 8px;
+    background-color: transparent;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.error-container {
+    background-color: var(--danger-bg);
+    border: 1px solid var(--danger-border);
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.error-msg {
+    color: var(--danger-color);
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.bottom-text {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.bottom-text p {
+    margin: 10px 0;
+    color: var(--text-secondary);
+}
+
+.bottom-text a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.bottom-text a:hover {
+    text-decoration: underline;
+}
+</style>
 </html>

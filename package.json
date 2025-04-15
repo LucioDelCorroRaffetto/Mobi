@@ -10,7 +10,8 @@
     "dev": "nodemon ./bin/www",
     "dbmigrate": "sequelize-cli db:migrate",
     "dbseed": "sequelize-cli db:seed:all",
-    "dbreset": "sequelize-cli db:drop && sequelize-cli db:create && sequelize-cli db:migrate && sequelize-cli db:seed:all"
+    "dbreset": "sequelize-cli db:drop && sequelize-cli db:create && sequelize-cli db:migrate && sequelize-cli db:seed:all",
+    "dbseed:custom": "node src/database/scripts/run-seeders.js"
   },
   "repository": {
     "type": "git",

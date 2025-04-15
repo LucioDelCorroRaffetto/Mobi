@@ -20,62 +20,50 @@ window.addEventListener("load", function () {
     }
 });
 
-const carousel = document.querySelector('.carousel-wrapper');
-const slides = document.querySelectorAll('.carousel-slide');
-const dots = document.querySelectorAll('.dot');
-let currentSlide = 0;
-
-function updateCarousel() {
-    carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentSlide);
-    });
-}
-
-document.querySelector('.next').addEventListener('click', () => {
-    currentSlide = (currentSlide + 1) % slides.length;
-    updateCarousel();
-});
-
-document.querySelector('.prev').addEventListener('click', () => {
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    updateCarousel();
-});
-
-dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-        currentSlide = index;
-        updateCarousel();
-    });
-});
-
-setInterval(() => {
-    currentSlide = (currentSlide + 1) % slides.length;
-    updateCarousel();
-}, 5000);
-
+// Inicialización del carrusel de propiedades destacadas
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Inicializando carrusel...');
+    
     const track = document.querySelector('.carousel-track');
+    if (!track) {
+        console.log('No se encontró el elemento .carousel-track');
+        return; // Si no existe el carrusel, salir de la función
+    }
+    
     const items = document.querySelectorAll('.carousel-item');
-    const prevButton = document.querySelector('.prev');
-    const nextButton = document.querySelector('.next');
+    console.log(`Se encontraron ${items.length} elementos en el carrusel`);
+    
+    if (!items.length) {
+        console.log('No hay elementos en el carrusel');
+        return; // Si no hay elementos, salir de la función
+    }
+    
+    const prevButton = document.querySelector('.carousel-button.prev');
+    const nextButton = document.querySelector('.carousel-button.next');
     const filter = document.getElementById('propertyFilter');
     
     let currentIndex = 0;
     let itemsPerView = window.innerWidth > 768 ? 3 : 1;
     
     function updateCarousel() {
+        if (!track || !items.length) return;
+        
         const itemWidth = items[0].offsetWidth;
+        console.log(`Ancho del elemento: ${itemWidth}px, Índice actual: ${currentIndex}`);
         track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
         
         // Actualizar estado de los botones
-        prevButton.disabled = currentIndex === 0;
-        nextButton.disabled = currentIndex >= items.length - itemsPerView;
+        if (prevButton) prevButton.disabled = currentIndex === 0;
+        if (nextButton) nextButton.disabled = currentIndex >= items.length - itemsPerView;
     }
     
     function filterProperties(tipo) {
+        if (!items.length) return;
+        
+        console.log(`Filtrando por tipo: ${tipo}`);
+        
         items.forEach(item => {
-            if (tipo === 'todos' || item.dataset.tipo === tipo) {
+            if (tipo === 'todos' || item.dataset.tipo.toLowerCase() === tipo.toLowerCase()) {
                 item.style.display = '';
             } else {
                 item.style.display = 'none';
@@ -88,34 +76,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Event Listeners
-    prevButton.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
-    });
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            console.log('Botón anterior clickeado');
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+    }
     
-    nextButton.addEventListener('click', () => {
-        const visibleItems = Array.from(items).filter(
-            item => item.style.display !== 'none'
-        );
-        if (currentIndex < visibleItems.length - itemsPerView) {
-            currentIndex++;
-            updateCarousel();
-        }
-    });
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            console.log('Botón siguiente clickeado');
+            const visibleItems = Array.from(items).filter(
+                item => item.style.display !== 'none'
+            );
+            if (currentIndex < visibleItems.length - itemsPerView) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+    }
     
-    filter.addEventListener('change', (e) => {
-        filterProperties(e.target.value);
-    });
+    if (filter) {
+        filter.addEventListener('change', (e) => {
+            filterProperties(e.target.value);
+        });
+    }
     
     // Responsive handling
     window.addEventListener('resize', () => {
+        console.log('Ventana redimensionada');
         itemsPerView = window.innerWidth > 768 ? 3 : 1;
         currentIndex = 0;
         updateCarousel();
     });
     
     // Initial setup
+    console.log('Configuración inicial del carrusel');
     updateCarousel();
 });

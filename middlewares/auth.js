@@ -11,7 +11,9 @@ const isAdmin = (req, res, next) => {
         next();
     } else {
         res.status(403).render('error', { 
-            message: 'Acceso denegado. Se requieren permisos de administrador.' 
+            title: 'Acceso Denegado',
+            message: 'Acceso denegado. Se requieren permisos de administrador.',
+            error: { status: 403 }
         });
     }
 };
@@ -21,7 +23,9 @@ const isAgente = (req, res, next) => {
         next();
     } else {
         res.status(403).render('error', { 
-            message: 'Acceso denegado. Se requieren permisos de agente.' 
+            title: 'Acceso Denegado',
+            message: 'Acceso denegado. Se requieren permisos de agente.',
+            error: { status: 403 }
         });
     }
 };

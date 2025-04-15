@@ -7,7 +7,7 @@
     "ambientes": 2,
     "precio": 120000,
     "tipo": "casa",
-    "foto": "/images/budapest.jpg",
+    "foto": "/images/products/budapest.jpg",
     "m2": 50
   },
   {
@@ -18,7 +18,7 @@
     "ambientes": 5,
     "precio": 250000,
     "tipo": "departamento",
-    "foto": "/images/buenaSuerteCharlie.jpg",
+    "foto": "/images/products/buenaSuerteCharlie.jpg",
     "m2": 120
   },
   {
@@ -29,7 +29,7 @@
     "ambientes": 4,
     "precio": 180000,
     "tipo": "casa",
-    "foto": "/images/casadosConHijos.jpg",
+    "foto": "/images/products/casadosConHijos.jpg",
     "m2": 90
   },
   {
@@ -40,7 +40,7 @@
     "ambientes": 3,
     "precio": 95000,
     "tipo": "departamento",
-    "foto": "/images/casaRosada.jpg",
+    "foto": "/images/products/casaRosada.jpg",
     "m2": 65,
     "mapsUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.8459958104368!2d-58.37478391114504!3d-34.60805559999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a3352cbe276f75%3A0xe16921ef0545f86d!2sCasa%20Rosada!5e0!3m2!1ses-419!2sar!4v1739405239104!5m2!1ses-419!2sar\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade"
   },
@@ -52,7 +52,7 @@
     "ambientes": 6,
     "precio": 300000,
     "tipo": "departamento",
-    "foto": "/images/principeBelAir.jpg",
+    "foto": "/images/products/principeBelAir.jpg",
     "m2": 140
   },
   {
@@ -63,7 +63,7 @@
     "ambientes": 2,
     "precio": 80000,
     "tipo": "casa",
-    "foto": "/images/toretto.webp",
+    "foto": "/images/products/toretto.webp",
     "m2": 55
   },
   {
@@ -74,7 +74,7 @@
     "ambientes": 4,
     "precio": 220000,
     "tipo": "departamento",
-    "foto": "/images/breakinBad.webp",
+    "foto": "/images/products/breakinBad.webp",
     "m2": 100
   },
   {
@@ -85,7 +85,7 @@
     "ambientes": 3,
     "precio": 110000,
     "tipo": "departamento",
-    "foto": "/images/budapest.jpg",
+    "foto": "/images/products/budapest.jpg",
     "m2": 75
   },
   {
@@ -96,7 +96,7 @@
     "ambientes": 4,
     "precio": 150000,
     "tipo": "casa",
-    "foto": "/images/buenaSuerteCharlie.jpg",
+    "foto": "/images/products/buenaSuerteCharlie.jpg",
     "m2": 85
   }
 ]

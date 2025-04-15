@@ -44,7 +44,7 @@
                         </p>
                     </div>
                     <div class="content-section">
-                        <img src="/images/toretto.webp" alt="Imagen de Propiedad">
+                        <img src="/images/empresa.jpg" alt="Imagen de Propiedad">
                     </div>
                 </div>
             </div>
@@ -75,8 +75,7 @@
                         <div class="carousel-item" data-tipo="<%= producto.tipo %>">
                             <div class="property-card">
                                 <div class="property-image">
-                                    <img src="<%= producto.foto || '/images/default-property.jpg' %>" 
-                                          alt="<%= producto.direccion %>">
+                                    <img src="<%= producto.foto %>" alt="<%= producto.direccion %>">
                                     <span class="tag"><%= producto.tipo %></span>
                                 </div>
                                 <div class="property-info">
@@ -86,8 +85,8 @@
                                         <%= producto.barrio %> - <%= producto.zona %>
                                     </p>
                                     <div class="property-footer">
-                                        <span class="price">Consultar precio</span>
-                                        <a href="inmuebles/products/<%=producto.id%>"><button class="details-btn">Ver más</button></a>
+                                        <span class="price">$<%= producto.precio.toLocaleString('es-AR') %></span>
+                                        <a href="/inmuebles/products/<%= producto.id %>" class="details-btn">Ver más</a>
                                     </div>
                                 </div>
                             </div>

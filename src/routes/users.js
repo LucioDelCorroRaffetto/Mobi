@@ -2,15 +2,17 @@ const express = require('express');
 const router = express.Router();
 const { 
     login, 
+    processLogin,
     register, 
-    processRegister, 
-    processLogin, 
-    profile, 
-    update, 
-    logout 
+    processRegister,
+    logout,
+    profile,
+    update,
+    delete: deleteUser 
 } = require('../controllers/usersControllers');
-const registerValidator = require('../../validations/registerValidator');
 const loginValidator = require('../../validations/loginValidator');
+const registerValidator = require('../../validations/registerValidator');
+const profileValidator = require('../../validations/profileValidator');
 const loginVerify = require('../../middlewares/loginValidate');
 
 const multer = require('multer');
@@ -29,7 +31,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Rutas de autenticación
+// Middleware para verificar si el usuario está autenticado
+const isAuthenticated = (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect('/users/login');
+    }
+};
+
+// Rutas de login
 router.get('/login', loginVerify, login);
 router.post('/login', loginValidator, processLogin);
 
@@ -38,8 +49,11 @@ router.get('/register', loginVerify, register);
 router.post('/register', upload.single('image'), registerValidator, processRegister);
 
 // Rutas de perfil
-router.get('/profile', profile);
-router.post('/profile', upload.single('image'), update);
+router.get('/profile', isAuthenticated, profile);
+router.post('/profile', isAuthenticated, upload.single('image'), profileValidator, update);
+
+// Ruta de eliminación de cuenta
+router.delete('/profile', isAuthenticated, deleteUser);
 
 // Ruta de logout
 router.get('/logout', logout);

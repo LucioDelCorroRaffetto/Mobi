@@ -1,0 +1,152 @@
+<%- include('../partials/headCart.ejs')%>
+
+<%-include('../partials/header.ejs')%>
+
+<main>
+    <!-- Banner de búsqueda -->
+    <div class="search-banner">
+        <h1>Resultados de búsqueda</h1>
+        <p>Resultados para: "<%= query %>"</p>
+    </div>
+                
+    <div class="search-container">
+        <% if (locals.noResults) { %>
+            <div class="no-results-message">
+                <h2>No se encontraron resultados</h2>
+                <p>Lo sentimos, no hay propiedades que coincidan con tu búsqueda "<%= query %>".</p>
+                <p>Intenta con otros términos o <a href="/inmuebles/products">ver todas las propiedades</a>.</p>
+            </div>
+        <% } else { %>
+            <div class="search-results">
+                <h2>Se encontraron <%= productos.length %> resultados</h2>
+                
+                <div class="properties-grid">
+                    <% productos.forEach(producto => { %>
+                        <div class="property-card">
+                            <div class="property-image">
+                                <img src="<%= producto.foto || '/images/default-property.jpg' %>" alt="<%= producto.direccion %>">
+                                <span class="tag"><%= producto.tipo %></span>
+                            </div>
+                            <div class="property-info">
+                                <h3><%= producto.direccion %></h3>
+                                <p class="location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <%= producto.barrio %> - <%= producto.zona %>
+                                </p>
+                                <div class="property-footer">
+                                    <span class="price">$<%= producto.precio %></span>
+                                    <a href="/inmuebles/products/<%= producto.id %>"><button class="details-btn">Ver más</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Paginación -->
+        <% if (locals.totalPages && locals.totalPages > 1) { %>
+            <div class="pagination">
+                <% if (locals.hasPreviousPage) { %>
+                    <a href="/inmuebles/search?query=<%= query %>&page=<%= locals.currentPage - 1 %>" class="page-link">&laquo; Anterior</a>
+                <% } %>
+                
+                <% for(let i = 1; i <= locals.totalPages; i++) { %>
+                    <a href="/inmuebles/search?query=<%= query %>&page=<%= i %>" class="page-link <%= i === locals.currentPage ? 'active' : '' %>"><%= i %></a>
+                <% } %>
+                
+                <% if (locals.hasNextPage) { %>
+                    <a href="/inmuebles/search?query=<%= query %>&page=<%= locals.currentPage + 1 %>" class="page-link">Siguiente &raquo;</a>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+</main>
+
+<style>
+.search-banner {
+    background-color: #f8f9fa;
+    padding: 30px 0;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.search-banner h1 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.search-banner p {
+    color: #666;
+    font-size: 1.1em;
+}
+
+.no-results-message {
+    text-align: center;
+    padding: 50px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.no-results-message h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.no-results-message p {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.no-results-message a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.no-results-message a:hover {
+    text-decoration: underline;
+}
+
+.search-results h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #333;
+}
+
+.page-link.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.page-link:hover:not(.active) {
+    background-color: #f8f9fa;
+}
+</style>
+
+<%-include('../partials/footer.ejs')%>
+<script src="/javascripts/home.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggle = document.getElementById("input");
+        if (themeToggle) {
+            themeToggle.addEventListener("change", changeTheme);
+        }
+    });
+</script> 

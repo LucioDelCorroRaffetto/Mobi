@@ -2,34 +2,225 @@
 
 <%- include('../partials/header') %>
 
-<h1>Editar Producto</h1>
-<form action="/inmuebles/products/<%= product.id %>?_method=PUT" method="POST">
-    <label>Imagen (URL):</label>
-  <input type="text" name="foto" value="<%= product.foto %>" required>
-  <label>Direccion:</label>
-  <input type="text" name="direccion" value="<%= product.direccion %>" required>
-  <label>Barrio:</label>
-  <input type="text" name="barrio" value="<%= product.barrio %>">
-  <label>Zona:</label>
-  <input type="text" name="zona" value="<%= product.zona %>" required>
-  <label>Categoría:</label>
-  <input type="text" name="tipo" value="<%= product.tipo %>">
-  <label>Ambientes:</label>
-  <input type="number" name="ambientes" value="<%= product.ambientes %>">
-  <label>Precio:</label>
-  <input type="number" name="precio" value="<%= product.precio %>" required>
-  <label>Metros Cuadrados:</label>
-  <input type="number" name="m2" value="<%= product.m2 %>" required>
-  <label>URL de Google Maps:</label>
-  <input type="text" name="mapsUrl" value="<%= product.mapsUrl %>" required>
-  <button type="submit">Actualizar</button>
-</form>
+<div class="edit-container">
+    <h1>Editar Producto</h1>
+
+    <% if (locals.error) { %>
+        <div class="alert alert-danger">
+            <%= error %>
+        </div>
+    <% } %>
+
+    <% if (locals.product) { %>
+        <form action="/inmuebles/products/<%= product.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="foto">Imagen del Producto:</label>
+                <input type="file" name="foto" id="foto" accept="image/*">
+                <% if (product.foto) { %>
+                    <div class="current-image">
+                        <img src="<%= product.foto %>" alt="Imagen actual del producto">
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="form-group">
+                <label for="direccion">Dirección: *</label>
+                <input type="text" name="direccion" id="direccion" value="<%= product.direccion %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="barrio">Barrio:</label>
+                <input type="text" name="barrio" id="barrio" value="<%= product.barrio %>">
+            </div>
+
+            <div class="form-group">
+                <label for="zona">Zona: *</label>
+                <input type="text" name="zona" id="zona" value="<%= product.zona %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo">Categoría:</label>
+                <select name="tipo" id="tipo">
+                    <option value="casa" <%= product.tipo === 'casa' ? 'selected' : '' %>>Casa</option>
+                    <option value="departamento" <%= product.tipo === 'departamento' ? 'selected' : '' %>>Departamento</option>
+                    <option value="terreno" <%= product.tipo === 'terreno' ? 'selected' : '' %>>Terreno</option>
+                    <option value="local" <%= product.tipo === 'local' ? 'selected' : '' %>>Local</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="ambientes">Ambientes:</label>
+                <input type="number" name="ambientes" id="ambientes" value="<%= product.ambientes %>" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="precio">Precio: *</label>
+                <input type="number" name="precio" id="precio" value="<%= product.precio %>" required min="0" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="m2">Metros Cuadrados: *</label>
+                <input type="number" name="m2" id="m2" value="<%= product.m2 %>" required min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="mapsUrl">URL de Google Maps:</label>
+                <input type="url" name="mapsUrl" id="mapsUrl" value="<%= product.mapsUrl %>">
+            </div>
+
+            <p class="required-fields">* Campos obligatorios</p>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Actualizar</button>
+                <a href="/inmuebles/products" class="btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    <% } else { %>
+        <div class="error-message">
+            <h2>Producto no encontrado</h2>
+            <p>El producto que intentas editar no existe o ha sido eliminado.</p>
+            <a href="/inmuebles/products" class="btn-primary">Volver a la lista de productos</a>
+        </div>
+    <% } %>
+</div>
+
+<style>
+.edit-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.edit-container h1 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.current-image {
+    margin-top: 10px;
+    max-width: 200px;
+}
+
+.current-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.required-fields {
+    color: var(--danger-color);
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-hover);
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    background-color: var(--danger-bg);
+    border: 1px solid var(--danger-border);
+    color: var(--danger-color);
+}
+
+.error-message {
+    text-align: center;
+    padding: 30px;
+    background-color: var(--bg-color);
+    border-radius: 5px;
+}
+
+.error-message h2 {
+    color: var(--danger-color);
+    margin-bottom: 15px;
+}
+
+.error-message p {
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+</style>
 
 <%- include('../partials/footer') %>
 
 <script src="/javascripts/home.js"></script>
 <script>
-    // Agregar evento de cambio al checkbox
-    document.getElementById("input").addEventListener("change", changeTheme);
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggle = document.getElementById("input");
+        if (themeToggle) {
+            themeToggle.addEventListener("change", changeTheme);
+        }
+    });
 </script>
 </html>

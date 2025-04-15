@@ -2,29 +2,46 @@ const fs = require('fs');
 
 const cartController = {
     loadCart: (req, res) => {
-        const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-        res.render('products/productCart', { 
-            title: 'Carrito de Compras', 
-            cartItems: products, // Cambié products a cartItems
-            subtotal: calculateSubtotal(products),
-            taxes: calculateTaxes(products),
-            total: calculateTotal(products)
-        });
+        try {
+            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
+            res.render('products/productCart', { 
+                title: 'Carrito de Compras', 
+                cartItems: products,
+                subtotal: calculateSubtotal(products),
+                taxes: calculateTaxes(products),
+                total: calculateTotal(products)
+            });
+        } catch (error) {
+            console.error('Error al cargar el carrito:', error);
+            res.render('products/productCart', { 
+                title: 'Carrito de Compras', 
+                cartItems: [],
+                subtotal: 0,
+                taxes: 0,
+                total: 0,
+                error: 'No se pudo cargar el carrito'
+            });
+        }
     },
 
     removeItem: (req, res) => {
-        const id = parseInt(req.params.id, 10);
-        let products = JSON.parse(fs.readFileSync('./data/data.json', 'utf-8'));
+        try {
+            const id = parseInt(req.params.id, 10);
+            let products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
 
-        products = products.filter(product => product.id !== id);
-        fs.writeFileSync('./data/data.json', JSON.stringify(products, null, 2));
+            products = products.filter(product => product.id !== id);
+            fs.writeFileSync('./data/products.json', JSON.stringify(products, null, 2));
 
-        res.redirect('/productCart'); // Redirige de nuevo al carrito después de eliminar el producto
+            res.redirect('/productCart');
+        } catch (error) {
+            console.error('Error al eliminar el producto del carrito:', error);
+            res.redirect('/productCart?error=No se pudo eliminar el producto');
+        }
     }
 };
 
 function calculateSubtotal(products) {
-    return products.reduce((sum, product) => sum + product.precio, 0);
+    return products.reduce((sum, product) => sum + (product.precio || 0), 0);
 }
 
 function calculateTaxes(products) {

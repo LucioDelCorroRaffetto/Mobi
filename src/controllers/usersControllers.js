@@ -8,7 +8,7 @@ const {
   parseFile,
   stringifyFile,
 } = require("../../utils/filesystem");
-const { Usuario } = require('../../database/models');
+const { Usuario } = require('../database/models');
 
 const users = parseFile(readFile(directory));
 
@@ -69,7 +69,7 @@ const usersControllers = {
       res.status(500).render("users/register", {
         errores: {
           server: {
-            msg: "Error al procesar el registro"
+            msg: "Error al procesar el registro: " + error.message
           }
         },
         oldData: req.body,
@@ -97,14 +97,14 @@ const usersControllers = {
         }
       });
 
-      if (!usuario || !await bcrypt.compare(req.body.password, usuario.password)) {
+      if (!usuario || !bcrypt.compareSync(req.body.password, usuario.password)) {
         return res.render("users/login", {
           errores: {
             email: {
-              msg: "Credenciales inválidas"
+              msg: "Las credenciales no son válidas"
             }
           },
-          oldData: { email: req.body.email },
+          oldData: req.body,
           title: "Login"
         });
       }
@@ -118,8 +118,8 @@ const usersControllers = {
         imagen: usuario.imagen
       };
 
-      if (req.body.recuerdame) {
-        res.cookie("userCookie", req.session.user, { maxAge: 1000 * 60 * 60 * 24 * 7 });
+      if (req.body.recordar) {
+        res.cookie('userEmail', req.body.email, { maxAge: (1000 * 60 * 60 * 24 * 30) });
       }
 
       res.redirect("/users/profile");
@@ -128,7 +128,7 @@ const usersControllers = {
       res.status(500).render("users/login", {
         errores: {
           server: {
-            msg: "Error al procesar el login"
+            msg: "Error al procesar el login: " + error.message
           }
         },
         oldData: req.body,
@@ -139,7 +139,7 @@ const usersControllers = {
 
   logout: (req, res) => {
     req.session.destroy();
-    res.clearCookie('userCookie');
+    res.clearCookie('userEmail');
     res.redirect('/');
   },
 
@@ -163,30 +163,81 @@ const usersControllers = {
     } catch (error) {
       console.error('Error en profile:', error);
       res.status(500).render('error', {
-        message: 'Error al cargar el perfil'
+        title: 'Error',
+        message: 'Error al cargar el perfil',
+        error: { status: 500 }
       });
     }
   },
 
   update: async (req, res) => {
     try {
+      const errores = validationResult(req);
+      
+      if (!errores.isEmpty()) {
+        return res.render("users/profile", {
+          errores: errores.mapped(),
+          oldData: req.body,
+          title: "Actualizar Perfil"
+        });
+      }
+
       const usuario = await Usuario.findByPk(req.session.user.id);
       
       if (!usuario) {
-        return res.status(404).send('Usuario no encontrado');
+        return res.status(404).render('error', {
+          title: 'Error',
+          message: 'Usuario no encontrado',
+          error: { status: 404 }
+        });
       }
 
-      await usuario.update({
+      // Verificar si el email ya existe (si se está cambiando)
+      if (req.body.email && req.body.email !== usuario.email) {
+        const existingUser = await Usuario.findOne({
+          where: { email: req.body.email }
+        });
+
+        if (existingUser) {
+          return res.render("users/profile", {
+            errores: {
+              email: {
+                msg: "Este email ya está registrado"
+              }
+            },
+            oldData: req.body,
+            title: "Actualizar Perfil"
+          });
+        }
+      }
+
+      // Preparar datos para actualización
+      const updateData = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
-        telefono: req.body.telefono,
-        imagen: req.file ? `/images/users/${req.file.filename}` : usuario.imagen
-      });
+        email: req.body.email,
+        telefono: req.body.telefono
+      };
 
+      // Si se proporciona una nueva contraseña y no está vacía, encriptarla
+      if (req.body.password && req.body.password.trim() !== '') {
+        updateData.password = await bcrypt.hash(req.body.password, 10);
+      }
+
+      // Si se subió una nueva imagen, actualizar la ruta
+      if (req.file) {
+        updateData.imagen = `/images/users/${req.file.filename}`;
+      }
+
+      await usuario.update(updateData);
+
+      // Actualizar la sesión con los nuevos datos
       req.session.user = {
         ...req.session.user,
         nombre: usuario.nombre,
         apellido: usuario.apellido,
+        email: usuario.email,
+        telefono: usuario.telefono,
         imagen: usuario.imagen
       };
 
@@ -194,7 +245,38 @@ const usersControllers = {
     } catch (error) {
       console.error('Error en update:', error);
       res.status(500).render('error', {
-        message: 'Error al actualizar el perfil'
+        title: 'Error',
+        message: 'Error al actualizar el perfil',
+        error: { status: 500 }
+      });
+    }
+  },
+
+  delete: async (req, res) => {
+    try {
+      const usuario = await Usuario.findByPk(req.session.user.id);
+      
+      if (!usuario) {
+        return res.status(404).render('error', {
+          title: 'Error',
+          message: 'Usuario no encontrado',
+          error: { status: 404 }
+        });
+      }
+
+      // Realizar eliminación lógica
+      await usuario.update({ activo: false });
+      
+      // Destruir la sesión
+      req.session.destroy();
+      
+      res.redirect('/');
+    } catch (error) {
+      console.error('Error en delete:', error);
+      res.status(500).render('error', {
+        title: 'Error',
+        message: 'Error al eliminar la cuenta',
+        error: { status: 500 }
       });
     }
   }

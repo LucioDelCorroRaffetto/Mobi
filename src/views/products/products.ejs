@@ -18,39 +18,55 @@
         </div>
 
         <div class="properties-grid" id="propertiesContainer">
-            <% 
-            const productos = locals.resultadoInmueble || locals.products || [];
-            productos.forEach((producto) => { %>
-                <div class="property-card" data-tipo="<%= producto.tipo %>">
-                    <div class="property-image">
-                        <% if (producto.foto) { %>
-                            <img src="<%= producto.foto %>" alt="<%= producto.direccion %>">
-                        <% } else { %>
-                            <img src="/images/default-property.jpg" alt="Imagen por defecto">
-                        <% } %>
-                        <span class="property-tag"><%= producto.tipo %></span>
-                    </div>
-                    <div class="property-info">
-                        <h3><%= producto.direccion || 'Dirección no disponible' %></h3>
-                        <p class="location"><%= producto.barrio %> - <%= producto.zona %></p>
-                        <div class="property-details">
-                            <span class="price">$<%= producto.precio %></span>
-                            <a href="/inmuebles/products/<%= producto.id %>" class="view-details">Ver Detalles</a>
+            <% if (locals.resultadoInmueble && resultadoInmueble.length > 0) { %>
+                <% resultadoInmueble.forEach(propiedad => { %>
+                    <div class="property-card" data-tipo="<%= propiedad.tipo %>">
+                        <div class="property-image">
+                            <% if (propiedad.foto) { %>
+                                <img src="<%= propiedad.foto %>" alt="<%= propiedad.direccion.calle %>">
+                            <% } else { %>
+                                <img src="/images/products/budapest.jpg" alt="Imagen por defecto">
+                            <% } %>
+                            <span class="property-tag"><%= propiedad.tipo %></span>
+                        </div>
+                        <div class="property-info">
+                            <h3><%= propiedad.direccion.calle %> <%= propiedad.direccion.numero %></h3>
+                            <p class="location">
+                                <%= propiedad.barrio.nombre %> - <%= propiedad.direccion.ciudad %>
+                            </p>
+                            <div class="property-details">
+                                <span class="price">$<%= propiedad.precio.toLocaleString() %></span>
+                                <div class="property-specs">
+                                    <span><i class="fas fa-bed"></i> <%= propiedad.ambientes %></span>
+                                    <span><i class="fas fa-ruler-combined"></i> <%= propiedad.m2 %>m²</span>
+                                </div>
+                                <a href="/inmuebles/products/<%= propiedad.id %>" class="view-details">Ver Detalles</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <% }) %>
-
-            <% if (productos.length === 0) { %>
-                <div class="no-properties">
-                    <p>No hay propiedades disponibles</p>
+                <% }); %>
+            <% } else { %>
+                <div class="no-products-message">
+                    <h2>No hay propiedades disponibles</h2>
+                    <p>Lo sentimos, no hay propiedades que coincidan con tus criterios de búsqueda.</p>
+                    <a href="/inmuebles/products" class="btn-primary">Ver todas las propiedades</a>
                 </div>
             <% } %>
         </div>
 
+        <% if (!noResults && totalPages > 1) { %>
         <div class="pagination">
-            <button class="load-more">Ver más propiedades</button>
+            <% if (hasPreviousPage) { %>
+                <a href="/inmuebles/products?page=<%= currentPage - 1 %>" class="page-link">&laquo; Anterior</a>
+            <% } %>
+            
+            <span class="page-info">Página <%= currentPage %> de <%= totalPages %></span>
+            
+            <% if (hasNextPage) { %>
+                <a href="/inmuebles/products?page=<%= currentPage + 1 %>" class="page-link">Siguiente &raquo;</a>
+            <% } %>
         </div>
+        <% } %>
     </div>
 </main>
 

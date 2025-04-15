@@ -3,54 +3,168 @@
 <%-include('../partials/header.ejs')%>
 
 <main>
-        <div class="login-container">
-            <form class="login-form" action="/users/profile" method="POST">
-                <p class="heading">Profile</p>
-                <div class="profile-image">
-                    <img src="/images/users/<%= user.image %>" alt="Foto de perfil">
+    <div class="login-container">
+        <form class="login-form" action="/users/profile" method="POST" enctype="multipart/form-data">
+            <p class="heading">Mi Perfil</p>
+            <div class="profile-image">
+                <img src="<%= user.imagen %>" alt="Foto de perfil">
+            </div>
+            <p class="paragraph">Edita tu perfil</p>
+
+            <% if(locals.errores) { %>
+                <div class="error-container">
+                    <% Object.keys(errores).forEach(key => { %>
+                        <p class="error-msg"><%= errores[key].msg %></p>
+                    <% }) %>
                 </div>
-                <p class="paragraph">Edit your profile</p>
-                <div class="input-group">
-                    <input
-                        required=""
-                        placeholder="Username"
-                        name="nombre"
-                        id="name"
-                        type="text"
-                        value="<%= user.firstName %>"
-                        readonly
-                    />
-                </div>
-                <div class="input-group">
-                    <input
-                        required=""
-                        placeholder="Email"
-                        name="correo"
-                        id="email"
-                        type="text"
-                        value="<%= user.email %>"
-                        readonly
-                    />
-                </div>
-                <div class="input-group">
-                    <input
-                        required=""
-                        placeholder="Password"
-                        name="contrasena"
-                        id="password"
-                        type="password"
-                        value="<%= locals.contrasena ? contrasena : ""%>"
-                    />
-                    <% if(locals.errores && locals.errores.contrasena) {%>
-                        <p><%= errores.contrasena.msg %></p>
-                    <% } %>
-                </div>
-                <button type="submit">Edit</button>    
-            </form>
-        </div>
+            <% } %>
+
+            <div class="input-group">
+                <label for="nombre">Nombre</label>
+                <input
+                    required=""
+                    placeholder="Nombre"
+                    name="nombre"
+                    id="nombre"
+                    type="text"
+                    value="<%= user.nombre %>"
+                />
+            </div>
+
+            <div class="input-group">
+                <label for="apellido">Apellido</label>
+                <input
+                    required=""
+                    placeholder="Apellido"
+                    name="apellido"
+                    id="apellido"
+                    type="text"
+                    value="<%= user.apellido %>"
+                />
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input
+                    required=""
+                    placeholder="Email"
+                    name="email"
+                    id="email"
+                    type="email"
+                    value="<%= user.email %>"
+                />
+            </div>
+
+            <div class="input-group">
+                <label for="telefono">Teléfono</label>
+                <input
+                    type="tel"
+                    placeholder="Teléfono"
+                    name="telefono"
+                    id="telefono"
+                    type="number"
+                    value="<%= user.telefono %>"
+                />
+            </div>
+
+            <div class="input-group">
+                <label for="password">Nueva Contraseña (opcional)</label>
+                <input
+                    type="password"
+                    placeholder="Nueva contraseña"
+                    name="password"
+                    id="password"
+                />
+            </div>
+
+            <div class="input-group">
+                <label for="password_confirm">Confirmar Nueva Contraseña</label>
+                <input
+                    type="password"
+                    placeholder="Confirmar contraseña"
+                    name="password_confirm"
+                    id="password_confirm"
+                />
+            </div>
+
+            <div class="input-group">
+                <label for="image">Cambiar foto de perfil</label>
+                <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    accept="image/*"
+                />
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Guardar Cambios</button>
+                <button type="button" class="delete-btn" onclick="confirmDelete()">Eliminar Cuenta</button>
+            </div>
+        </form>
+    </div>
 </main>
 
 <%-include('../partials/footer.ejs')%>
+
+<script>
+    function confirmDelete() {
+        if (confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.')) {
+            fetch('/users/profile', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    alert('Error al eliminar la cuenta. Por favor, intenta nuevamente.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al eliminar la cuenta. Por favor, intenta nuevamente.');
+            });
+        }
+    }
+</script>
+
+<style>
+    .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .delete-btn {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .delete-btn:hover {
+        background-color: #c82333;
+    }
+
+    .error-container {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .error-msg {
+        color: #721c24;
+        margin: 5px 0;
+    }
+</style>
     <!-- Scripts -->
     <script src="/javascripts/home.js"></script>
     <script>

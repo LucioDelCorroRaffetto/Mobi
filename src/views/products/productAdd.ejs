@@ -2,62 +2,189 @@
 
 <%- include('../partials/header') %>
 
-<h1>Agregar Producto</h1>
-<form action="/inmuebles/products" method="POST">
-  <label>Imagen (URL):</label>
-  <input type="text" name="foto" required>
-  <label>Direccion:</label>
-  <input name="direccion" required>
-  <label>Barrio:</label>
-  <select name="barrio">
-    <option value="">Seleccione un barrio</option>
-    <option value="Palermo">Palermo</option>
-    <option value="Recoleta">Recoleta</option>
-    <option value="Belgrano">Belgrano</option>
-    <option value="Caballito">Caballito</option>
-    <option value="Nuñez">Nuñez</option>
-  </select>
-  <label>Zona:</label>
-  <select name="zona">
-    <option value="">Seleccione una zona</option>
-    <option value="Norte">Norte</option>
-    <option value="Sur">Sur</option>
-    <option value="Este">Este</option>
-    <option value="Oeste">Oeste</option>
-    <option value="Centro">Centro</option>
-  </select>
-  <label>Categoría:</label>
-  <select name="tipo">
-    <option value="">Seleccione una categoría</option>
-    <option value="Casa">Casa</option>
-    <option value="Departamento">Departamento</option>
-    <option value="PH">PH</option>
-    <option value="Terreno">Terreno</option>
-    <option value="Local">Local</option>
-  </select>
-  <label>Ambientes:</label>
-  <select name="ambientes">
-    <option value="">Seleccione cantidad de ambientes</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5+">5 o más</option>
-  </select>
-  <label>Precio:</label>
-  <input type="number" name="precio" required>
-  <label>Metros Cuadrados:</label>
-  <input type="number" name="m2" required>
-  <label>URL de Google Maps:</label>
-  <input type="text" name="mapsUrl" placeholder="Pega aquí el enlace de Google Maps" required>
-  <button type="submit">Guardar</button>
-</form>
+<div class="container">
+  <h1>Agregar Propiedad</h1>
+  
+  <form action="/inmuebles/products" method="POST" enctype="multipart/form-data" id="propertyForm">
+    <div class="form-section">
+      <h2>Información de la Dirección</h2>
+      <div class="form-group">
+        <label>Calle:</label>
+        <input type="text" name="calle" required>
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Número:</label>
+        <input type="text" name="numero" required>
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Piso:</label>
+        <input type="text" name="piso">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Departamento:</label>
+        <input type="text" name="departamento">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Código Postal:</label>
+        <input type="text" name="codigo_postal">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Ciudad:</label>
+        <input type="text" name="ciudad" required>
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Provincia:</label>
+        <input type="text" name="provincia" required>
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>País:</label>
+        <input type="text" name="pais" value="Argentina">
+        <div class="invalid-feedback"></div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Información de la Propiedad</h2>
+      <div class="form-group">
+        <label>Título:</label>
+        <input type="text" name="titulo" required minlength="5">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Tipo:</label>
+        <select name="tipo" required>
+          <option value="">Seleccione un tipo</option>
+          <option value="venta">Venta</option>
+          <option value="alquiler">Alquiler</option>
+        </select>
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Barrio:</label>
+        <select name="barrio_id" required>
+          <option value="">Seleccione un barrio</option>
+          <% barrios.forEach(barrio => { %>
+            <option value="<%= barrio.id %>"><%= barrio.nombre %></option>
+          <% }); %>
+        </select>
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Categoría:</label>
+        <select name="categoria_id" required>
+          <option value="">Seleccione una categoría</option>
+          <% categorias.forEach(categoria => { %>
+            <option value="<%= categoria.id %>"><%= categoria.nombre %></option>
+          <% }); %>
+        </select>
+        <div class="invalid-feedback"></div>
+      </div>
+      
+      <div class="form-group">
+        <label>Propietario:</label>
+        <select name="propietario_id">
+          <option value="">Seleccione un propietario</option>
+          <% if (typeof propietarios !== 'undefined' && propietarios.length > 0) { %>
+            <% console.log('Propietarios disponibles:', propietarios); %>
+            <% propietarios.forEach(propietario => { %>
+              <option value="<%= propietario.id %>">
+                <%= propietario.nombre %> <%= propietario.apellido %> (<%= propietario.email %>)
+              </option>
+            <% }); %>
+          <% } else { %>
+            <% console.log('No hay propietarios disponibles'); %>
+            <option value="" disabled>No hay propietarios disponibles</option>
+          <% } %>
+        </select>
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Ambientes:</label>
+        <input type="number" name="ambientes" value="1" min="1">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Dormitorios:</label>
+        <input type="number" name="dormitorios" value="0" min="0">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Baños:</label>
+        <input type="number" name="banos" value="1" min="0">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Orientación:</label>
+        <select name="orientacion">
+          <option value="">Seleccione una orientación</option>
+          <option value="norte">Norte</option>
+          <option value="sur">Sur</option>
+          <option value="este">Este</option>
+          <option value="oeste">Oeste</option>
+        </select>
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Precio:</label>
+        <input type="number" name="precio" required min="0">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Moneda:</label>
+        <select name="moneda" required>
+          <option value="USD">USD</option>
+          <option value="ARS">ARS</option>
+        </select>
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Metros Cuadrados:</label>
+        <input type="number" name="m2" required min="1">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Imagen:</label>
+        <input type="file" name="foto" id="foto" accept="image/jpeg,image/jpg,image/png,image/gif">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>URL de Google Maps:</label>
+        <input type="text" name="maps_url" placeholder="Pega aquí el enlace de Google Maps">
+        <div class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label>Descripción:</label>
+        <textarea name="descripcion" required minlength="20"></textarea>
+        <div class="invalid-feedback"></div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Guardar Propiedad</button>
+      <a href="/inmuebles" class="btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
 
 <%- include('../partials/footer') %>
 
 <script src="/javascripts/home.js"></script>
+<script src="/javascripts/validations.js"></script>
 <script>
-    // Agregar evento de cambio al checkbox
     document.getElementById("input").addEventListener("change", changeTheme);
+    document.getElementById('propertyForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (validatePropertyForm(this)) {
+            this.submit();
+        }
+    });
 </script>
+</body>
 </html>
