@@ -46,11 +46,11 @@ router.post('/login', loginValidator, processLogin);
 
 // Rutas de registro
 router.get('/register', loginVerify, register);
-router.post('/register', upload.single('image'), registerValidator, processRegister);
+router.post('/register', upload.single('imagen'), registerValidator, processRegister);
 
 // Rutas de perfil
 router.get('/profile', isAuthenticated, profile);
-router.post('/profile', isAuthenticated, upload.single('image'), profileValidator, update);
+router.post('/profile', isAuthenticated, upload.single('imagen'), profileValidator, update);
 
 // Ruta de eliminación de cuenta
 router.delete('/profile', isAuthenticated, deleteUser);

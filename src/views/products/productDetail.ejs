@@ -6,28 +6,35 @@
     <div class="product-detail-wrapper">
         <% if (locals.product) { %>
             <div class="product-detail-header">
-                <h1 class="product-title"><%= product.direccion %></h1>
+                <h1 class="product-title"><%= product.titulo || 'Propiedad sin título' %></h1>
                 <div class="product-meta">
                     <span class="product-type"><%= product.tipo %></span>
-                    <span class="product-price">$<%= product.precio.toLocaleString() %></span>
+                    <span class="product-price">$<%= product.precio ? product.precio.toLocaleString() : '0' %> <%= product.moneda || 'USD' %></span>
                 </div>
             </div>
 
             <div class="product-detail-content">
                 <div class="product-gallery">
                     <div class="main-image">
-                        <img src="<%= product.foto || '/images/default-property.jpg' %>" alt="<%= product.direccion %>">
+                        <% if (product.imagen) { %>
+                            <img src="<%= product.imagen.startsWith('/') ? product.imagen : '/' + product.imagen %>" 
+                                 alt="<%= product.titulo || 'Propiedad' %>"
+                                 onerror="this.src='/images/products/budapest.jpg'">
+                        <% } else { %>
+                            <img src="/images/products/budapest.jpg" alt="Imagen por defecto">
+                        <% } %>
                     </div>
-                    <div class="thumbnail-container">
-                        <div class="thumbnail active">
-                            <img src="<%= product.foto || '/images/default-property.jpg' %>" alt="<%= product.direccion %>">
-                        </div>
-                        <div class="thumbnail">
-                            <img src="<%= product.foto || '/images/default-property.jpg' %>" alt="<%= product.direccion %>">
-                        </div>
-                        <div class="thumbnail">
-                            <img src="<%= product.foto || '/images/default-property.jpg' %>" alt="<%= product.direccion %>">
-                        </div>
+                    
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.8459958104368!2d-58.37478391114504!3d-34.60805559999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a3352cbe276f75%3A0xe16921ef0545f86d!2sCasa%20Rosada!5e0!3m2!1ses!2sar!4v1744751001317!5m2!1ses!2sar" 
+                            width="100%" 
+                            height="450" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
                 </div>
 
@@ -37,19 +44,19 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <i class="fas fa-bed"></i>
-                                <span><%= product.ambientes %> Ambientes</span>
+                                <span><%= product.ambientes || '0' %> Ambientes</span>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-ruler-combined"></i>
-                                <span><%= product.m2 %> m²</span>
+                                <span><%= product.m2 || '0' %> m²</span>
                             </div>
                             <div class="info-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span><%= product.barrio %></span>
+                                <i class="fas fa-door-open"></i>
+                                <span><%= product.dormitorios || '0' %> Dormitorios</span>
                             </div>
                             <div class="info-item">
-                                <i class="fas fa-map"></i>
-                                <span><%= product.zona %></span>
+                                <i class="fas fa-bath"></i>
+                                <span><%= product.banos || '0' %> Baños</span>
                             </div>
                         </div>
                     </div>
@@ -57,41 +64,47 @@
                     <div class="info-section">
                         <h2>Ubicación</h2>
                         <div class="location-info">
-                            <p><strong>Dirección:</strong> <%= product.direccion %></p>
-                            <p><strong>Barrio:</strong> <%= product.barrio %></p>
-                            <p><strong>Zona:</strong> <%= product.zona %></p>
-                            
-                            <% if (product.mapsUrl) { %>
-                                <div class="map-container">
-                                    <iframe 
-                                        src="<%= product.mapsUrl %>" 
-                                        width="100%" 
-                                        height="300" 
-                                        style="border:0;" 
-                                        allowfullscreen="" 
-                                        loading="lazy">
-                                    </iframe>
-                                </div>
+                            <% if (product.direccion) { %>
+                                <p><strong>Dirección:</strong> <%= product.direccion.calle %> <%= product.direccion.numero %>
+                                    <% if (product.direccion.piso) { %>, Piso <%= product.direccion.piso %><% } %>
+                                    <% if (product.direccion.departamento) { %>, Depto <%= product.direccion.departamento %><% } %>
+                                </p>
+                                <p><strong>Ciudad:</strong> <%= product.direccion.ciudad %>, <%= product.direccion.provincia %></p>
+                            <% } %>
+                            <% if (product.barrio) { %>
+                                <p><strong>Barrio:</strong> <%= product.barrio.nombre %></p>
                             <% } %>
                         </div>
                     </div>
 
                     <div class="info-section">
+                        <h2>Descripción</h2>
+                        <div class="description">
+                            <p><%= product.descripcion || 'Sin descripción disponible' %></p>
+                        </div>
+                    </div>
+
+                    <% if (product.agente) { %>
+                    <div class="info-section">
                         <h2>Información de Contacto</h2>
                         <div class="contact-info">
-                            <% if (product.agente) { %>
-                                <div class="agent-info">
-                                    <div class="agent-avatar">
-                                        <img src="<%= product.agente.imagen || '/images/default-user.jpg' %>" alt="<%= product.agente.nombre %>">
-                                    </div>
-                                    <div class="agent-details">
-                                        <h3><%= product.agente.nombre %> <%= product.agente.apellido %></h3>
-                                        <p>Agente Inmobiliario</p>
-                                        <p><i class="fas fa-phone"></i> <%= product.agente.telefono %></p>
-                                        <p><i class="fas fa-envelope"></i> <%= product.agente.email %></p>
-                                    </div>
+                            <div class="agent-info">
+                                <div class="agent-avatar">
+                                    <% if (product.agente.imagen) { %>
+                                        <img src="<%= product.agente.imagen.startsWith('/') ? product.agente.imagen : '/' + product.agente.imagen %>" 
+                                             alt="<%= product.agente.nombre %>"
+                                             onerror="this.src='/images/products/budapest.jpg'">
+                                    <% } else { %>
+                                        <img src="/images/products/budapest.jpg" alt="Imagen por defecto">
+                                    <% } %>
                                 </div>
-                            <% } %>
+                                <div class="agent-details">
+                                    <h3><%= product.agente.nombre %> <%= product.agente.apellido %></h3>
+                                    <p>Agente Inmobiliario</p>
+                                    <p><i class="fas fa-phone"></i> <%= product.agente.telefono %></p>
+                                    <p><i class="fas fa-envelope"></i> <%= product.agente.email %></p>
+                                </div>
+                            </div>
                             
                             <div class="contact-actions">
                                 <button class="btn-contact"><i class="fas fa-phone"></i> Llamar</button>
@@ -100,6 +113,7 @@
                             </div>
                         </div>
                     </div>
+                    <% } %>
                 </div>
             </div>
         <% } else { %>
@@ -112,269 +126,46 @@
     </div>
 </main>
 
-<style>
-    .product-detail-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-    
-    .product-detail-wrapper {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-    }
-    
-    .product-detail-header {
-        padding: 20px;
-        border-bottom: 1px solid #eee;
-    }
-    
-    .product-title {
-        font-size: 28px;
-        margin-bottom: 10px;
-        color: #333;
-    }
-    
-    .product-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .product-type {
-        background-color: #e9f7fe;
-        color: #007bff;
-        padding: 5px 10px;
-        border-radius: 4px;
-        font-weight: 500;
-    }
-    
-    .product-price {
-        font-size: 24px;
-        font-weight: 700;
-        color: #28a745;
-    }
-    
-    .product-detail-content {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-        padding: 20px;
-    }
-    
-    .product-gallery {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .main-image {
-        width: 100%;
-        height: 400px;
-        overflow: hidden;
-        border-radius: 8px;
-    }
-    
-    .main-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .thumbnail-container {
-        display: flex;
-        gap: 10px;
-    }
-    
-    .thumbnail {
-        width: 80px;
-        height: 80px;
-        border-radius: 4px;
-        overflow: hidden;
-        cursor: pointer;
-        opacity: 0.7;
-        transition: opacity 0.3s;
-    }
-    
-    .thumbnail.active {
-        opacity: 1;
-        border: 2px solid #007bff;
-    }
-    
-    .thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .product-info {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-    }
-    
-    .info-section {
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 20px;
-    }
-    
-    .info-section h2 {
-        font-size: 20px;
-        margin-bottom: 15px;
-        color: #333;
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 10px;
-    }
-    
-    .info-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-    
-    .info-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .info-item i {
-        color: #007bff;
-        font-size: 18px;
-    }
-    
-    .location-info p {
-        margin-bottom: 10px;
-    }
-    
-    .map-container {
-        margin-top: 15px;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-    
-    .agent-info {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-    
-    .agent-avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        overflow: hidden;
-    }
-    
-    .agent-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .agent-details h3 {
-        font-size: 18px;
-        margin-bottom: 5px;
-    }
-    
-    .agent-details p {
-        margin-bottom: 5px;
-        color: #666;
-    }
-    
-    .agent-details i {
-        color: #007bff;
-        margin-right: 5px;
-    }
-    
-    .contact-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .btn-contact {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        padding: 12px;
-        border: none;
-        border-radius: 4px;
-        background-color: #007bff;
-        color: white;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    
-    .btn-contact:hover {
-        background-color: #0056b3;
-    }
-    
-    .error-message {
-        text-align: center;
-        padding: 50px 20px;
-    }
-    
-    .error-message h2 {
-        font-size: 24px;
-        margin-bottom: 15px;
-        color: #dc3545;
-    }
-    
-    .error-message p {
-        margin-bottom: 20px;
-        color: #666;
-    }
-    
-    .btn-primary {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-    }
-    
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
-    
-    @media (max-width: 768px) {
-        .product-detail-content {
-            grid-template-columns: 1fr;
-        }
-        
-        .main-image {
-            height: 300px;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Cambiar imagen principal al hacer clic en las miniaturas
-        const thumbnails = document.querySelectorAll('.thumbnail');
-        const mainImage = document.querySelector('.main-image img');
-        
-        thumbnails.forEach(thumbnail => {
-            thumbnail.addEventListener('click', function() {
-                // Actualizar imagen principal
-                const imgSrc = this.querySelector('img').src;
-                mainImage.src = imgSrc;
-                
-                // Actualizar clase activa
-                thumbnails.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    });
-</script>
+<% if (propiedadesSimilares && propiedadesSimilares.length > 0) { %>
+<div class="similar-properties">
+    <h2>Propiedades Similares</h2>
+    <div class="properties-grid">
+        <% propiedadesSimilares.forEach(propiedad => { %>
+            <div class="property-card">
+                <div class="property-image">
+                    <% if (propiedad.imagen) { %>
+                        <img src="<%= propiedad.imagen.startsWith('/') ? propiedad.imagen : '/' + propiedad.imagen %>" 
+                             alt="<%= propiedad.titulo || 'Propiedad' %>"
+                             onerror="this.src='/images/products/budapest.jpg'">
+                    <% } else { %>
+                        <img src="/images/products/budapest.jpg" alt="Imagen por defecto">
+                    <% } %>
+                    <span class="property-tag"><%= propiedad.tipo %></span>
+                </div>
+                <div class="property-info">
+                    <h3><%= propiedad.titulo || 'Propiedad sin título' %></h3>
+                    <p class="location">
+                        <% if (propiedad.barrio && propiedad.barrio.nombre) { %>
+                            <%= propiedad.barrio.nombre %>
+                        <% } %>
+                        <% if (propiedad.direccion && propiedad.direccion.ciudad) { %>
+                            - <%= propiedad.direccion.ciudad %>
+                        <% } %>
+                    </p>
+                    <div class="property-details">
+                        <span class="price">$<%= propiedad.precio ? propiedad.precio.toLocaleString() : '0' %> <%= propiedad.moneda || 'USD' %></span>
+                        <div class="property-specs">
+                            <span><i class="fas fa-bed"></i> <%= propiedad.ambientes || '0' %></span>
+                            <span><i class="fas fa-ruler-combined"></i> <%= propiedad.m2 || '0' %>m²</span>
+                        </div>
+                        <a href="/inmuebles/products/<%= propiedad.id %>" class="view-details">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+<% } %>
 
 <%-include('../partials/footer.ejs')%>
 

@@ -3,11 +3,11 @@
 <%-include('../partials/header.ejs')%>
 
 <main>
-    <div class="login-container">
-        <form class="login-form" action="/users/profile" method="POST" enctype="multipart/form-data">
+    <div class="profile-container">
+        <form class="profile-form" action="/users/profile" method="POST" enctype="multipart/form-data">
             <p class="heading">Mi Perfil</p>
             <div class="profile-image">
-                <img src="<%= user.imagen %>" alt="Foto de perfil">
+                <img src="<%= user.imagen || '/images/imageDefault.png' %>" alt="Foto de perfil">
             </div>
             <p class="paragraph">Edita tu perfil</p>
 
@@ -62,7 +62,6 @@
                     placeholder="Teléfono"
                     name="telefono"
                     id="telefono"
-                    type="number"
                     value="<%= user.telefono %>"
                 />
             </div>
@@ -88,12 +87,12 @@
             </div>
 
             <div class="input-group">
-                <label for="image">Cambiar foto de perfil</label>
+                <label for="imagen">Cambiar foto de perfil</label>
                 <input
                     type="file"
-                    name="image"
-                    id="image"
-                    accept="image/*"
+                    name="imagen"
+                    id="imagen"
+                    accept="image/jpeg,image/jpg,image/png,image/gif"
                 />
             </div>
 
@@ -102,6 +101,17 @@
                 <button type="button" class="delete-btn" onclick="confirmDelete()">Eliminar Cuenta</button>
             </div>
         </form>
+
+        <% if (user.tipo === 'admin') { %>
+            <div class="admin-panel">
+                <h2>Panel de Administración</h2>
+                <p>Como administrador, tienes acceso a funciones especiales para gestionar el sitio.</p>
+                <div class="admin-buttons">
+                    <a href="/admin" class="admin-btn">Gestionar Productos</a>
+                    <a href="/admin/add" class="admin-btn">Agregar Nuevo Producto</a>
+                </div>
+            </div>
+        <% } %>
     </div>
 </main>
 
@@ -132,43 +142,183 @@
 </script>
 
 <style>
-    .button-group {
-        display: flex;
-        gap: 10px;
-        margin-top: 20px;
-    }
+.profile-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+}
 
-    .delete-btn {
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
+.profile-form {
+    background-color: var(--bg-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .delete-btn:hover {
-        background-color: #c82333;
-    }
+.heading {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
 
-    .error-container {
-        background-color: #f8d7da;
-        border: 1px solid #f5c6cb;
-        border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 20px;
-    }
+.paragraph {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
 
-    .error-msg {
-        color: #721c24;
-        margin: 5px 0;
-    }
+.profile-image {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-image img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+.input-group input[type="file"] {
+    padding: 8px;
+    background-color: transparent;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.error-container {
+    background-color: var(--danger-bg);
+    border: 1px solid var(--danger-border);
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.error-msg {
+    color: var(--danger-color);
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    flex: 1;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.delete-btn {
+    flex: 1;
+    padding: 12px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Estilos para el panel de administración */
+.admin-panel {
+    margin-top: 30px;
+    background-color: var(--bg-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #ffc107;
+}
+
+.admin-panel h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.admin-panel p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.admin-btn {
+    flex: 1;
+    padding: 12px;
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+    text-decoration: none;
+}
+
+.admin-btn:hover {
+    background-color: #e0a800;
+}
 </style>
-    <!-- Scripts -->
-    <script src="/javascripts/home.js"></script>
-    <script>
-        // Agregar evento de cambio al checkbox
-        document.getElementById("input").addEventListener("change", changeTheme);
-    </script>
+
+<!-- Scripts -->
+<script src="/javascripts/home.js"></script>
+<script>
+    // Agregar evento de cambio al checkbox
+    document.getElementById("input").addEventListener("change", changeTheme);
+</script>
 </html>

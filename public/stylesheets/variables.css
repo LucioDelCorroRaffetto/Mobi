@@ -1,0 +1,68 @@
+:root {
+    /* Colores principales */
+    --primary-color: #4a90e2;
+    --secondary-color: #5c6ac4;
+    --accent-color: #ff6b6b;
+    
+    /* Colores de fondo */
+    --background-primary: #ffffff;
+    --background-secondary: #f5f7fa;
+    --background-tertiary: #eef2f7;
+    
+    /* Colores de texto */
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --text-tertiary: #718096;
+    
+    /* Colores de botones */
+    --button-primary: #4a90e2;
+    --button-secondary: #5c6ac4;
+    --button-hover: #357abd;
+    
+    /* Colores de bordes */
+    --border-color: #e2e8f0;
+    
+    /* Colores de estado */
+    --success-color: #48bb78;
+    --error-color: #f56565;
+    --warning-color: #ed8936;
+    --info-color: #4299e1;
+    
+    /* Colores de sombras */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Modo oscuro */
+.darkMode {
+    /* Colores principales */
+    --primary-color: #60a5fa;
+    --secondary-color: #818cf8;
+    --accent-color: #f87171;
+    
+    /* Colores de fondo */
+    --background-primary: #1a202c;
+    --background-secondary: #2d3748;
+    --background-tertiary: #4a5568;
+    
+    /* Colores de texto */
+    --text-primary: #f7fafc;
+    --text-secondary: #e2e8f0;
+    --text-tertiary: #cbd5e0;
+    
+    /* Colores de botones */
+    --button-primary: #60a5fa;
+    --button-secondary: #818cf8;
+    --button-hover: #4299e1;
+    
+    /* Colores de bordes */
+    --border-color: #4a5568;
+    
+    /* Colores de estado */
+    --success-color: #68d391;
+    --error-color: #fc8181;
+    --warning-color: #f6ad55;
+    --info-color: #63b3ed;
+    
+    /* Colores de sombras */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+} 

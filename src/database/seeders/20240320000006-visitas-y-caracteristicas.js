@@ -19,9 +19,7 @@ module.exports = {
             cliente_id: 3,
             agente_id: 2,
             fecha_hora: new Date('2024-04-01 10:00:00'),
-            estado: 'pendiente',
-            created_at: new Date(),
-            updated_at: new Date()
+            estado: 'pendiente'
           }
         ],
         {}
@@ -34,16 +32,12 @@ module.exports = {
           {
             propiedad_id: 1,
             caracteristica_id: 1,
-            valor: 'Split',
-            created_at: new Date(),
-            updated_at: new Date()
+            valor: 'Split'
           },
           {
             propiedad_id: 1,
             caracteristica_id: 2,
-            valor: 'Central',
-            created_at: new Date(),
-            updated_at: new Date()
+            valor: 'Central'
           }
         ],
         {}

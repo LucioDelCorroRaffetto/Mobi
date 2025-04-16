@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Courgette&family=Noto+Serif+Vithkuqi:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Chonburi&display=swap");
+@import url("variables.css");
 
 .carrousel {
   overflow-x: hidden;
@@ -233,4 +234,188 @@ a{
   color: var(--var-white);
   font-family: "Poppins", sans-serif;
   text-decoration: none;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-slide {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.carousel-button:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+
+@media screen and (max-width: 767px) {
+    .carousel-container {
+        border-radius: 8px;
+    }
+
+    .carousel-slide img {
+        height: 250px;
+    }
+
+    .carousel-button {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+.carousel-item {
+    background-color: var(--background-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.carousel-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.carousel-item-title {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.carousel-item-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.carousel-button {
+    background-color: var(--button-primary);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-button:hover {
+    background-color: var(--button-hover);
+}
+
+.carousel-button:disabled {
+    background-color: var(--background-tertiary);
+    color: var(--text-tertiary);
+    cursor: not-allowed;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--background-tertiary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+    background-color: var(--primary-color);
+}
+
+/* Modo oscuro */
+.darkMode .carousel-container {
+    background-color: var(--background-secondary);
+}
+
+.darkMode .carousel-track {
+    background-color: var(--background-tertiary);
+    border-color: var(--border-color);
+}
+
+.darkMode .carousel-item {
+    background-color: var(--background-secondary);
+    border-color: var(--border-color);
+}
+
+.darkMode .carousel-item:hover {
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.darkMode .carousel-item-title {
+    color: var(--text-primary);
+}
+
+.darkMode .carousel-item-description {
+    color: var(--text-secondary);
+}
+
+.darkMode .carousel-button {
+    background-color: var(--button-primary);
+    color: var(--text-primary);
+}
+
+.darkMode .carousel-button:hover {
+    background-color: var(--button-hover);
+}
+
+.darkMode .carousel-button:disabled {
+    background-color: var(--background-tertiary);
+    color: var(--text-tertiary);
+}
+
+.darkMode .carousel-dot {
+    background-color: var(--background-tertiary);
+}
+
+.darkMode .carousel-dot.active {
+    background-color: var(--primary-color);
 }

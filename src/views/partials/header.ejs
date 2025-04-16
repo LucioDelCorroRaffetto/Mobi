@@ -2,8 +2,11 @@
 <header>
     <nav>
         <div class="logo">
-            <img src="/images/logo.png" alt="Logo del sitio">
+            <a href="/">
+                <img src="/images/logo.png" alt="Logo del sitio">
+            </a>
         </div>
+        
         <input type="checkbox" name="checkbox" id="menu-toggle">
         <label for="menu-toggle" class="menu-icon-action">
             <svg class="ham hamRotate ham1" viewBox="0 0 100 100" width="80"
@@ -15,37 +18,24 @@
                     d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
             </svg>
         </label>
-        <ul class="navlist">
-            <li>
-                <a href="../../home" id="inicio">Inicio</a>
-            </li>
-            <li>
-                <a href="#content-section" data-target="#content-section">Servicios</a>
-            </li>
-            <li>
-                <a href="../../inmuebles/products">Productos</a>
-            </li>
-            <li>
-                <a href="../../carts">Carrito</a>
-            </li>
-            <li>
-                <a href="#resources" data-target="#resources">Blog</a>
-            </li>
-            <li>
-                <a href="#carrousel" data-target="#carrousel">Carrousel</a>
-            </li>
-            <li>
-                <a href="#emailInput" data-target="#emailInput">Contacto</a>
-            </li>
-        </ul>
+
+        <div class="nav-links">
+            <a href="../../home" class="nav-link">Inicio</a>
+            <a href="#content-section" class="nav-link" data-target="#content-section">Servicios</a>
+            <a href="../../inmuebles/products" class="nav-link">Productos</a>
+            <a href="../../carts" class="nav-link">Carrito</a>
+            <a href="#resources" class="nav-link" data-target="#resources">Blog</a>
+            <a href="#carrousel" class="nav-link" data-target="#carrousel">Carrousel</a>
+            <a href="#emailInput" class="nav-link" data-target="#emailInput">Contacto</a>
+        </div>
         
-        <div class="forms">
+        <div class="auth-links">
             <% if (locals.user) { %>
-                    <button id="profile"><a href="/users/profile">Mi Perfil</a></button>
-                    <button id="logout"><a href="/users/logout">Cerrar Sesión</a></button>
+                <a href="/users/profile" class="nav-link primary">Mi Perfil</a>
+                <a href="/users/logout" class="nav-link secondary">Cerrar Sesión</a>
             <% } else { %>
-                <button id="login"><a href="/users/login">Inicia Sesión</a></button>
-                <button id="register"><a href="/users/register">Registrarse</a></button>
+                <a href="/users/login" class="nav-link primary">Inicia Sesión</a>
+                <a href="/users/register" class="nav-link secondary">Registrarse</a>
             <% } %>
         </div>
     </nav>

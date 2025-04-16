@@ -23,22 +23,27 @@
                     <div class="property-card" data-tipo="<%= propiedad.tipo %>">
                         <div class="property-image">
                             <% if (propiedad.foto) { %>
-                                <img src="<%= propiedad.foto %>" alt="<%= propiedad.direccion.calle %>">
+                                <img src="<%= propiedad.foto %>" alt="<%= propiedad.titulo || 'Propiedad' %>" onerror="this.src='/images/products/budapest.jpg'">
                             <% } else { %>
                                 <img src="/images/products/budapest.jpg" alt="Imagen por defecto">
                             <% } %>
                             <span class="property-tag"><%= propiedad.tipo %></span>
                         </div>
                         <div class="property-info">
-                            <h3><%= propiedad.direccion.calle %> <%= propiedad.direccion.numero %></h3>
+                            <h3><%= propiedad.titulo || 'Propiedad sin título' %></h3>
                             <p class="location">
-                                <%= propiedad.barrio.nombre %> - <%= propiedad.direccion.ciudad %>
+                                <% if (propiedad.barrio && propiedad.barrio.nombre) { %>
+                                    <%= propiedad.barrio.nombre %>
+                                <% } %>
+                                <% if (propiedad.direccion && propiedad.direccion.ciudad) { %>
+                                    - <%= propiedad.direccion.ciudad %>
+                                <% } %>
                             </p>
                             <div class="property-details">
-                                <span class="price">$<%= propiedad.precio.toLocaleString() %></span>
+                                <span class="price">$<%= propiedad.precio ? propiedad.precio.toLocaleString() : '0' %> <%= propiedad.moneda || 'USD' %></span>
                                 <div class="property-specs">
-                                    <span><i class="fas fa-bed"></i> <%= propiedad.ambientes %></span>
-                                    <span><i class="fas fa-ruler-combined"></i> <%= propiedad.m2 %>m²</span>
+                                    <span><i class="fas fa-bed"></i> <%= propiedad.ambientes || '0' %></span>
+                                    <span><i class="fas fa-ruler-combined"></i> <%= propiedad.m2 || '0' %>m²</span>
                                 </div>
                                 <a href="/inmuebles/products/<%= propiedad.id %>" class="view-details">Ver Detalles</a>
                             </div>

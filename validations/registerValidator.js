@@ -13,6 +13,14 @@ module.exports = [
     body('password').notEmpty().withMessage('El campo no puede estar vacio').bail()
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,20}$/).withMessage("No cumple con los requisitos, debe contener una mayuscula, minuscula, un valor numerico y un caracter especial. La longitud debe ser entre 8 y 20 caracteres").bail(),
 
+    body('confirmPassword').notEmpty().withMessage('El campo no puede estar vacio').bail()
+    .custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error('Las contraseñas no coinciden');
+        }
+        return true;
+    }).bail(),
+
     body('email').notEmpty().withMessage('El campo no puede estar vacio').bail()
     .isEmail().withMessage('El campo debe ser un email').bail()
     .custom(async (value) => {
@@ -27,7 +35,7 @@ module.exports = [
         return true;
     }).bail(),
 
-    body('image')
+    body('imagen')
     .custom((value, { req }) => {
         if (!req.file) return true;
         

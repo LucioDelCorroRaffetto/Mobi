@@ -9,37 +9,27 @@ module.exports = {
         {
           nombre: 'Aire acondicionado',
           categoria: 'comodidades',
-          icono: 'ac_unit',
-          created_at: new Date(),
-          updated_at: new Date()
+          icono: 'ac_unit'
         },
         {
           nombre: 'Calefacción',
           categoria: 'comodidades',
-          icono: 'heating',
-          created_at: new Date(),
-          updated_at: new Date()
+          icono: 'heating'
         },
         {
           nombre: 'Seguridad 24hs',
           categoria: 'seguridad',
-          icono: 'security',
-          created_at: new Date(),
-          updated_at: new Date()
+          icono: 'security'
         },
         {
           nombre: 'Piscina',
           categoria: 'comodidades',
-          icono: 'pool',
-          created_at: new Date(),
-          updated_at: new Date()
+          icono: 'pool'
         },
         {
           nombre: 'Gas natural',
           categoria: 'servicios',
-          icono: 'gas',
-          created_at: new Date(),
-          updated_at: new Date()
+          icono: 'gas'
         }
       ],
       {}

@@ -51,25 +51,32 @@ const usersControllers = {
 
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       
-      await Usuario.create({
+      const userData = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         email: req.body.email,
         password: hashedPassword,
-        telefono: req.body.telefono,
-        tipo: req.body.tipo || 'cliente',
-        imagen: req.file ? `/images/users/${req.file.filename}` : 'default-user.jpg',
+        tipo: 'cliente',
         fecha_registro: new Date(),
         activo: true
-      });
+      };
+
+      // Agregar imagen solo si se subió una
+      if (req.file) {
+        userData.imagen = `/images/users/${req.file.filename}`;
+      } else {
+        userData.imagen = '/images/imageDefault.png';
+      }
+
+      await Usuario.create(userData);
 
       res.redirect("/users/login");
     } catch (error) {
       console.error('Error en processRegister:', error);
-      res.status(500).render("users/register", {
+      res.render("users/register", {
         errores: {
           server: {
-            msg: "Error al procesar el registro: " + error.message
+            msg: "Error al procesar el registro. Por favor, intente nuevamente."
           }
         },
         oldData: req.body,

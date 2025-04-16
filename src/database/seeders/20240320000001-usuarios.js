@@ -16,11 +16,11 @@ module.exports = {
 
         // Luego insertamos los nuevos usuarios
         await queryInterface.sequelize.query(
-          `INSERT INTO usuarios (nombre, apellido, email, password, tipo, fecha_registro, activo, telefono, created_at, updated_at) VALUES 
-          ('Admin', 'Sistema', 'admin3@mobi.com', ?, 'admin', NOW(), true, '1234567890', NOW(), NOW()),
-          ('Agente', 'Ventas', 'agente3@mobi.com', ?, 'agente', NOW(), true, '1234567890', NOW(), NOW()),
-          ('Cliente', 'Demo', 'cliente3@mobi.com', ?, 'cliente', NOW(), true, '1234567890', NOW(), NOW()),
-          ('Juan', 'Propietario', 'propietario@ejemplo.com', ?, 'cliente', NOW(), true, '1234567890', NOW(), NOW())`,
+          `INSERT INTO usuarios (nombre, apellido, email, password, tipo, fecha_registro, activo, telefono) VALUES 
+          ('Admin', 'Sistema', 'admin3@mobi.com', ?, 'admin', NOW(), true, '1234567890'),
+          ('Agente', 'Ventas', 'agente3@mobi.com', ?, 'agente', NOW(), true, '1234567890'),
+          ('Cliente', 'Demo', 'cliente3@mobi.com', ?, 'cliente', NOW(), true, '1234567890'),
+          ('Juan', 'Propietario', 'propietario@ejemplo.com', ?, 'cliente', NOW(), true, '1234567890')`,
           {
             replacements: [hashedPassword, hashedPassword, hashedPassword, hashedPassword],
             type: Sequelize.QueryTypes.INSERT,

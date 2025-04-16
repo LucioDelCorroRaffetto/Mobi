@@ -87,7 +87,7 @@ const adminController = {
         ambientes: parseInt(req.body.ambientes) || 0,
         precio: parseFloat(req.body.precio) || 0,
         m2: parseInt(req.body.m2) || 0,
-        imagen: req.file ? `/images/products/${req.file.filename}` : 'default-property.jpg',
+        imagen: req.file ? `/images/products/${req.file.filename}` : '/images/imageDefault.png',
         maps_url: req.body.maps_url,
         propietario_id: req.body.propietario_id,
         agente_id: req.body.agente_id,

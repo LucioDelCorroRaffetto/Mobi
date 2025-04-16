@@ -1,3 +1,5 @@
+@import url("variables.css");
+
 /* Variables de colores */
 body {
     background-color: var(--var-background-color-light);
@@ -63,4 +65,94 @@ body.darkMode .cart-summary {
 
 body.darkMode footer {
     background-color: var(--var-footer-color-dark);
+}
+
+.product-cart {
+    background-color: var(--background-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.product-cart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.product-cart-image {
+    background-color: var(--background-secondary);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.product-cart-title {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.product-cart-price {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.product-cart-quantity {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.product-cart-remove {
+    background-color: var(--error-color);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.product-cart-remove:hover {
+    background-color: var(--error-color);
+    opacity: 0.9;
+}
+
+/* Modo oscuro */
+.darkMode .product-cart {
+    background-color: var(--background-secondary);
+    border-color: var(--border-color);
+}
+
+.darkMode .product-cart:hover {
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.darkMode .product-cart-image {
+    background-color: var(--background-tertiary);
+}
+
+.darkMode .product-cart-title {
+    color: var(--text-primary);
+}
+
+.darkMode .product-cart-price {
+    color: var(--primary-color);
+}
+
+.darkMode .product-cart-quantity {
+    color: var(--text-secondary);
+}
+
+.darkMode .product-cart-remove {
+    background-color: var(--error-color);
+    color: var(--text-primary);
+}
+
+.darkMode .product-cart-remove:hover {
+    background-color: var(--error-color);
+    opacity: 0.9;
 }

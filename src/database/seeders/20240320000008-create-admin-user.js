@@ -17,9 +17,7 @@ module.exports = {
           telefono: '1234567890',
           tipo: 'admin',
           fecha_registro: new Date(),
-          activo: true,
-          created_at: new Date(),
-          updated_at: new Date()
+          activo: true
         }
       ],
       {}

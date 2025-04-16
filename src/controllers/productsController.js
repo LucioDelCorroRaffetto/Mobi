@@ -16,91 +16,78 @@ const productsController = {
       const page = parseInt(req.query.page) || 1;
       const limit = 12;
 
-      console.log('Buscando productos...');
+      console.log('Iniciando búsqueda de productos...');
+      console.log('Parámetros de búsqueda:', { page, limit });
+
       const { count, rows: propiedades } = await Propiedad.findAndCountAll({
         include: [
           { 
             model: Direccion, 
             as: "direccion",
+            required: false,
             attributes: ['calle', 'numero', 'piso', 'departamento', 'codigo_postal', 'ciudad', 'provincia', 'pais']
           },
           { 
             model: Barrio, 
             as: "barrio",
+            required: false,
             attributes: ['nombre']
           },
           { 
             model: Usuario, 
             as: "agente",
+            required: false,
             attributes: ['nombre', 'apellido', 'email', 'telefono']
           },
         ],
         where: {
-          estado: "disponible",
-          deleted_at: null,
+          estado: "disponible"
         },
         limit,
         offset: (page - 1) * limit,
-        order: [["created_at", "DESC"]],
+        order: [["createdAt", "DESC"]],
+        paranoid: false
       });
 
       console.log(`Se encontraron ${count} productos`);
-      console.log('Primera propiedad:', propiedades[0]);
+      if (propiedades.length > 0) {
+        console.log('Primera propiedad:', JSON.stringify(propiedades[0].get({ plain: true }), null, 2));
+      } else {
+        console.log('No se encontraron propiedades');
+      }
 
       const propiedadesConImagen = propiedades.map((propiedad) => {
         const propiedadJSON = propiedad.get({ plain: true });
+        let imagenPath = propiedadJSON.imagen || "/images/imageDefault.png";
+        
+        // Asegurarse de que la ruta de la imagen comience con /
+        if (!imagenPath.startsWith('/')) {
+          imagenPath = `/${imagenPath}`;
+        }
+        
+        // Si la imagen no existe o es la imagen por defecto, usar una imagen específica
+        if (imagenPath === '/images/imageDefault.png') {
+          imagenPath = '/images/products/budapest.jpg';
+        }
+        
+        // Asegurarse de que la propiedad tenga todos los campos necesarios
         return {
-          id: propiedadJSON.id,
-          tipo: propiedadJSON.tipo || 'casa',
+          ...propiedadJSON,
+          foto: imagenPath,
+          titulo: propiedadJSON.titulo || 'Propiedad sin título',
           precio: propiedadJSON.precio || 0,
+          moneda: propiedadJSON.moneda || 'USD',
           ambientes: propiedadJSON.ambientes || 0,
           m2: propiedadJSON.m2 || 0,
-          dormitorios: propiedadJSON.dormitorios || 0,
-          baños: propiedadJSON.baños || 0,
-          orientacion: propiedadJSON.orientacion || '',
-          titulo: propiedadJSON.titulo || '',
-          descripcion: propiedadJSON.descripcion || '',
-          estado: propiedadJSON.estado || 'disponible',
-          moneda: propiedadJSON.moneda || 'USD',
-          maps_url: propiedadJSON.maps_url || '',
-          direccion: {
-            calle: propiedadJSON.direccion?.calle || '',
-            numero: propiedadJSON.direccion?.numero || '',
-            piso: propiedadJSON.direccion?.piso || '',
-            departamento: propiedadJSON.direccion?.departamento || '',
-            codigo_postal: propiedadJSON.direccion?.codigo_postal || '',
-            ciudad: propiedadJSON.direccion?.ciudad || '',
-            provincia: propiedadJSON.direccion?.provincia || '',
-            pais: propiedadJSON.direccion?.pais || ''
-          },
-          barrio: {
-            id: propiedadJSON.barrio?.id || 0,
-            nombre: propiedadJSON.barrio?.nombre || 'Sin especificar'
-          },
-          agente: {
-            id: propiedadJSON.agente?.id || 0,
-            nombre: propiedadJSON.agente?.nombre || '',
-            apellido: propiedadJSON.agente?.apellido || '',
-            email: propiedadJSON.agente?.email || '',
-            telefono: propiedadJSON.agente?.telefono || ''
-          },
-          foto: propiedadJSON.imagen ? (propiedadJSON.imagen.startsWith('/') ? propiedadJSON.imagen : `/images/products/${propiedadJSON.imagen}`) : "/images/products/budapest.jpg"
+          tipo: propiedadJSON.tipo || 'venta',
+          barrio: propiedadJSON.barrio || { nombre: 'Sin barrio' },
+          direccion: propiedadJSON.direccion || { ciudad: 'Sin ciudad' }
         };
       });
 
       console.log('Propiedades procesadas:', JSON.stringify(propiedadesConImagen, null, 2));
 
       const totalPages = Math.ceil(count / limit);
-
-      console.log('Enviando a la vista:', {
-        title: "Propiedades",
-        resultadoInmueble: propiedadesConImagen,
-        currentPage: page,
-        totalPages,
-        hasNextPage: page < totalPages,
-        hasPreviousPage: page > 1,
-        noResults: count === 0,
-      });
 
       res.render("products/products", {
         title: "Propiedades",
@@ -203,6 +190,7 @@ const productsController = {
             password: hashedPassword,
             telefono: "1155667788",
             tipo: "cliente",
+            imagen: "/images/imageDefault.png",
             activo: true,
             fecha_registro: new Date()
           });
@@ -213,6 +201,38 @@ const productsController = {
       } catch (error) {
         console.error("Error al buscar/crear propietarios:", error);
         console.error("Stack trace:", error.stack);
+        
+        // Si hay un error, crear un propietario de respaldo
+        try {
+          console.log('Intentando crear un propietario de respaldo...');
+          const hashedPassword = await bcrypt.hash('123456', 10);
+          
+          const nuevoPropietario = await Usuario.create({
+            nombre: "Juan",
+            apellido: "Pérez",
+            email: "juan.perez@ejemplo.com",
+            password: hashedPassword,
+            telefono: "1155667788",
+            tipo: "cliente",
+            imagen: "/images/imageDefault.png",
+            activo: true,
+            fecha_registro: new Date()
+          });
+          
+          console.log('Propietario de respaldo creado:', nuevoPropietario.toJSON());
+          propietarios = [nuevoPropietario.toJSON()];
+        } catch (createError) {
+          console.error("Error al crear propietario de respaldo:", createError);
+          // Si no se puede crear, usar un propietario ficticio
+          propietarios = [{
+            id: 1,
+            nombre: "Juan",
+            apellido: "Pérez",
+            email: "juan.perez@ejemplo.com",
+            telefono: "1155667788",
+            tipo: "cliente"
+          }];
+        }
       }
 
       console.log(`Enviando datos a la vista con ${propietarios.length} propietarios`);
@@ -241,7 +261,7 @@ const productsController = {
       console.log('=== Iniciando creación de propiedad ===');
       console.log('Body recibido:', JSON.stringify(req.body, null, 2));
       console.log('Archivo recibido:', req.file);
-      console.log('Usuario en sesión:', req.session.userEmail);
+      console.log('Usuario en sesión:', req.session.user);
 
       // Validar errores de express-validator
       const errors = validationResult(req);
@@ -266,14 +286,14 @@ const productsController = {
       }
 
       // Validar la sesión del usuario
-      if (!req.session.userEmail) {
+      if (!req.session.user) {
         throw new Error('Debe iniciar sesión para crear una propiedad');
       }
 
       // Obtener el usuario logueado
       const usuarioLogueado = await Usuario.findOne({
         where: { 
-          email: req.session.userEmail,
+          id: req.session.user.id,
           activo: true
         }
       });
@@ -324,16 +344,27 @@ const productsController = {
         if (isNaN(propietarioId)) {
           throw new Error('ID de propietario inválido');
         }
+        
+        // Buscar el propietario sin filtrar por tipo
         const propietarioExiste = await Usuario.findOne({
           where: { 
             id: propietarioId,
-            tipo: 'cliente',
             activo: true
           }
         });
+        
         if (!propietarioExiste) {
           throw new Error('El propietario seleccionado no existe o no está activo');
         }
+        
+        // Si el usuario existe pero no es cliente, actualizarlo a cliente
+        if (propietarioExiste.tipo !== 'cliente') {
+          await propietarioExiste.update({ tipo: 'cliente' });
+          console.log(`Usuario ${propietarioExiste.id} actualizado a tipo cliente`);
+        }
+      } else {
+        // Si no se proporciona propietario_id, usar el usuario actual como propietario
+        console.log('No se proporcionó propietario, usando el usuario actual como propietario');
       }
 
       // Validar el tipo de propiedad
@@ -362,7 +393,7 @@ const productsController = {
         categoria_id: parseInt(req.body.categoria_id),
         titulo: req.body.titulo.trim(),
         tipo: req.body.tipo.trim(),
-        propietario_id: req.body.propietario_id ? parseInt(req.body.propietario_id) : null,
+        propietario_id: req.body.propietario_id ? parseInt(req.body.propietario_id) : usuarioLogueado.id,
         agente_id: usuarioLogueado.id,
         dormitorios: parseInt(req.body.dormitorios) || 0,
         banos: parseInt(req.body.banos) || 0,
@@ -370,8 +401,8 @@ const productsController = {
         precio: parseFloat(req.body.precio),
         moneda: req.body.moneda || 'USD',
         m2: parseInt(req.body.m2) || 1,
-        imagen: req.file ? `/images/products/${req.file.filename}` : "/images/products/budapest.jpg",
-        maps_url: req.body.maps_url ? req.body.maps_url.trim() : null,
+        imagen: req.file ? `/images/products/${req.file.filename}` : "/images/imageDefault.png",
+        maps_url: req.body.maps_url && req.body.maps_url.trim() !== '' ? req.body.maps_url.trim() : null,
         estado: req.body.estado || "disponible",
         descripcion: req.body.descripcion ? req.body.descripcion.trim() : null,
         orientacion: req.body.orientacion ? req.body.orientacion.trim() : null
@@ -381,7 +412,7 @@ const productsController = {
       const propiedad = await Propiedad.create(propiedadData);
       console.log('Propiedad creada:', propiedad.toJSON());
 
-      return res.redirect("/inmuebles?message=Propiedad agregada exitosamente");
+      return res.redirect("/inmuebles/products?message=Propiedad agregada exitosamente");
     } catch (error) {
       console.error("=== Error al agregar la propiedad ===");
       console.error("Mensaje:", error.message);
@@ -539,7 +570,7 @@ const productsController = {
         ambientes: parseInt(req.body.ambientes) || 0,
         precio: parseFloat(req.body.precio) || 0,
         m2: parseInt(req.body.m2) || 0,
-        maps_url: req.body.maps_url,
+        maps_url: req.body.maps_url && req.body.maps_url.trim() !== '' ? req.body.maps_url.trim() : null,
         estado: req.body.estado || "disponible",
         descripcion: req.body.descripcion,
       };

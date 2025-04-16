@@ -3,174 +3,196 @@
 <%- include('../partials/header') %>
 
 <div class="container">
-  <h1>Agregar Propiedad</h1>
-  
-  <form action="/inmuebles/products" method="POST" enctype="multipart/form-data" id="propertyForm">
-    <div class="form-section">
-      <h2>Información de la Dirección</h2>
-      <div class="form-group">
-        <label>Calle:</label>
-        <input type="text" name="calle" required>
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Número:</label>
-        <input type="text" name="numero" required>
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Piso:</label>
-        <input type="text" name="piso">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Departamento:</label>
-        <input type="text" name="departamento">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Código Postal:</label>
-        <input type="text" name="codigo_postal">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Ciudad:</label>
-        <input type="text" name="ciudad" required>
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Provincia:</label>
-        <input type="text" name="provincia" required>
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>País:</label>
-        <input type="text" name="pais" value="Argentina">
-        <div class="invalid-feedback"></div>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <h2>Información de la Propiedad</h2>
-      <div class="form-group">
-        <label>Título:</label>
-        <input type="text" name="titulo" required minlength="5">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Tipo:</label>
-        <select name="tipo" required>
-          <option value="">Seleccione un tipo</option>
-          <option value="venta">Venta</option>
-          <option value="alquiler">Alquiler</option>
-        </select>
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Barrio:</label>
-        <select name="barrio_id" required>
-          <option value="">Seleccione un barrio</option>
-          <% barrios.forEach(barrio => { %>
-            <option value="<%= barrio.id %>"><%= barrio.nombre %></option>
-          <% }); %>
-        </select>
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Categoría:</label>
-        <select name="categoria_id" required>
-          <option value="">Seleccione una categoría</option>
-          <% categorias.forEach(categoria => { %>
-            <option value="<%= categoria.id %>"><%= categoria.nombre %></option>
-          <% }); %>
-        </select>
-        <div class="invalid-feedback"></div>
+  <div class="form-container">
+    <h1 class="form-title">Agregar Nueva Propiedad</h1>
+    
+    <form action="/inmuebles/products" method="POST" enctype="multipart/form-data" id="propertyForm">
+      <div class="form-tabs">
+        <button type="button" class="tab-btn active" data-tab="direccion">Dirección</button>
+        <button type="button" class="tab-btn" data-tab="propiedad">Propiedad</button>
+        <button type="button" class="tab-btn" data-tab="contacto">Contacto</button>
       </div>
       
-      <div class="form-group">
-        <label>Propietario:</label>
-        <select name="propietario_id">
-          <option value="">Seleccione un propietario</option>
-          <% if (typeof propietarios !== 'undefined' && propietarios.length > 0) { %>
-            <% console.log('Propietarios disponibles:', propietarios); %>
-            <% propietarios.forEach(propietario => { %>
-              <option value="<%= propietario.id %>">
-                <%= propietario.nombre %> <%= propietario.apellido %> (<%= propietario.email %>)
-              </option>
-            <% }); %>
-          <% } else { %>
-            <% console.log('No hay propietarios disponibles'); %>
-            <option value="" disabled>No hay propietarios disponibles</option>
-          <% } %>
-        </select>
-        <div class="invalid-feedback"></div>
+      <div class="form-content">
+        <div class="tab-content active" id="direccion-tab">
+          <h2>Información de la Dirección</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="calle">Calle:</label>
+              <input type="text" id="calle" name="calle" required>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="numero">Número:</label>
+              <input type="text" id="numero" name="numero" required>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="piso">Piso:</label>
+              <input type="text" id="piso" name="piso">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="departamento">Departamento:</label>
+              <input type="text" id="departamento" name="departamento">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="codigo_postal">Código Postal:</label>
+              <input type="text" id="codigo_postal" name="codigo_postal">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="ciudad">Ciudad:</label>
+              <input type="text" id="ciudad" name="ciudad" required>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="provincia">Provincia:</label>
+              <input type="text" id="provincia" name="provincia" required>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="pais">País:</label>
+              <input type="text" id="pais" name="pais" value="Argentina">
+              <div class="invalid-feedback"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="propiedad-tab">
+          <h2>Información de la Propiedad</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="titulo">Título:</label>
+              <input type="text" id="titulo" name="titulo" required minlength="5">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="tipo">Tipo:</label>
+              <select id="tipo" name="tipo" required>
+                <option value="">Seleccione un tipo</option>
+                <option value="venta">Venta</option>
+                <option value="alquiler">Alquiler</option>
+              </select>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="barrio_id">Barrio:</label>
+              <select id="barrio_id" name="barrio_id" required>
+                <option value="">Seleccione un barrio</option>
+                <% barrios.forEach(barrio => { %>
+                  <option value="<%= barrio.id %>"><%= barrio.nombre %></option>
+                <% }); %>
+              </select>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="categoria_id">Categoría:</label>
+              <select id="categoria_id" name="categoria_id" required>
+                <option value="">Seleccione una categoría</option>
+                <% categorias.forEach(categoria => { %>
+                  <option value="<%= categoria.id %>"><%= categoria.nombre %></option>
+                <% }); %>
+              </select>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="ambientes">Ambientes:</label>
+              <input type="number" id="ambientes" name="ambientes" value="1" min="1">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="dormitorios">Dormitorios:</label>
+              <input type="number" id="dormitorios" name="dormitorios" value="0" min="0">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="banos">Baños:</label>
+              <input type="number" id="banos" name="banos" value="1" min="0">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="orientacion">Orientación:</label>
+              <select id="orientacion" name="orientacion">
+                <option value="">Seleccione una orientación</option>
+                <option value="norte">Norte</option>
+                <option value="sur">Sur</option>
+                <option value="este">Este</option>
+                <option value="oeste">Oeste</option>
+              </select>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="precio">Precio:</label>
+              <input type="number" id="precio" name="precio" required min="0">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="moneda">Moneda:</label>
+              <select id="moneda" name="moneda" required>
+                <option value="USD">USD</option>
+                <option value="ARS">ARS</option>
+              </select>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="m2">Metros Cuadrados:</label>
+              <input type="number" id="m2" name="m2" required min="1">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="foto">Imagen:</label>
+              <div class="file-input-container">
+                <input type="file" id="foto" name="foto" accept="image/jpeg,image/jpg,image/png,image/gif">
+                <div class="file-preview" id="filePreview">
+                  <p>No se ha seleccionado ninguna imagen</p>
+                </div>
+              </div>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="maps_url">URL de Google Maps:</label>
+              <input type="text" id="maps_url" name="maps_url" placeholder="Pega aquí el enlace de Google Maps">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group full-width">
+              <label for="descripcion">Descripción:</label>
+              <textarea id="descripcion" name="descripcion" required minlength="20" rows="5"></textarea>
+              <div class="invalid-feedback"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="contacto-tab">
+          <h2>Información de Contacto</h2>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="propietario_id">Propietario:</label>
+              <select id="propietario_id" name="propietario_id">
+                <option value="">Seleccione un propietario (opcional)</option>
+                <% if (typeof propietarios !== 'undefined' && propietarios.length > 0) { %>
+                  <% propietarios.forEach(propietario => { %>
+                    <option value="<%= propietario.id %>">
+                      <%= propietario.nombre %> <%= propietario.apellido %> (<%= propietario.email %>)
+                    </option>
+                  <% }); %>
+                <% } else { %>
+                  <option value="">No hay propietarios disponibles</option>
+                <% } %>
+              </select>
+              <div class="invalid-feedback"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Ambientes:</label>
-        <input type="number" name="ambientes" value="1" min="1">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Dormitorios:</label>
-        <input type="number" name="dormitorios" value="0" min="0">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Baños:</label>
-        <input type="number" name="banos" value="1" min="0">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Orientación:</label>
-        <select name="orientacion">
-          <option value="">Seleccione una orientación</option>
-          <option value="norte">Norte</option>
-          <option value="sur">Sur</option>
-          <option value="este">Este</option>
-          <option value="oeste">Oeste</option>
-        </select>
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Precio:</label>
-        <input type="number" name="precio" required min="0">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Moneda:</label>
-        <select name="moneda" required>
-          <option value="USD">USD</option>
-          <option value="ARS">ARS</option>
-        </select>
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Metros Cuadrados:</label>
-        <input type="number" name="m2" required min="1">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Imagen:</label>
-        <input type="file" name="foto" id="foto" accept="image/jpeg,image/jpg,image/png,image/gif">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>URL de Google Maps:</label>
-        <input type="text" name="maps_url" placeholder="Pega aquí el enlace de Google Maps">
-        <div class="invalid-feedback"></div>
-      </div>
-      <div class="form-group">
-        <label>Descripción:</label>
-        <textarea name="descripcion" required minlength="20"></textarea>
-        <div class="invalid-feedback"></div>
-      </div>
-    </div>
 
-    <div class="form-actions">
-      <button type="submit" class="btn-primary">Guardar Propiedad</button>
-      <a href="/inmuebles" class="btn-secondary">Cancelar</a>
-    </div>
-  </form>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Guardar Propiedad</button>
+        <a href="/inmuebles" class="btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
 </div>
 
 <%- include('../partials/footer') %>
@@ -179,12 +201,308 @@
 <script src="/javascripts/validations.js"></script>
 <script>
     document.getElementById("input").addEventListener("change", changeTheme);
-    document.getElementById('propertyForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (validatePropertyForm(this)) {
-            this.submit();
-        }
+    
+    // Manejo de pestañas
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Actualizar botones activos
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Mostrar contenido correspondiente
+                const tabId = button.getAttribute('data-tab');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${tabId}-tab`) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Vista previa de imagen
+        const fileInput = document.getElementById('foto');
+        const filePreview = document.getElementById('filePreview');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    filePreview.innerHTML = `<img src="${e.target.result}" alt="Vista previa">`;
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                filePreview.innerHTML = '<p>No se ha seleccionado ninguna imagen</p>';
+            }
+        });
+        
+        // Envío del formulario
+        const form = document.getElementById('propertyForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validar formulario
+            let isValid = true;
+            const requiredFields = form.querySelectorAll('[required]');
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('is-invalid');
+                    const feedback = field.nextElementSibling;
+                    if (feedback && feedback.classList.contains('invalid-feedback')) {
+                        feedback.textContent = 'Este campo es obligatorio';
+                    }
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            if (isValid) {
+                // Enviar formulario
+                form.submit();
+            }
+        });
     });
 </script>
+
+<style>
+    .form-container {
+        max-width: 1000px;
+        margin: 30px auto;
+        background-color: var(--card-bg);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-title {
+        text-align: center;
+        margin-bottom: 30px;
+        color: var(--primary-color);
+        font-size: 2rem;
+        font-weight: 600;
+    }
+    
+    .form-tabs {
+        display: flex;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border-color);
+        gap: 10px;
+    }
+    
+    .tab-btn {
+        padding: 12px 24px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--text-color);
+        position: relative;
+        transition: all 0.3s ease;
+        border-radius: 5px 5px 0 0;
+    }
+    
+    .tab-btn:hover {
+        background-color: var(--hover-bg);
+    }
+    
+    .tab-btn.active {
+        color: var(--primary-color);
+    }
+    
+    .tab-btn.active::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: var(--primary-color);
+    }
+    
+    .tab-content {
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        background-color: var(--input-bg);
+        color: var(--text-color);
+        transition: all 0.3s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+    }
+    
+    .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+    
+    .file-input-container {
+        border: 2px dashed var(--border-color);
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .file-input-container:hover {
+        border-color: var(--primary-color);
+    }
+    
+    .file-preview {
+        margin-top: 15px;
+    }
+    
+    .file-preview img {
+        max-width: 100%;
+        max-height: 200px;
+        border-radius: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-actions {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 30px;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        padding: 12px 30px;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+    }
+    
+    .btn-secondary {
+        background-color: transparent;
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+    
+    .btn-secondary:hover {
+        background-color: var(--hover-bg);
+        transform: translateY(-2px);
+    }
+    
+    .is-invalid {
+        border-color: var(--error-color) !important;
+    }
+    
+    .invalid-feedback {
+        color: var(--error-color);
+        font-size: 0.85rem;
+        margin-top: 5px;
+    }
+    
+    /* Estilos para el modo oscuro */
+    @media (prefers-color-scheme: dark) {
+        .form-container {
+            background-color: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+        
+        .file-input-container {
+            background-color: var(--input-bg);
+        }
+        
+        .tab-btn:hover {
+            background-color: var(--hover-bg);
+        }
+    }
+    
+    /* Estilos responsivos */
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .form-tabs {
+            flex-direction: column;
+            border-bottom: none;
+        }
+        
+        .tab-btn {
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .tab-btn.active::after {
+            display: none;
+        }
+    }
+</style>
 </body>
 </html>

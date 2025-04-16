@@ -10,8 +10,8 @@ module.exports = {
       await queryInterface.sequelize.transaction(async (t) => {
         // Insertamos el propietario de ejemplo
         await queryInterface.sequelize.query(
-          `INSERT INTO usuarios (nombre, apellido, email, password, tipo, fecha_registro, activo, telefono, created_at, updated_at) VALUES 
-          ('María', 'González', 'maria.gonzalez@ejemplo.com', ?, 'cliente', NOW(), true, '1155667788', NOW(), NOW())`,
+          `INSERT INTO usuarios (nombre, apellido, email, password, tipo, fecha_registro, activo, telefono) VALUES 
+          ('María', 'González', 'maria.gonzalez@ejemplo.com', ?, 'cliente', NOW(), true, '1155667788')`,
           {
             replacements: [hashedPassword],
             type: Sequelize.QueryTypes.INSERT,

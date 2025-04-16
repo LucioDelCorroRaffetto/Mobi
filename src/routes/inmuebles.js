@@ -29,12 +29,12 @@ const upload = multer({ storage: storage });
 
 // Rutas públicas
 router.get('/products', allProducts);
-router.get('/products/:id', productDetail);
 router.get('/search', search);
 router.get('/products/create', isAuthenticated, isAdmin, createForm);
 router.post('/products', isAuthenticated, isAdmin, upload.single('foto'), propertyValidator, store);
 router.get('/products/:id/edit', isAuthenticated, isAdmin, editForm);
 router.put('/products/:id', isAuthenticated, isAdmin, upload.single('foto'), propertyValidator, update);
 router.delete('/products/:id', isAuthenticated, isAdmin, destroy);
+router.get('/products/:id', productDetail);
 
 module.exports = router;

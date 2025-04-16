@@ -19,8 +19,8 @@ module.exports = {
 
       // Si no existe, lo creamos
       await queryInterface.sequelize.query(
-        `INSERT INTO usuarios (nombre, apellido, email, password, tipo, fecha_registro, activo, telefono, created_at, updated_at) 
-         VALUES (?, ?, ?, ?, ?, NOW(), true, ?, NOW(), NOW())`,
+        `INSERT INTO usuarios (nombre, apellido, email, password, tipo, fecha_registro, activo, telefono) 
+         VALUES (?, ?, ?, ?, ?, NOW(), true, ?)`,
         {
           replacements: [
             'Juan',

@@ -24,7 +24,7 @@
                     name="nombre"
                     id="nombre"
                     type="text"
-                    value="<%= locals.nombre ? nombre : '' %>"
+                    value="<%= locals.oldData ? oldData.nombre : '' %>"
                     minlength="2"
                 />
                 <div class="invalid-feedback"></div>
@@ -38,7 +38,7 @@
                     name="apellido"
                     id="apellido"
                     type="text"
-                    value="<%= locals.apellido ? apellido : '' %>"
+                    value="<%= locals.oldData ? oldData.apellido : '' %>"
                     minlength="2"
                 />
                 <div class="invalid-feedback"></div>
@@ -52,7 +52,7 @@
                     name="email"
                     id="email"
                     type="email"
-                    value="<%= locals.email ? email : '' %>"
+                    value="<%= locals.oldData ? oldData.email : '' %>"
                 />
                 <div class="invalid-feedback"></div>
             </div>
@@ -111,9 +111,52 @@
     <script>
         document.getElementById("input").addEventListener("change", changeTheme);
         document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (validateRegisterForm(this)) {
-                this.submit();
+            const nombre = this.querySelector('#nombre');
+            const apellido = this.querySelector('#apellido');
+            const email = this.querySelector('#email');
+            const password = this.querySelector('#password');
+            const confirmPassword = this.querySelector('#confirmPassword');
+            const imagen = this.querySelector('#imagen');
+            
+            let isValid = true;
+            
+            // Validar nombre
+            if (!validateField(nombre, 2, 'nombre')) {
+                isValid = false;
+            }
+            
+            // Validar apellido
+            if (!validateField(apellido, 2, 'apellido')) {
+                isValid = false;
+            }
+            
+            // Validar email
+            if (!validateEmail(email)) {
+                isValid = false;
+            }
+            
+            // Validar contraseña
+            if (!validatePassword(password, true)) {
+                isValid = false;
+            }
+            
+            // Validar confirmación de contraseña
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.classList.add('is-invalid');
+                confirmPassword.nextElementSibling.textContent = 'Las contraseñas no coinciden';
+                isValid = false;
+            } else {
+                confirmPassword.classList.remove('is-invalid');
+                confirmPassword.classList.add('is-valid');
+            }
+            
+            // Validar imagen (opcional)
+            if (!validateImage(imagen)) {
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
             }
         });
     </script>

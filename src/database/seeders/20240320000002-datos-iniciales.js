@@ -8,29 +8,19 @@ module.exports = {
       "zonas",
       [
         { 
-          nombre: 'Norte', 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          nombre: 'Norte'
         },
         { 
-          nombre: 'Sur', 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          nombre: 'Sur'
         },
         { 
-          nombre: 'Este', 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          nombre: 'Este'
         },
         { 
-          nombre: 'Oeste', 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          nombre: 'Oeste'
         },
         { 
-          nombre: 'Centro', 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          nombre: 'Centro'
         }
       ],
       {}
@@ -42,51 +32,35 @@ module.exports = {
       [
         { 
           nombre: 'Palermo', 
-          zona_id: 1, 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          zona_id: 1
         },
         { 
           nombre: 'Recoleta', 
-          zona_id: 1, 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          zona_id: 1
         },
         { 
           nombre: 'Belgrano', 
-          zona_id: 1, 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          zona_id: 1
         },
         { 
           nombre: 'Caballito', 
-          zona_id: 2, 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          zona_id: 2
         },
         { 
           nombre: 'Flores', 
-          zona_id: 2, 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          zona_id: 2
         },
         { 
           nombre: 'Puerto Madero', 
-          zona_id: 3, 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          zona_id: 3
         },
         { 
           nombre: 'Villa Crespo', 
-          zona_id: 4, 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          zona_id: 4
         },
         { 
           nombre: 'Almagro', 
-          zona_id: 5, 
-          created_at: new Date(), 
-          updated_at: new Date() 
+          zona_id: 5
         }
       ],
       {}
@@ -98,33 +72,23 @@ module.exports = {
       [
         { 
           nombre: 'Casa', 
-          descripcion: 'Propiedades unifamiliares',
-          created_at: new Date(), 
-          updated_at: new Date() 
+          descripcion: 'Propiedades unifamiliares'
         },
         { 
           nombre: 'Departamento', 
-          descripcion: 'Unidades en edificios',
-          created_at: new Date(), 
-          updated_at: new Date() 
+          descripcion: 'Unidades en edificios'
         },
         { 
           nombre: 'Oficina', 
-          descripcion: 'Espacios comerciales para oficinas',
-          created_at: new Date(), 
-          updated_at: new Date() 
+          descripcion: 'Espacios comerciales para oficinas'
         },
         { 
           nombre: 'Local', 
-          descripcion: 'Espacios comerciales',
-          created_at: new Date(), 
-          updated_at: new Date() 
+          descripcion: 'Espacios comerciales'
         },
         { 
           nombre: 'Terreno', 
-          descripcion: 'Lotes para construcción',
-          created_at: new Date(), 
-          updated_at: new Date() 
+          descripcion: 'Lotes para construcción'
         }
       ],
       {}
