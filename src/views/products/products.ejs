@@ -22,30 +22,30 @@
                 <% resultadoInmueble.forEach(propiedad => { %>
                     <div class="property-card" data-tipo="<%= propiedad.tipo %>">
                         <div class="property-image">
-                            <% if (propiedad.foto) { %>
-                                <img src="<%= propiedad.foto %>" alt="<%= propiedad.titulo || 'Propiedad' %>" onerror="this.src='/images/products/budapest.jpg'">
-                            <% } else { %>
-                                <img src="/images/products/budapest.jpg" alt="Imagen por defecto">
-                            <% } %>
-                            <span class="property-tag"><%= propiedad.tipo %></span>
+                            <img src="<%= propiedad.foto %>" 
+                                 alt="<%= propiedad.titulo %>" 
+                                 onerror="this.onerror=null; this.src='/images/products/budapest.jpg';">
+                            <span class="tag"><%= propiedad.tipo === 'venta' ? 'Venta' : 'Alquiler' %></span>
                         </div>
                         <div class="property-info">
-                            <h3><%= propiedad.titulo || 'Propiedad sin título' %></h3>
+                            <h3><%= propiedad.titulo %></h3>
+                            <p class="description"><%= propiedad.descripcion %></p>
                             <p class="location">
-                                <% if (propiedad.barrio && propiedad.barrio.nombre) { %>
-                                    <%= propiedad.barrio.nombre %>
-                                <% } %>
-                                <% if (propiedad.direccion && propiedad.direccion.ciudad) { %>
-                                    - <%= propiedad.direccion.ciudad %>
-                                <% } %>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <%= propiedad.barrio ? propiedad.barrio.nombre : 'Sin barrio' %> - 
+                                <%= propiedad.direccion ? `${propiedad.direccion.calle} ${propiedad.direccion.numero}` : 'Sin dirección' %>
                             </p>
-                            <div class="property-details">
-                                <span class="price">$<%= propiedad.precio ? propiedad.precio.toLocaleString() : '0' %> <%= propiedad.moneda || 'USD' %></span>
-                                <div class="property-specs">
-                                    <span><i class="fas fa-bed"></i> <%= propiedad.ambientes || '0' %></span>
-                                    <span><i class="fas fa-ruler-combined"></i> <%= propiedad.m2 || '0' %>m²</span>
-                                </div>
-                                <a href="/inmuebles/products/<%= propiedad.id %>" class="view-details">Ver Detalles</a>
+                            <div class="details">
+                                <% if (propiedad.ambientes) { %>
+                                    <span><i class="fas fa-door-open"></i> <%= propiedad.ambientes %> amb.</span>
+                                <% } %>
+                                <% if (propiedad.m2) { %>
+                                    <span><i class="fas fa-vector-square"></i> <%= propiedad.m2 %> m²</span>
+                                <% } %>
+                            </div>
+                            <div class="property-footer">
+                                <span class="price"><%= propiedad.moneda %> <%= propiedad.precio.toLocaleString('es-AR') %></span>
+                                <a href="/inmuebles/products/<%= propiedad.id %>" class="details-btn">Ver más</a>
                             </div>
                         </div>
                     </div>

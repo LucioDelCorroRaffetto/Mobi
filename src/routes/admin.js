@@ -3,12 +3,13 @@ const router = express.Router();
 const { 
   showAddForm, 
   showEditForm, 
-  addProperty, 
-  updateProperty,
   listProperties,
-  deleteProperty
+  store,
+  update,
+  destroy
 } = require('../controllers/adminController');
-const { isAuthenticated, isAdmin } = require('../../middlewares/auth');
+const { isAuthenticated, isAdmin } = require('../../middlewares/roleMiddleware');
+const propertyValidator = require('../../validations/propertyValidator');
 const multer = require('multer');
 const path = require('path');
 
@@ -29,18 +30,18 @@ const upload = multer({ storage: storage });
 router.get('/', isAuthenticated, isAdmin, listProperties);
 
 // Formulario para agregar una propiedad
-router.get('/add', isAuthenticated, isAdmin, showAddForm);
+router.get('/products/create', isAuthenticated, isAdmin, showAddForm);
 
 // Procesar la adición de una propiedad
-router.post('/add', isAuthenticated, isAdmin, upload.single('foto'), addProperty);
+router.post('/products', isAuthenticated, isAdmin, upload.single('foto'), propertyValidator, store);
 
 // Formulario para editar una propiedad
-router.get('/edit/:id', isAuthenticated, isAdmin, showEditForm);
+router.get('/products/:id/edit', isAuthenticated, isAdmin, showEditForm);
 
 // Procesar la edición de una propiedad
-router.post('/edit/:id', isAuthenticated, isAdmin, upload.single('foto'), updateProperty);
+router.put('/products/:id', isAuthenticated, isAdmin, upload.single('foto'), propertyValidator, update);
 
 // Eliminar una propiedad
-router.delete('/delete/:id', isAuthenticated, isAdmin, deleteProperty);
+router.delete('/products/:id', isAuthenticated, isAdmin, destroy);
 
 module.exports = router;

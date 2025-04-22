@@ -1,53 +1,127 @@
 <%- include('../partials/headAdmin') %>
 <%- include('../partials/header') %>
-<h1>Administración de Productos</h1>
-<a href="/admin/add">Agregar Producto</a>
-<table>
-  <thead>
-    <tr>
-        <th>Imagen</th>
-        <th>Dirección</th>
-        <th>Barrio</th>
-        <th>Categoría</th>
-        <th>Ambientes</th>
-        <th>Precio</th>
-        <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if (locals.products && products.length > 0) { %>
-      <% products.forEach(product => { %>
+
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>Administración de Propiedades</h1>
+    <a href="/admin/products/create" class="btn-primary">
+      <i class="fas fa-plus"></i> Agregar Nueva Propiedad
+    </a>
+  </div>
+
+  <% if (locals.success_msg && success_msg.length > 0) { %>
+    <div class="alert alert-success">
+      <i class="fas fa-check-circle"></i> <%= success_msg %>
+    </div>
+  <% } %>
+
+  <% if (locals.error_msg && error_msg.length > 0) { %>
+    <div class="alert alert-danger">
+      <i class="fas fa-exclamation-circle"></i> <%= error_msg %>
+    </div>
+  <% } %>
+
+  <div class="table-responsive">
+    <table class="admin-table">
+      <thead>
         <tr>
-          <td><img src="<%= product.foto || '/images/default.jpg' %>" alt="<%= product.direccion %>" width="100"></td>
-          <td><%= product.direccion %></td>
-          <td><%= product.barrio %></td>
-          <td><%= product.tipo %></td>
-          <td><%= product.ambientes %></td>
-          <td>$<%= product.precio.toLocaleString('es-AR') %></td>
-          <td>
-            <div class="product-actions">
-              <a href="/inmuebles/products/<%= product.id %>/edit" class="btn-detail">Editar</a>
-              <form action="/inmuebles/products/<%= product.id %>?_method=DELETE" method="POST" style="display: inline;">
-                <button type="submit" class="btn-delete">Eliminar</button>
-              </form>
-            </div>
-          </td>
+          <th>Imagen</th>
+          <th>Título</th>
+          <th>Dirección</th>
+          <th>Barrio</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Estado</th>
+          <th>Acciones</th>
         </tr>
-      <% }); %>
-    <% } else { %>
-      <tr>
-        <td colspan="7">No hay productos disponibles</td>
-      </tr>
-    <% } %>
-  </tbody>
-</table>
+      </thead>
+      <tbody>
+        <% if (locals.products && products.length > 0) { %>
+          <% products.forEach(product => { %>
+            <tr>
+              <td class="product-image">
+                <img src="<%= product.foto %>" alt="Imagen de propiedad" class="product-thumbnail">
+              </td>
+              <td class="product-title"><%= product.titulo %></td>
+              <td class="product-address"><%= product.direccion %></td>
+              <td class="product-neighborhood"><%= product.barrio %></td>
+              <td class="product-category">
+                <span class="category-badge"><%= product.categoria ? product.categoria.nombre : 'Sin categoría' %></span>
+              </td>
+              <td class="product-price">
+                <span class="price-tag">$<%= product.precio ? product.precio.toLocaleString('es-AR') : '0' %></span>
+                <span class="currency"><%= product.moneda %></span>
+              </td>
+              <td class="product-status">
+                <span class="status-badge <%= product.estado %>">
+                  <i class="fas fa-circle"></i> <%= product.estado %>
+                </span>
+              </td>
+              <td class="product-actions">
+                <div class="action-buttons">
+                  <a href="/admin/products/<%= product.id %>/edit" class="btn-action btn-edit" title="Editar propiedad">
+                    <i class="fas fa-edit"></i>
+                    <span>Editar</span>
+                  </a>
+                  <form action="/admin/products/<%= product.id %>?_method=DELETE" method="POST" class="delete-form">
+                    <button type="submit" class="btn-action btn-delete" title="Eliminar propiedad" onclick="return confirm('¿Estás seguro de que deseas eliminar esta propiedad?')">
+                      <i class="fas fa-trash"></i>
+                      <span>Eliminar</span>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr>
+            <td colspan="8" class="no-data">
+              <div class="empty-state">
+                <i class="fas fa-home"></i>
+                <p>No hay propiedades disponibles</p>
+                <a href="/admin/products/create" class="btn-primary">Agregar primera propiedad</a>
+              </div>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if (locals.totalPages && totalPages > 1) { %>
+    <div class="pagination">
+      <% if (locals.hasPreviousPage) { %>
+        <a href="/admin?page=<%= currentPage - 1 %>" class="page-link">
+          <i class="fas fa-chevron-left"></i> Anterior
+        </a>
+      <% } %>
+      
+      <% for(let i = 1; i <= totalPages; i++) { %>
+        <a href="/admin?page=<%= i %>" class="page-link <%= i === currentPage ? 'active' : '' %>">
+          <%= i %>
+        </a>
+      <% } %>
+      
+      <% if (locals.hasNextPage) { %>
+        <a href="/admin?page=<%= currentPage + 1 %>" class="page-link">
+          Siguiente <i class="fas fa-chevron-right"></i>
+        </a>
+      <% } %>
+    </div>
+  <% } %>
+</div>
+
 <%- include('../partials/footer') %>
+
+<link rel="stylesheet" href="/stylesheets/admin.css">
+
 <script src="/javascripts/home.js"></script>
+<script src="/javascripts/validations.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const themeToggle = document.getElementById("input");
-        if (themeToggle) {
-            themeToggle.addEventListener("change", changeTheme);
-        }
-    });
+  document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById("input");
+    if (themeToggle) {
+      themeToggle.addEventListener("change", changeTheme);
+    }
+  });
 </script>

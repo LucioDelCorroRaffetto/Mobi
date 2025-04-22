@@ -80,6 +80,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('cliente', 'agente', 'admin'),
       defaultValue: 'cliente'
     },
+    genero: {
+      type: DataTypes.ENUM('masculino', 'femenino', 'otro', 'prefiero_no_decir'),
+      allowNull: false
+    },
     imagen: {
       type: DataTypes.STRING(255),
       allowNull: true,
