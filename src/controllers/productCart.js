@@ -1,15 +1,59 @@
-const fs = require('fs');
+const { Propiedad, Direccion, Barrio, Categoria, Usuario } = require('../database/models');
 
 const cartController = {
-    loadCart: (req, res) => {
+    loadCart: async (req, res) => {
         try {
-            const products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
+            // Obtener las propiedades del carrito desde la base de datos
+            const properties = await Propiedad.findAll({
+                include: [
+                    { 
+                        model: Direccion,
+                        as: 'direccion',
+                        include: [
+                            {
+                                model: Barrio,
+                                as: 'barrio'
+                            }
+                        ]
+                    },
+                    { model: Categoria, as: 'categoria' },
+                    { model: Usuario, as: 'agente' }
+                ],
+                where: {
+                    estado: 'disponible'
+                },
+                order: [['createdAt', 'DESC']],
+                limit: 5
+            });
+
+            // Formatear los datos para la vista
+            const cartItems = properties.map(property => ({
+                id: property.id,
+                titulo: property.titulo,
+                descripcion: property.descripcion,
+                precio: property.precio,
+                moneda: property.moneda || 'ARS',
+                foto: property.foto || '/images/products/imageDefault.png',
+                direccion: {
+                    calle: property.direccion?.calle || 'Sin dirección',
+                    numero: property.direccion?.numero || '',
+                    barrio: {
+                        nombre: property.direccion?.barrio?.nombre || 'Sin barrio'
+                    }
+                }
+            }));
+
+            // Calcular totales
+            const subtotal = cartItems.reduce((sum, item) => sum + (item.precio || 0), 0);
+            const taxes = subtotal * 0.15;
+            const total = subtotal + taxes;
+
             res.render('products/productCart', { 
                 title: 'Carrito de Compras', 
-                cartItems: products,
-                subtotal: calculateSubtotal(products),
-                taxes: calculateTaxes(products),
-                total: calculateTotal(products)
+                cartItems: cartItems,
+                subtotal: subtotal,
+                taxes: taxes,
+                total: total
             });
         } catch (error) {
             console.error('Error al cargar el carrito:', error);
@@ -24,35 +68,17 @@ const cartController = {
         }
     },
 
-    removeItem: (req, res) => {
+    removeItem: async (req, res) => {
         try {
             const id = parseInt(req.params.id, 10);
-            let products = JSON.parse(fs.readFileSync('./data/products.json', 'utf-8'));
-
-            products = products.filter(product => product.id !== id);
-            fs.writeFileSync('./data/products.json', JSON.stringify(products, null, 2));
-
-            res.redirect('/productCart');
+            // Aquí iría la lógica para eliminar el item del carrito
+            // Por ahora solo redirigimos
+            res.redirect('/carts');
         } catch (error) {
             console.error('Error al eliminar el producto del carrito:', error);
-            res.redirect('/productCart?error=No se pudo eliminar el producto');
+            res.redirect('/carts?error=No se pudo eliminar el producto');
         }
     }
 };
-
-function calculateSubtotal(products) {
-    return products.reduce((sum, product) => sum + (product.precio || 0), 0);
-}
-
-function calculateTaxes(products) {
-    const subtotal = calculateSubtotal(products);
-    return subtotal * 0.15;
-}
-
-function calculateTotal(products) {
-    const subtotal = calculateSubtotal(products);
-    const taxes = calculateTaxes(products);
-    return subtotal + taxes;
-}
 
 module.exports = cartController;

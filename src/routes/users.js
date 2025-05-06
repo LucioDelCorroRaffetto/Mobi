@@ -10,52 +10,54 @@ const {
     update,
     delete: deleteUser 
 } = require('../controllers/usersControllers');
+const { isAuthenticated} = require('../../middlewares/auth');
+const {isNotAuthenticated} = require('../../middlewares/roleMiddleware');
 const loginValidator = require('../../validations/loginValidator');
 const registerValidator = require('../../validations/registerValidator');
-const profileValidator = require('../../validations/profileValidator');
-const loginVerify = require('../../middlewares/loginValidate');
-
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
-// Configuración de multer
+// Configuración de multer para imágenes de usuario
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../../public/images/users'));
+    destination: function(req, file, cb) {
+        const uploadDir = path.join(__dirname, '../../public/images/users');
+        fs.mkdirSync(uploadDir, { recursive: true });
+        cb(null, uploadDir);
     },
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+        cb(null, 'user-' + uniqueSuffix + path.extname(file.originalname));
     }
 });
 
-const upload = multer({ storage: storage });
-
-// Middleware para verificar si el usuario está autenticado
-const isAuthenticated = (req, res, next) => {
-    if (req.session.user) {
-        next();
-    } else {
-        res.redirect('/users/login');
+const upload = multer({
+    storage: storage,
+    fileFilter: function(req, file, cb) {
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+        if (allowedTypes.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Solo se permiten imágenes (JPEG, JPG, PNG, GIF)'));
+        }
+    },
+    limits: {
+        fileSize: 5 * 1024 * 1024 // 5MB
     }
-};
+});
 
 // Rutas de login
-router.get('/login', loginVerify, login);
-router.post('/login', loginValidator, processLogin);
+router.get('/login', isNotAuthenticated, login);
+router.post('/login', isNotAuthenticated, loginValidator, processLogin);
 
 // Rutas de registro
-router.get('/register', loginVerify, register);
-router.post('/register', upload.single('imagen'), registerValidator, processRegister);
+router.get('/register', isNotAuthenticated, register);
+router.post('/register', isNotAuthenticated, upload.single('imagen'), registerValidator, processRegister);
 
-// Rutas de perfil
+// Rutas protegidas
 router.get('/profile', isAuthenticated, profile);
-router.post('/profile', isAuthenticated, upload.single('imagen'), profileValidator, update);
-
-// Ruta de eliminación de cuenta
-router.delete('/profile', isAuthenticated, deleteUser);
-
-// Ruta de logout
+router.post('/update', isAuthenticated, upload.single('imagen'), update);
+router.delete('/delete', isAuthenticated, deleteUser);
 router.get('/logout', logout);
 
 module.exports = router;

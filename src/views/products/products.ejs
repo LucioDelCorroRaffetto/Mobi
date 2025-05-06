@@ -1,4 +1,4 @@
-<%- include('../partials/headCart.ejs')%>
+<%- include('../partials/headProduct.ejs')%>
 
 <%-include('../partials/header.ejs')%>
 
@@ -10,11 +10,12 @@
     </div>
                 
     <div class="tabs-container">
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="todos">Todas las Propiedades</button>
-            <button class="tab-btn" data-tab="casa">Casas</button>
-            <button class="tab-btn" data-tab="departamento">Departamentos</button>
-            <button class="tab-btn" data-tab="local">Locales</button>
+        <div class="filter-wrapper">
+            <select id="propertyFilter">
+                <option value="todos">Todas las Propiedades</option>
+                <option value="venta">Venta</option>
+                <option value="alquiler">Alquiler</option>
+            </select>
         </div>
 
         <div class="properties-grid" id="propertiesContainer">
@@ -22,30 +23,30 @@
                 <% resultadoInmueble.forEach(propiedad => { %>
                     <div class="property-card" data-tipo="<%= propiedad.tipo %>">
                         <div class="property-image">
-                            <% if (propiedad.foto) { %>
-                                <img src="<%= propiedad.foto %>" alt="<%= propiedad.titulo || 'Propiedad' %>" onerror="this.src='/images/products/budapest.jpg'">
-                            <% } else { %>
-                                <img src="/images/products/budapest.jpg" alt="Imagen por defecto">
-                            <% } %>
-                            <span class="property-tag"><%= propiedad.tipo %></span>
+                            <img src="<%= propiedad.foto %>" 
+                                 alt="<%= propiedad.titulo %>" 
+                                 onerror="this.onerror=null; this.src='/images/products/budapest.jpg';">
+                            <span class="tag"><%= propiedad.tipo === 'venta' ? 'Venta' : 'Alquiler' %></span>
                         </div>
                         <div class="property-info">
-                            <h3><%= propiedad.titulo || 'Propiedad sin título' %></h3>
+                            <h3><%= propiedad.titulo %></h3>
+                            <p class="description"><%= propiedad.descripcion %></p>
                             <p class="location">
-                                <% if (propiedad.barrio && propiedad.barrio.nombre) { %>
-                                    <%= propiedad.barrio.nombre %>
-                                <% } %>
-                                <% if (propiedad.direccion && propiedad.direccion.ciudad) { %>
-                                    - <%= propiedad.direccion.ciudad %>
-                                <% } %>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <%= propiedad.barrio ? propiedad.barrio.nombre : 'Sin barrio' %> - 
+                                <%= propiedad.direccion ? `${propiedad.direccion.calle} ${propiedad.direccion.numero}` : 'Sin dirección' %>
                             </p>
-                            <div class="property-details">
-                                <span class="price">$<%= propiedad.precio ? propiedad.precio.toLocaleString() : '0' %> <%= propiedad.moneda || 'USD' %></span>
-                                <div class="property-specs">
-                                    <span><i class="fas fa-bed"></i> <%= propiedad.ambientes || '0' %></span>
-                                    <span><i class="fas fa-ruler-combined"></i> <%= propiedad.m2 || '0' %>m²</span>
-                                </div>
-                                <a href="/inmuebles/products/<%= propiedad.id %>" class="view-details">Ver Detalles</a>
+                            <div class="details">
+                                <% if (propiedad.ambientes) { %>
+                                    <span><i class="fas fa-door-open"></i> <%= propiedad.ambientes %> amb.</span>
+                                <% } %>
+                                <% if (propiedad.m2) { %>
+                                    <span><i class="fas fa-vector-square"></i> <%= propiedad.m2 %> m²</span>
+                                <% } %>
+                            </div>
+                            <div class="property-footer">
+                                <span class="price"><%= propiedad.moneda %> <%= propiedad.precio.toLocaleString('es-AR') %></span>
+                                <a href="/inmuebles/<%= propiedad.id %>" class="details-btn">Ver más</a>
                             </div>
                         </div>
                     </div>
@@ -54,7 +55,7 @@
                 <div class="no-products-message">
                     <h2>No hay propiedades disponibles</h2>
                     <p>Lo sentimos, no hay propiedades que coincidan con tus criterios de búsqueda.</p>
-                    <a href="/inmuebles/products" class="btn-primary">Ver todas las propiedades</a>
+                    <a href="/inmuebles" class="btn-primary">Ver todas las propiedades</a>
                 </div>
             <% } %>
         </div>
@@ -62,13 +63,13 @@
         <% if (!noResults && totalPages > 1) { %>
         <div class="pagination">
             <% if (hasPreviousPage) { %>
-                <a href="/inmuebles/products?page=<%= currentPage - 1 %>" class="page-link">&laquo; Anterior</a>
+                <a href="/inmuebles?page=<%= currentPage - 1 %>" class="page-link">&laquo; Anterior</a>
             <% } %>
             
             <span class="page-info">Página <%= currentPage %> de <%= totalPages %></span>
             
             <% if (hasNextPage) { %>
-                <a href="/inmuebles/products?page=<%= currentPage + 1 %>" class="page-link">Siguiente &raquo;</a>
+                <a href="/inmuebles?page=<%= currentPage + 1 %>" class="page-link">Siguiente &raquo;</a>
             <% } %>
         </div>
         <% } %>
@@ -84,28 +85,62 @@
 document.getElementById("input").addEventListener("change", changeTheme);
 
 document.addEventListener('DOMContentLoaded', function() {
-    const tabButtons = document.querySelectorAll('.tab-btn');
+    const propertyFilter = document.getElementById('propertyFilter');
     const propertyCards = document.querySelectorAll('.property-card');
 
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Actualizar botones activos
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-
-            // Filtrar propiedades
-            const filterValue = button.getAttribute('data-tab');
+    propertyFilter.addEventListener('change', () => {
+        const filterValue = propertyFilter.value;
+        console.log('Filtro seleccionado:', filterValue);
+        
+        propertyCards.forEach(card => {
+            const cardType = card.getAttribute('data-tipo');
+            console.log('Tipo de propiedad:', cardType);
             
-            propertyCards.forEach(card => {
-                if (filterValue === 'todos' || card.getAttribute('data-tipo') === filterValue) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            if (filterValue === 'todos' || cardType === filterValue) {
+                card.style.display = 'block';
+                console.log('Mostrando propiedad');
+            } else {
+                card.style.display = 'none';
+                console.log('Ocultando propiedad');
+            }
         });
+    });
+
+    // Aplicar filtro inicial
+    const initialFilter = propertyFilter.value;
+    propertyCards.forEach(card => {
+        const cardType = card.getAttribute('data-tipo');
+        if (initialFilter === 'todos' || cardType === initialFilter) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
     });
 });
 </script>
+
+<style>
+.filter-wrapper {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.filter-wrapper select {
+    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 16px;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+.filter-wrapper select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+</style>
 </body>
 </html>

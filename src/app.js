@@ -1,66 +1,86 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const bodyParser = require('body-parser');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const session = require('express-session');
 const methodOverride = require('method-override');
-const multer = require('multer');
 const sessionVerify = require('../middlewares/sessionVerify');
+const flash = require('connect-flash');
 
-var indexRouter = require('./routes/index');
-const adminRoutes = require('./routes/admin');
+const indexRouter = require('./routes/index');
+const adminRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
+const productsRouter = require('./routes/inmuebles');
 
-var app = express();
+const app = express();
 
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// Middleware básicos
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Configuración de express para parsear JSON y urlencoded
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
+
+// Method override para PUT y DELETE
 app.use(methodOverride('_method'));
 
+// Cookies y sesión
+app.use(cookieParser());
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret-key',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24
-    }
+        maxAge: 1000 * 60 * 60 * 24, // 24 horas
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        path: '/'
+    },
+    unset: 'destroy'
 }));
 
-app.use(sessionVerify);
+// Flash messages
+app.use(flash());
 
+// Variables globales
 app.use((req, res, next) => {
-    res.locals.user = req.session.user;
+    res.locals.user = req.session.user || null;
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.success_msg = req.flash('success_msg');
     next();
 });
 
-app.use('/', indexRouter);
-app.use('/admin', adminRoutes);
-app.use('/users', usersRouter);
+// Middleware de autenticación
+app.use(sessionVerify);
 
-// catch 404 and forward to error handler
+// Rutas
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/admin', adminRouter);
+app.use('/inmuebles', productsRouter);
+
+// Manejo de errores 404
 app.use(function(req, res, next) {
-  next(createError(404));
+    res.status(404).render('error', {
+        message: 'Página no encontrada',
+        error: { status: 404 }
+    });
 });
 
-// error handler
+// Manejo de errores generales
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    console.error(err);
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: process.env.NODE_ENV === 'development' ? err : {}
+    });
 });
 
 module.exports = app;

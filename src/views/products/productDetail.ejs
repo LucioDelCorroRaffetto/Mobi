@@ -120,7 +120,7 @@
             <div class="error-message">
                 <h2>Producto no disponible</h2>
                 <p>Lo sentimos, este producto no está disponible en este momento.</p>
-                <a href="/inmuebles/products" class="btn-primary">Ver otras propiedades</a>
+                <a href="/inmuebles" class="btn-primary">Ver otras propiedades</a>
             </div>
         <% } %>
     </div>
@@ -158,7 +158,7 @@
                             <span><i class="fas fa-bed"></i> <%= propiedad.ambientes || '0' %></span>
                             <span><i class="fas fa-ruler-combined"></i> <%= propiedad.m2 || '0' %>m²</span>
                         </div>
-                        <a href="/inmuebles/products/<%= propiedad.id %>" class="view-details">Ver Detalles</a>
+                        <a href="/inmuebles/<%= propiedad.id %>" class="view-details">Ver Detalles</a>
                     </div>
                 </div>
             </div>

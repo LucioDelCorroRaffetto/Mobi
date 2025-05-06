@@ -14,7 +14,7 @@
             <div class="no-results-message">
                 <h2>No se encontraron resultados</h2>
                 <p>Lo sentimos, no hay propiedades que coincidan con tu búsqueda "<%= query %>".</p>
-                <p>Intenta con otros términos o <a href="/inmuebles/products">ver todas las propiedades</a>.</p>
+                <p>Intenta con otros términos o <a href="/inmuebles">ver todas las propiedades</a>.</p>
             </div>
         <% } else { %>
             <div class="search-results">
@@ -35,7 +35,7 @@
                                 </p>
                                 <div class="property-footer">
                                     <span class="price">$<%= producto.precio %></span>
-                                    <a href="/inmuebles/products/<%= producto.id %>"><button class="details-btn">Ver más</button></a>
+                                    <a href="/inmuebles/<%= producto.id %>"><button class="details-btn">Ver más</button></a>
                                 </div>
                             </div>
                         </div>

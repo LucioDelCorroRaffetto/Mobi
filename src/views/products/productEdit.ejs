@@ -3,83 +3,119 @@
 <%- include('../partials/header') %>
 
 <div class="edit-container">
-    <h1>Editar Producto</h1>
+    <h1>Editar Propiedad</h1>
 
-    <% if (locals.error) { %>
+    <% if (locals.error_msg && error_msg.length > 0) { %>
         <div class="alert alert-danger">
-            <%= error %>
+            <%= error_msg %>
         </div>
     <% } %>
 
     <% if (locals.product) { %>
-        <form action="/inmuebles/products/<%= product.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+        <form action="/admin/products/<%= product.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="foto">Imagen del Producto:</label>
+                <label for="foto">Imagen de la Propiedad:</label>
                 <input type="file" name="foto" id="foto" accept="image/*">
-                <% if (product.foto) { %>
+                <% if (product.imagen) { %>
                     <div class="current-image">
-                        <img src="<%= product.foto %>" alt="Imagen actual del producto">
+                        <img src="<%= product.imagen %>" alt="Imagen actual de la propiedad">
                     </div>
                 <% } %>
             </div>
 
             <div class="form-group">
-                <label for="direccion">Dirección: *</label>
-                <input type="text" name="direccion" id="direccion" value="<%= product.direccion %>" required>
+                <label for="titulo">Título: *</label>
+                <input type="text" name="titulo" id="titulo" value="<%= product.titulo %>" required>
             </div>
 
             <div class="form-group">
-                <label for="barrio">Barrio:</label>
-                <input type="text" name="barrio" id="barrio" value="<%= product.barrio %>">
-            </div>
-
-            <div class="form-group">
-                <label for="zona">Zona: *</label>
-                <input type="text" name="zona" id="zona" value="<%= product.zona %>" required>
-            </div>
-
-            <div class="form-group">
-                <label for="tipo">Categoría:</label>
-                <select name="tipo" id="tipo">
-                    <option value="casa" <%= product.tipo === 'casa' ? 'selected' : '' %>>Casa</option>
-                    <option value="departamento" <%= product.tipo === 'departamento' ? 'selected' : '' %>>Departamento</option>
-                    <option value="terreno" <%= product.tipo === 'terreno' ? 'selected' : '' %>>Terreno</option>
-                    <option value="local" <%= product.tipo === 'local' ? 'selected' : '' %>>Local</option>
+                <label for="tipo">Tipo: *</label>
+                <select name="tipo" id="tipo" required>
+                    <option value="venta" <%= product.tipo === 'venta' ? 'selected' : '' %>>Venta</option>
+                    <option value="alquiler" <%= product.tipo === 'alquiler' ? 'selected' : '' %>>Alquiler</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="ambientes">Ambientes:</label>
-                <input type="number" name="ambientes" id="ambientes" value="<%= product.ambientes %>" min="0">
+                <label for="precio">Precio: *</label>
+                <input type="number" name="precio" id="precio" value="<%= product.precio %>" required>
             </div>
 
             <div class="form-group">
-                <label for="precio">Precio: *</label>
-                <input type="number" name="precio" id="precio" value="<%= product.precio %>" required min="0" step="0.01">
+                <label for="moneda">Moneda: *</label>
+                <select name="moneda" id="moneda" required>
+                    <option value="USD" <%= product.moneda === 'USD' ? 'selected' : '' %>>USD</option>
+                    <option value="ARS" <%= product.moneda === 'ARS' ? 'selected' : '' %>>ARS</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="ambientes">Ambientes: *</label>
+                <input type="number" name="ambientes" id="ambientes" value="<%= product.ambientes %>" required>
             </div>
 
             <div class="form-group">
                 <label for="m2">Metros Cuadrados: *</label>
-                <input type="number" name="m2" id="m2" value="<%= product.m2 %>" required min="0">
+                <input type="number" name="m2" id="m2" value="<%= product.m2 %>" required>
             </div>
 
             <div class="form-group">
-                <label for="mapsUrl">URL de Google Maps:</label>
-                <input type="url" name="mapsUrl" id="mapsUrl" value="<%= product.mapsUrl %>">
+                <label for="barrio_id">Barrio: *</label>
+                <select name="barrio_id" id="barrio_id" required>
+                    <% barrios.forEach(barrio => { %>
+                        <option value="<%= barrio.id %>" <%= product.barrio_id === barrio.id ? 'selected' : '' %>>
+                            <%= barrio.nombre %>
+                        </option>
+                    <% }); %>
+                </select>
             </div>
 
-            <p class="required-fields">* Campos obligatorios</p>
-            
+            <div class="form-group">
+                <label for="categoria_id">Categoría: *</label>
+                <select name="categoria_id" id="categoria_id" required>
+                    <% categorias.forEach(categoria => { %>
+                        <option value="<%= categoria.id %>" <%= product.categoria_id === categoria.id ? 'selected' : '' %>>
+                            <%= categoria.nombre %>
+                        </option>
+                    <% }); %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="agente_id">Agente: *</label>
+                <select name="agente_id" id="agente_id" required>
+                    <% agentes.forEach(agente => { %>
+                        <option value="<%= agente.id %>" <%= product.agente_id === agente.id ? 'selected' : '' %>>
+                            <%= agente.nombre %> <%= agente.apellido %>
+                        </option>
+                    <% }); %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea name="descripcion" id="descripcion" rows="4"><%= product.descripcion %></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado: *</label>
+                <select name="estado" id="estado" required>
+                    <option value="disponible" <%= product.estado === 'disponible' ? 'selected' : '' %>>Disponible</option>
+                    <option value="reservado" <%= product.estado === 'reservado' ? 'selected' : '' %>>Reservado</option>
+                    <option value="vendido" <%= product.estado === 'vendido' ? 'selected' : '' %>>Vendido</option>
+                </select>
+            </div>
+
             <div class="form-actions">
-                <button type="submit" class="btn-primary">Actualizar</button>
-                <a href="/inmuebles/products" class="btn-secondary">Cancelar</a>
+                <button type="submit" class="btn-primary">Guardar Cambios</button>
+                <a href="/admin/products" class="btn-secondary">Cancelar</a>
             </div>
         </form>
     <% } else { %>
         <div class="error-message">
             <h2>Producto no encontrado</h2>
             <p>El producto que intentas editar no existe o ha sido eliminado.</p>
-            <a href="/inmuebles/products" class="btn-primary">Volver a la lista de productos</a>
+            <a href="/admin/products" class="btn-primary">Volver a la lista de productos</a>
         </div>
     <% } %>
 </div>

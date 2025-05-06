@@ -4,7 +4,8 @@
 
 <main>
     <div class="profile-container">
-        <form class="profile-form" action="/users/profile" method="POST" enctype="multipart/form-data">
+        <form class="profile-form" action="/users/update" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_method" value="PUT">
             <p class="heading">Mi Perfil</p>
             <div class="profile-image">
                 <img src="<%= user.imagen || '/images/imageDefault.png' %>" alt="Foto de perfil">
@@ -108,7 +109,7 @@
                 <p>Como administrador, tienes acceso a funciones especiales para gestionar el sitio.</p>
                 <div class="admin-buttons">
                     <a href="/admin" class="admin-btn">Gestionar Productos</a>
-                    <a href="/admin/add" class="admin-btn">Agregar Nuevo Producto</a>
+                    <a href="/admin/users" class="admin-btn">Gestionar Usuarios</a>
                 </div>
             </div>
         <% } %>
@@ -120,7 +121,7 @@
 <script>
     function confirmDelete() {
         if (confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.')) {
-            fetch('/users/profile', {
+            fetch('/users/delete', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'

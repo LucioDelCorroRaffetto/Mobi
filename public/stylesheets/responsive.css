@@ -1,0 +1,162 @@
+/* Breakpoints */
+/* Mobile: hasta 768px */
+/* Tablet: 769px hasta 1024px */
+/* Desktop: 1025px en adelante */
+
+/* Estilos generales para móvil */
+@media screen and (max-width: 768px) {
+    /* Contenedores principales */
+    .container {
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    /* Navegación */
+    .nav-menu {
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--background-primary);
+        padding: 2rem;
+        transition: 0.3s;
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-item {
+        margin: 1rem 0;
+    }
+
+    /* Grids y layouts */
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Cards y elementos */
+    .card {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+
+    /* Formularios */
+    .form-group {
+        width: 100%;
+    }
+
+    input, textarea, select {
+        width: 100%;
+    }
+
+    /* Botones */
+    .btn {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+
+    /* Imágenes */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Carrousel */
+    .carrousel-container {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .carrousel-item {
+        width: 100%;
+    }
+}
+
+/* Estilos para tablet */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    /* Contenedores principales */
+    .container {
+        width: 90%;
+        padding: 0 20px;
+    }
+
+    /* Grids y layouts */
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    /* Cards y elementos */
+    .card {
+        width: calc(50% - 1rem);
+    }
+
+    /* Formularios */
+    .form-group {
+        width: 48%;
+    }
+
+    /* Carrousel */
+    .carrousel-container {
+        width: 90%;
+    }
+
+    .carrousel-item {
+        width: 50%;
+    }
+}
+
+/* Ajustes específicos para el carrito */
+@media screen and (max-width: 768px) {
+    .cart-container {
+        flex-direction: column;
+    }
+
+    .cart-items {
+        width: 100%;
+    }
+
+    .cart-summary {
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+
+/* Ajustes específicos para productos */
+@media screen and (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-card {
+        width: 100%;
+    }
+
+    .product-details {
+        flex-direction: column;
+    }
+}
+
+/* Ajustes específicos para el panel de administración */
+@media screen and (max-width: 768px) {
+    .admin-dashboard {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    .admin-content {
+        width: 100%;
+        margin-bottom: 60px;
+    }
+} 

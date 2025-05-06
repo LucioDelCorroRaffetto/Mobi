@@ -9,55 +9,132 @@
     <link rel="stylesheet" href="/stylesheets/productCart.css">
 </head>
 <body>
-    <header>
-    </header>
+    <%- include('../partials/headCart.ejs') %>
 
-    <main>
-        <h1>Mi Carrito de Compras</h1>
-        <section class="cart-details">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Direccion</th>
-                        <th>Inmueble</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                        <th>Total</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% cartItems.forEach(item => { %>
-                    <tr>
-                        <td><%= item.direccion %></td>
-                        <td><%= item.tipo %></td>
-                        <td><input type="number" value="<%= item.cantidad || 1 %>"></td>
-                        <td>$<%= item.precio.toFixed(2) %></td>
-                        <td>$<%= (item.precio * (item.cantidad || 1)).toFixed(2) %></td>
-                        <td>
-                                <a href="#"><button type="submit" class="btn-remove">Eliminar</button></a>
-                        </td>
-                    </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-        </section>
+    <main class="cart-container">
+        <h1 class="cart-title">Mi Carrito de Compras</h1>
+        
+        <% if (cartItems && cartItems.length > 0) { %>
+            <div class="cart-items">
+                <% cartItems.forEach(item => { %>
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            <img src="<%= item.foto || '/images/products/imageDefault.png' %>" alt="<%= item.titulo %>">
+                        </div>
+                        <div class="cart-item-details">
+                            <h3 class="cart-item-title"><%= item.titulo %></h3>
+                            <p class="cart-item-address">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <%= item.direccion.calle %> <%= item.direccion.numero %>, <%= item.direccion.barrio.nombre %>
+                            </p>
+                            <div class="cart-item-price">
+                                <span class="price-amount">$<%= item.precio.toLocaleString('es-AR') %></span>
+                                <span class="price-currency"><%= item.moneda %></span>
+                            </div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn minus">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1">
+                                <button class="quantity-btn plus">+</button>
+                            </div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="btn-remove" data-id="<%= item.id %>">
+                                <i class="fas fa-trash"></i>
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
 
-        <section class="cart-summary">
-            <h2>Resumen del Pedido</h2>
-            <p>Subtotal: $<%= subtotal.toFixed(2) %></p>
-            <p>Impuestos: $<%= taxes.toFixed(2) %></p>
-            <p><strong>Total: $<%= total.toFixed(2) %></strong></p>
-            <button class="btn-checkout">Proceder al Pago</button>
-            <a href="/inmuebles/products"><button class="btn-checkout">Volver a ver los productos</button></a>
-        </section>
+            <div class="cart-total-container">
+                <div class="cart-total">
+                    <span class="cart-total-label">Subtotal:</span>
+                    <span class="cart-total-amount">$<%= subtotal.toLocaleString('es-AR') %></span>
+                </div>
+                <div class="cart-total">
+                    <span class="cart-total-label">Impuestos (15%):</span>
+                    <span class="cart-total-amount">$<%= taxes.toLocaleString('es-AR') %></span>
+                </div>
+                <div class="cart-total">
+                    <span class="cart-total-label">Total:</span>
+                    <span class="cart-total-amount">$<%= total.toLocaleString('es-AR') %></span>
+                </div>
+                <button class="checkout-button">
+                    <i class="fas fa-credit-card"></i>
+                    Proceder al Pago
+                </button>
+            </div>
+        <% } else { %>
+            <div class="cart-empty">
+                <i class="fas fa-shopping-cart"></i>
+                <h2>Tu carrito está vacío</h2>
+                <p>Explora nuestras propiedades y encuentra tu próximo hogar</p>
+                <a href="/inmuebles" class="continue-shopping">
+                    <i class="fas fa-arrow-left"></i>
+                    Volver a las propiedades
+                </a>
+            </div>
+        <% } %>
     </main>
-    <%-include('../partials/footer.ejs')%>
-    <!-- Scripts -->
-    <script src="/javascripts/home.js"></script>
+
+    <%- include('../partials/footer.ejs') %>
+
     <script>
-      // Agregar evento de cambio al checkbox
-    document.getElementById("input").addEventListener("change", changeTheme);
+    document.addEventListener('DOMContentLoaded', function() {
+        // Manejar cambios en la cantidad
+        const quantityInputs = document.querySelectorAll('.quantity-input');
+        quantityInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.value < 1) this.value = 1;
+                updateCartTotal();
+            });
+        });
+
+        // Manejar botones de cantidad
+        const quantityButtons = document.querySelectorAll('.quantity-btn');
+        quantityButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('.quantity-input');
+                if (this.classList.contains('minus')) {
+                    if (input.value > 1) input.value--;
+                } else {
+                    input.value++;
+                }
+                updateCartTotal();
+            });
+        });
+
+        // Manejar eliminación de items
+        const removeButtons = document.querySelectorAll('.btn-remove');
+        removeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const itemId = this.dataset.id;
+                if (confirm('¿Estás seguro de que deseas eliminar este item?')) {
+                    window.location.href = `/carts/remove/${itemId}`;
+                }
+            });
+        });
+
+        // Función para actualizar totales
+        function updateCartTotal() {
+            // Aquí iría la lógica para actualizar los totales
+            // Por ahora solo actualizamos la UI
+            const items = document.querySelectorAll('.cart-item');
+            let subtotal = 0;
+            
+            items.forEach(item => {
+                const price = parseFloat(item.querySelector('.price-amount').textContent.replace('$', '').replace('.', ''));
+                const quantity = parseInt(item.querySelector('.quantity-input').value);
+                subtotal += price * quantity;
+            });
+
+            const taxes = subtotal * 0.15;
+            const total = subtotal + taxes;
+
+            document.querySelector('.cart-total-amount').textContent = `$${total.toLocaleString('es-AR')}`;
+        }
+    });
     </script>
 </body>
 </html>

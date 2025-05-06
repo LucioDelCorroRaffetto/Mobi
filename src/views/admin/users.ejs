@@ -1,0 +1,123 @@
+<%- include('../partials/headAdmin') %>
+<%- include('../partials/header') %>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>Gestión de Usuarios</h1>
+        </div>
+
+        <% if (locals.success_msg && success_msg.length > 0) { %>
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i> <%= success_msg %>
+            </div>
+        <% } %>
+
+        <% if (locals.error_msg && error_msg.length > 0) { %>
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i> <%= error_msg %>
+            </div>
+        <% } %>
+
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (locals.users && users.length > 0) { %>
+                        <% users.forEach(user => { %>
+                            <tr>
+                                <td class="user-id"><%= user.id %></td>
+                                <td class="user-name"><%= user.nombre %></td>
+                                <td class="user-lastname"><%= user.apellido %></td>
+                                <td class="user-email"><%= user.email %></td>
+                                <td class="user-role">
+                                    <select class="form-select role-select" data-user-id="<%= user.id %>">
+                                        <option value="cliente" <%= user.tipo === 'cliente' ? 'selected' : '' %>>Cliente</option>
+                                        <option value="agente" <%= user.tipo === 'agente' ? 'selected' : '' %>>Agente</option>
+                                        <option value="admin" <%= user.tipo === 'admin' ? 'selected' : '' %>>Administrador</option>
+                                    </select>
+                                </td>
+                                <td class="user-actions">
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-save save-role" data-user-id="<%= user.id %>" title="Guardar cambios">
+                                            <i class="fas fa-save"></i>
+                                            <span>Guardar</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" class="no-data">
+                                <div class="empty-state">
+                                    <i class="fas fa-users"></i>
+                                    <p>No hay usuarios disponibles</p>
+                                </div>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+    <script src="/javascripts/home.js"></script>
+    <script src="/javascripts/validations.js"></script>
+    <script>
+        // Agregar evento de cambio al checkbox
+        document.getElementById("input").addEventListener("change", changeTheme);
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const saveButtons = document.querySelectorAll('.save-role');
+            
+            saveButtons.forEach(button => {
+                button.addEventListener('click', async function() {
+                    const userId = this.dataset.userId;
+                    const select = document.querySelector(`.role-select[data-user-id="${userId}"]`);
+                    const newRole = select.value;
+                    
+                    try {
+                        const response = await fetch(`/admin/users/${userId}/role`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content
+                            },
+                            body: JSON.stringify({ role: newRole })
+                        });
+                        
+                        if (response.ok) {
+                            window.location.href = '/admin/users';
+                        } else {
+                            const data = await response.json();
+                            alert(data.message || 'Error al actualizar el rol del usuario');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Error al actualizar el rol del usuario');
+                    }
+                });
+            });
+
+            const themeToggle = document.getElementById("input");
+            if (themeToggle) {
+                themeToggle.addEventListener("change", changeTheme);
+            }
+        });
+    </script>
+
+
+</body>
+</html> 

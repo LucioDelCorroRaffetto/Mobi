@@ -1,4 +1,5 @@
 const { Usuario, Propiedad, Direccion, Barrio, Categoria } = require('../database/models');
+const productsController = require('./productsController');
 
 const adminController = {
   // Formulario para agregar una propiedad
@@ -18,11 +19,8 @@ const adminController = {
       });
     } catch (error) {
       console.error('Error al mostrar el formulario de agregar:', error);
-      res.status(500).render('error', {
-        title: 'Error',
-        message: 'Error al cargar el formulario',
-        error: { status: 500 }
-      });
+      req.flash('error', 'Error al cargar el formulario de agregar propiedad');
+      return res.redirect('/admin/products');
     }
   },
 
@@ -30,15 +28,19 @@ const adminController = {
   showEditForm: async (req, res) => {
     try {
       const propiedad = await Propiedad.findByPk(req.params.id, {
-        include: ['direccion', 'barrio', 'categoria', 'propietario', 'agente']
+        include: [
+          { model: Direccion, as: 'direccion' },
+          { model: Barrio, as: 'barrio' },
+          { model: Categoria, as: 'categoria' },
+          { model: Usuario, as: 'propietario' },
+          { model: Usuario, as: 'agente' }
+        ],
+        paranoid: false
       });
       
       if (!propiedad) {
-        return res.status(404).render('error', {
-          title: 'Propiedad no encontrada',
-          message: 'La propiedad que intentas editar no existe o ha sido eliminada.',
-          error: { status: 404 }
-        });
+        req.flash('error', 'La propiedad que intentas editar no existe');
+        return res.redirect('/admin/products');
       }
       
       const agentes = await Usuario.findAll({
@@ -49,182 +51,222 @@ const adminController = {
       
       res.render('products/productEdit', { 
         title: 'Editar Propiedad',
-        propiedad, 
+        product: propiedad,
         agentes,
         barrios,
         categorias
       });
     } catch (error) {
       console.error('Error al mostrar el formulario de edición:', error);
-      res.status(500).render('error', {
-        title: 'Error',
-        message: 'Error al cargar el formulario',
-        error: { status: 500 }
-      });
+      req.flash('error', 'Error al cargar el formulario de edición');
+      return res.redirect('/admin/products');
     }
   },
 
-  // Procesar la adición de una propiedad
-  addProperty: async (req, res) => {
-    try {
-      // Primero crear la dirección
-      const direccion = await Direccion.create({
-        calle: req.body.calle,
-        numero: req.body.numero,
-        piso: req.body.piso,
-        departamento: req.body.departamento,
-        codigo_postal: req.body.codigo_postal,
-        ciudad: req.body.ciudad,
-        provincia: req.body.provincia,
-        pais: req.body.pais || 'Argentina'
-      });
-      
-      // Luego crear la propiedad
-      await Propiedad.create({
-        direccion_id: direccion.id,
-        barrio_id: req.body.barrio_id,
-        categoria_id: req.body.categoria_id,
-        ambientes: parseInt(req.body.ambientes) || 0,
-        precio: parseFloat(req.body.precio) || 0,
-        m2: parseInt(req.body.m2) || 0,
-        imagen: req.file ? `/images/products/${req.file.filename}` : '/images/imageDefault.png',
-        maps_url: req.body.maps_url,
-        propietario_id: req.body.propietario_id,
-        agente_id: req.body.agente_id,
-        estado: req.body.estado || 'disponible',
-        descripcion: req.body.descripcion
-      });
-      
-      res.redirect('/admin?message=Propiedad agregada exitosamente');
-    } catch (error) {
-      console.error('Error al agregar la propiedad:', error);
-      res.status(500).render('error', {
-        title: 'Error',
-        message: 'Error al agregar la propiedad',
-        error: { status: 500 }
-      });
-    }
-  },
-
-  // Procesar la edición de una propiedad
-  updateProperty: async (req, res) => {
-    try {
-      const propiedad = await Propiedad.findByPk(req.params.id, {
-        include: ['direccion']
-      });
-      
-      if (!propiedad) {
-        return res.status(404).render('error', {
-          title: 'Propiedad no encontrada',
-          message: 'La propiedad que intentas editar no existe o ha sido eliminada.',
-          error: { status: 404 }
-        });
-      }
-      
-      // Actualizar la dirección
-      await propiedad.direccion.update({
-        calle: req.body.calle,
-        numero: req.body.numero,
-        piso: req.body.piso,
-        departamento: req.body.departamento,
-        codigo_postal: req.body.codigo_postal,
-        ciudad: req.body.ciudad,
-        provincia: req.body.provincia,
-        pais: req.body.pais || 'Argentina'
-      });
-      
-      // Actualizar la propiedad
-      const updateData = {
-        barrio_id: req.body.barrio_id,
-        categoria_id: req.body.categoria_id,
-        ambientes: parseInt(req.body.ambientes) || 0,
-        precio: parseFloat(req.body.precio) || 0,
-        m2: parseInt(req.body.m2) || 0,
-        maps_url: req.body.maps_url,
-        estado: req.body.estado || 'disponible',
-        descripcion: req.body.descripcion
-      };
-      
-      // Si se subió una nueva imagen, actualizar la ruta
-      if (req.file) {
-        updateData.imagen = `/images/products/${req.file.filename}`;
-      }
-      
-      await propiedad.update(updateData);
-      
-      res.redirect('/admin?message=Propiedad actualizada exitosamente');
-    } catch (error) {
-      console.error('Error al actualizar la propiedad:', error);
-      res.status(500).render('error', {
-        title: 'Error',
-        message: 'Error al actualizar la propiedad',
-        error: { status: 500 }
-      });
-    }
-  },
-  
-  // Listar todas las propiedades
+  // Listar todas las propiedades para la vista de administración
   listProperties: async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 1;
-      const limit = 10;
+      const limit = 12;
       
       const { count, rows: propiedades } = await Propiedad.findAndCountAll({
-        include: ['propietario', 'agente', 'barrio', 'categoria', 'direccion'],
+        include: [
+          { 
+            model: Direccion, 
+            as: "direccion",
+            required: false,
+            attributes: ['calle', 'numero', 'piso', 'departamento', 'codigo_postal', 'ciudad', 'provincia', 'pais']
+          },
+          { 
+            model: Barrio, 
+            as: "barrio",
+            required: false,
+            attributes: ['nombre']
+          },
+          { 
+            model: Categoria, 
+            as: "categoria",
+            required: false,
+            attributes: ['nombre']
+          },
+          { 
+            model: Usuario, 
+            as: "agente",
+            required: false,
+            attributes: ['nombre', 'apellido', 'email', 'telefono']
+          }
+        ],
         limit,
         offset: (page - 1) * limit,
-        order: [['createdAt', 'DESC']]
+        order: [['createdAt', 'DESC']],
+        paranoid: false
+      });
+
+      const propiedadesConImagen = propiedades.map((propiedad) => {
+        const propiedadJSON = propiedad.get({ plain: true });
+        let imagenPath = propiedadJSON.imagen || "/images/imageDefault.png";
+        
+        if (!imagenPath.startsWith('/')) {
+          imagenPath = `/${imagenPath}`;
+        }
+        
+        if (imagenPath === '/images/imageDefault.png') {
+          imagenPath = '/images/products/budapest.jpg';
+        }
+        
+        return {
+          ...propiedadJSON,
+          foto: imagenPath,
+          titulo: propiedadJSON.titulo || 'Propiedad sin título',
+          precio: propiedadJSON.precio || 0,
+          moneda: propiedadJSON.moneda || 'USD',
+          ambientes: propiedadJSON.ambientes || 0,
+          m2: propiedadJSON.m2 || 0,
+          tipo: propiedadJSON.tipo || 'venta',
+          barrio: propiedadJSON.barrio ? propiedadJSON.barrio.nombre : 'Sin barrio',
+          direccion: propiedadJSON.direccion ? `${propiedadJSON.direccion.calle} ${propiedadJSON.direccion.numero}` : 'Sin dirección',
+          categoria: propiedadJSON.categoria || { nombre: 'Sin categoría' }
+        };
       });
       
       const totalPages = Math.ceil(count / limit);
       
       res.render('products/admin', {
         title: 'Administrar Propiedades',
-        propiedades,
+        products: propiedadesConImagen,
         currentPage: page,
         totalPages,
         hasNextPage: page < totalPages,
         hasPreviousPage: page > 1,
-        message: req.query.message
+        success_msg: req.flash('success'),
+        error_msg: req.flash('error')
       });
     } catch (error) {
       console.error('Error al listar propiedades:', error);
-      res.status(500).render('error', {
-        title: 'Error',
-        message: 'Error al cargar las propiedades',
-        error: { status: 500 }
-      });
+      req.flash('error', 'Error al cargar las propiedades');
+      return res.redirect('/inmuebles/admin');
     }
   },
-  
-  // Eliminar una propiedad
-  deleteProperty: async (req, res) => {
+
+  // Redirigir a la vista de administración después de cualquier operación CRUD
+  redirectToAdmin: (req, res, message) => {
+    return res.redirect(`/inmuebles/admin?message=${message}`);
+  },
+
+  // Envolver las funciones del productsController para redirigir a la vista de administración
+  store: async (req, res) => {
     try {
-      const propiedad = await Propiedad.findByPk(req.params.id, {
-        include: ['direccion']
-      });
-      
-      if (!propiedad) {
-        return res.status(404).render('error', {
-          title: 'Propiedad no encontrada',
-          message: 'La propiedad que intentas eliminar no existe o ya ha sido eliminada.',
-          error: { status: 404 }
-        });
+      const result = await productsController.store(req, res);
+      if (result.error) {
+        req.flash('error', result.error);
+        return res.redirect('/admin/products');
       }
-      
-      // Eliminar la propiedad (esto también eliminará la dirección debido a la relación CASCADE)
-      await propiedad.destroy();
-      
-      res.redirect('/admin?message=Propiedad eliminada exitosamente');
+      req.flash('success', 'Propiedad creada exitosamente');
+      return res.redirect('/admin/products');
+    } catch (error) {
+      console.error('Error al crear la propiedad:', error);
+      req.flash('error', 'Error al crear la propiedad');
+      return res.redirect('/admin/products');
+    }
+  },
+
+  update: async (req, res) => {
+    try {
+      const result = await productsController.update(req, res);
+      if (result.error) {
+        req.flash('error', result.error);
+        return res.redirect('/admin/products');
+      }
+      req.flash('success', 'Propiedad actualizada exitosamente');
+      return res.redirect('/admin/products');
+    } catch (error) {
+      console.error('Error al actualizar la propiedad:', error);
+      req.flash('error', 'Error al actualizar la propiedad');
+      return res.redirect('/admin/products');
+    }
+  },
+
+  destroy: async (req, res) => {
+    try {
+      const result = await productsController.destroy(req, res);
+      if (result.error) {
+        req.flash('error', result.error);
+        return res.redirect('/admin/products');
+      }
+      req.flash('success', 'Propiedad eliminada exitosamente');
+      return res.redirect('/admin/products');
     } catch (error) {
       console.error('Error al eliminar la propiedad:', error);
-      res.status(500).render('error', {
-        title: 'Error',
-        message: 'Error al eliminar la propiedad',
-        error: { status: 500 }
-      });
+      req.flash('error', 'Error al eliminar la propiedad');
+      return res.redirect('/admin/products');
     }
   }
 };
 
-module.exports = adminController;
+// Middleware para verificar si el usuario es administrador
+const Admin = async (req, res, next) => {
+    if (req.session.user && req.session.user.tipo === 'admin') {
+        next();
+    } else {
+        res.status(403).render('error', { 
+            title: 'Acceso Denegado',
+            message: 'Acceso denegado. Se requieren permisos de administrador.',
+            error: { status: 403 }
+        });
+    }
+};
+
+// Obtener todos los usuarios
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await Usuario.findAll({
+            attributes: { exclude: ['password'] }
+        });
+        res.render('admin/users', {
+            title: 'Gestión de Usuarios',
+            users,
+            success_msg: req.flash('success'),
+            error_msg: req.flash('error')
+        });
+    } catch (error) {
+        console.error('Error al obtener usuarios:', error);
+        req.flash('error', 'Error al cargar la lista de usuarios');
+        res.redirect('/admin');
+    }
+};
+
+// Actualizar rol de usuario
+const updateUserRole = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { role } = req.body;
+
+        console.log('Actualizando rol:', { userId, role }); // Debug log
+
+        if (!['cliente', 'agente', 'admin'].includes(role)) {
+            req.flash('error', 'Rol no válido');
+            return res.status(400).json({ message: 'Rol no válido' });
+        }
+
+        const user = await Usuario.findByPk(userId);
+        if (!user) {
+            req.flash('error', 'Usuario no encontrado');
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        await user.update({ tipo: role });
+        req.flash('success', 'Rol actualizado exitosamente');
+        return res.status(200).json({ message: 'Rol actualizado exitosamente' });
+    } catch (error) {
+        console.error('Error al actualizar rol:', error);
+        req.flash('error', 'Error al actualizar el rol del usuario');
+        return res.status(500).json({ message: 'Error al actualizar el rol del usuario' });
+    }
+};
+
+module.exports = {
+    ...adminController,
+    Admin,
+    getAllUsers,
+    updateUserRole
+};

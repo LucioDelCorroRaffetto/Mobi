@@ -49,112 +49,122 @@
                 </div>
             </div>
 
-<!-- Sección de Carrusel -->
-<section class="featured-properties">
-    <div class="section-header">
-        <h2>Propiedades Destacadas</h2>
-        <div class="filter-wrapper">
-            <select id="propertyFilter">
-                <option value="todos">Todas las Propiedades</option>
-                <option value="casa">Casas</option>
-                <option value="departamento">Departamentos</option>
-                <option value="local">Locales</option>
-            </select>
-        </div>
-    </div>
+            <!-- Sección de Carrusel -->
+            <section class="featured-properties" id="carrousel">
+                <div class="section-header">
+                    <h2>Propiedades Destacadas</h2>
+                    <div class="filter-wrapper">
+                        <select id="propertyFilter">
+                            <option value="todos">Todas las Propiedades</option>
+                            <option value="venta">Venta</option>
+                            <option value="alquiler">Alquiler</option>
+                        </select>
+                    </div>
+                </div>
 
-    <div class="carousel">
-        <button class="carousel-button prev">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        
-        <div class="carousel-container">
-            <div class="carousel-track">
-                <% if (locals.products && locals.products.length > 0) { %>
-                    <% locals.products.forEach(producto => { %>
-                        <div class="carousel-item" data-tipo="<%= producto.tipo %>">
-                            <div class="property-card">
-                                <div class="property-image">
-                                    <img src="<%= producto.foto %>" alt="<%= producto.direccion %>">
-                                    <span class="tag"><%= producto.tipo %></span>
-                                </div>
-                                <div class="property-info">
-                                    <h3><%= producto.direccion %></h3>
-                                    <p class="location">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <%= producto.barrio %> - <%= producto.zona %>
-                                    </p>
-                                    <div class="property-footer">
-                                        <span class="price">$<%= producto.precio.toLocaleString('es-AR') %></span>
-                                        <a href="/inmuebles/products/<%= producto.id %>" class="details-btn">Ver más</a>
+                <div class="carousel">
+                    <button class="carousel-button prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    
+                    <div class="carousel-container">
+                        <div class="carousel-track">
+                            <% if (locals.products && locals.products.length > 0) { %>
+                                <% locals.products.forEach(property => { %>
+                                    <div class="carousel-item" data-tipo="<%= property.tipo %>">
+                                        <div class="property-card">
+                                            <div class="property-image">
+                                                <img src="<%= property.foto %>" 
+                                                     alt="<%= property.titulo %>" 
+                                                     onerror="this.onerror=null; this.src='/images/products/budapest.jpg';">
+                                                <span class="tag"><%= property.tipo === 'venta' ? 'Venta' : 'Alquiler' %></span>
+                                            </div>
+                                            <div class="property-info">
+                                                <h3><%= property.titulo %></h3>
+                                                <p class="description"><%= property.descripcion %></p>
+                                                <p class="location">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <%= property.barrio %> - <%= property.direccion %>
+                                                </p>
+                                                <div class="details">
+                                                    <% if (property.ambientes) { %>
+                                                        <span><i class="fas fa-door-open"></i> <%= property.ambientes %> amb.</span>
+                                                    <% } %>
+                                                    <% if (property.m2) { %>
+                                                        <span><i class="fas fa-vector-square"></i> <%= property.m2 %> m²</span>
+                                                    <% } %>
+                                                </div>
+                                                <div class="property-footer">
+                                                    <span class="price"><%= property.moneda %> <%= property.precio.toLocaleString('es-AR') %></span>
+                                                    <a href="/inmuebles/<%= property.id %>" class="details-btn">Ver más</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                <% }) %>
+                            <% } else { %>
+                                <p class="no-properties">No hay propiedades disponibles</p>
+                            <% } %>
                         </div>
-                    <% }) %>
-                <% } else { %>
-                    <p class="no-properties">No hay propiedades disponibles</p>
-                <% } %>
-            </div>
-        </div>
+                    </div>
 
-        <button class="carousel-button next">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
-</section>
+                    <button class="carousel-button next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
 
-<section class="review" id="Reviews">
-    <div class="reviews-section">
-        <h2>Últimas reseñas</h2>
-        <div class="reviews-container">
-          <div class="review-card">
-            <div class="stars">
-              <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
-            </div>
-            <div class="review-title">Título de la reseña</div>
-            <div class="review-body">Cuerpo de la reseña</div>
-            <div class="review-footer">
-              <div class="reviewer-img"></div>
-              <div class="reviewer-details">
-                Nombre del reseñador<br>
-                Fecha
-              </div>
-            </div>
-          </div>
-    
-          <div class="review-card">
-            <div class="stars">
-              <span>★</span><span>★</span><span>★</span><span>☆</span><span>☆</span>
-            </div>
-            <div class="review-title">Título de la reseña</div>
-            <div class="review-body">Cuerpo de la reseña</div>
-            <div class="review-footer">
-              <div class="reviewer-img"></div>
-              <div class="reviewer-details">
-                Nombre del reseñador<br>
-                Fecha
-              </div>
-            </div>
-          </div>
-    
-          <div class="review-card">
-            <div class="stars">
-              <span>★</span><span>★</span><span>☆</span><span>☆</span><span>☆</span>
-            </div>
-            <div class="review-title">Título de la reseña</div>
-            <div class="review-body">Cuerpo de la reseña</div>
-            <div class="review-footer">
-              <div class="reviewer-img"></div>
-              <div class="reviewer-details">
-                Nombre del reseñador<br>
-                Fecha
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-</section>
+            <section class="review" id="Reviews">
+                <div class="reviews-section">
+                    <h2>Últimas reseñas</h2>
+                    <div class="reviews-container">
+                      <div class="review-card">
+                        <div class="stars">
+                          <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+                        </div>
+                        <div class="review-title">Título de la reseña</div>
+                        <div class="review-body">Cuerpo de la reseña</div>
+                        <div class="review-footer">
+                          <div class="reviewer-img"></div>
+                          <div class="reviewer-details">
+                            Nombre del reseñador<br>
+                            Fecha
+                          </div>
+                        </div>
+                      </div>
+                
+                      <div class="review-card">
+                        <div class="stars">
+                          <span>★</span><span>★</span><span>★</span><span>☆</span><span>☆</span>
+                        </div>
+                        <div class="review-title">Título de la reseña</div>
+                        <div class="review-body">Cuerpo de la reseña</div>
+                        <div class="review-footer">
+                          <div class="reviewer-img"></div>
+                          <div class="reviewer-details">
+                            Nombre del reseñador<br>
+                            Fecha
+                          </div>
+                        </div>
+                      </div>
+                
+                      <div class="review-card">
+                        <div class="stars">
+                          <span>★</span><span>★</span><span>☆</span><span>☆</span><span>☆</span>
+                        </div>
+                        <div class="review-title">Título de la reseña</div>
+                        <div class="review-body">Cuerpo de la reseña</div>
+                        <div class="review-footer">
+                          <div class="reviewer-img"></div>
+                          <div class="reviewer-details">
+                            Nombre del reseñador<br>
+                            Fecha
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </section>
         </main>
         <%-include('./partials/footer.ejs')%>
         <!-- Scripts -->

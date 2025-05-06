@@ -13,12 +13,30 @@ const productsController = {
   // Listar todas las propiedades
   allProducts: async (req, res) => {
     try {
+      console.log('=== Iniciando controlador allProducts ===');
+      console.log('Verificando conexión a la base de datos...');
+      
+      // Verificar la conexión a la base de datos
+      try {
+        await Propiedad.sequelize.authenticate();
+        console.log('Conexión a la base de datos establecida correctamente.');
+      } catch (error) {
+        console.error('Error al conectar con la base de datos:', error);
+        throw new Error('No se pudo conectar con la base de datos');
+      }
+
       const page = parseInt(req.query.page) || 1;
       const limit = 12;
 
-      console.log('Iniciando búsqueda de productos...');
       console.log('Parámetros de búsqueda:', { page, limit });
 
+      // Verificar si el modelo Propiedad está definido
+      if (!Propiedad) {
+        console.error('Error: El modelo Propiedad no está definido');
+        throw new Error('El modelo Propiedad no está definido');
+      }
+
+      console.log('Intentando buscar propiedades...');
       const { count, rows: propiedades } = await Propiedad.findAndCountAll({
         include: [
           { 
@@ -89,6 +107,7 @@ const productsController = {
 
       const totalPages = Math.ceil(count / limit);
 
+      console.log('Intentando renderizar la vista...');
       res.render("products/products", {
         title: "Propiedades",
         resultadoInmueble: propiedadesConImagen,
@@ -339,8 +358,9 @@ const productsController = {
       }
 
       // Validar propietario_id si está presente
+      let propietarioId = null;
       if (req.body.propietario_id) {
-        const propietarioId = parseInt(req.body.propietario_id);
+        propietarioId = parseInt(req.body.propietario_id);
         if (isNaN(propietarioId)) {
           throw new Error('ID de propietario inválido');
         }
@@ -393,7 +413,7 @@ const productsController = {
         categoria_id: parseInt(req.body.categoria_id),
         titulo: req.body.titulo.trim(),
         tipo: req.body.tipo.trim(),
-        propietario_id: req.body.propietario_id ? parseInt(req.body.propietario_id) : usuarioLogueado.id,
+        propietario_id: propietarioId || usuarioLogueado.id,
         agente_id: usuarioLogueado.id,
         dormitorios: parseInt(req.body.dormitorios) || 0,
         banos: parseInt(req.body.banos) || 0,
@@ -412,48 +432,11 @@ const productsController = {
       const propiedad = await Propiedad.create(propiedadData);
       console.log('Propiedad creada:', propiedad.toJSON());
 
-      return res.redirect("/inmuebles/products?message=Propiedad agregada exitosamente");
+      // Retornar la propiedad creada para que el controlador de administración pueda redirigir
+      return propiedad;
     } catch (error) {
-      console.error("=== Error al agregar la propiedad ===");
-      console.error("Mensaje:", error.message);
-      console.error("Stack trace:", error.stack);
-
-      // Si se creó la dirección pero falló la creación de la propiedad, eliminar la dirección
-      if (direccion) {
-        try {
-          await direccion.destroy();
-          console.log('Dirección eliminada después del error');
-        } catch (deleteError) {
-          console.error('Error al eliminar la dirección:', deleteError);
-        }
-      }
-
-      // Obtener datos necesarios para re-renderizar el formulario
-      try {
-        const [agentes, barrios, categorias, propietarios] = await Promise.all([
-          Usuario.findAll({ where: { tipo: "agente", activo: true } }),
-          Barrio.findAll(),
-          Categoria.findAll(),
-          Usuario.findAll({ where: { tipo: "cliente", activo: true } })
-        ]);
-
-        return res.render("products/productAdd", {
-          title: "Error al Agregar Propiedad",
-          errors: [{ msg: error.message }],
-          oldData: req.body,
-          agentes,
-          barrios,
-          categorias,
-          propietarios: propietarios || []
-        });
-      } catch (renderError) {
-        console.error('Error al re-renderizar el formulario:', renderError);
-        return res.status(500).render("error", {
-          title: "Error",
-          message: "Error al procesar la solicitud",
-          error: { status: 500, stack: error.stack }
-        });
-      }
+      console.error("Error al crear la propiedad:", error);
+      throw error; // Propagar el error para que el controlador de admin lo maneje
     }
   },
 
@@ -508,61 +491,28 @@ const productsController = {
       console.log('Body recibido:', JSON.stringify(req.body, null, 2));
       console.log('Archivo recibido:', req.file);
 
-      // Validar errores de express-validator
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        // Obtener datos necesarios para re-renderizar el formulario
-        const [propiedad, agentes, barrios, categorias, propietarios] = await Promise.all([
-          Propiedad.findByPk(req.params.id, {
-            include: [
-              { model: Direccion, as: 'direccion' },
-              { model: Barrio, as: 'barrio' },
-              { model: Categoria, as: 'categoria' },
-              { model: Usuario, as: 'propietario' },
-              { model: Usuario, as: 'agente' }
-            ]
-          }),
-          Usuario.findAll({ where: { tipo: "agente", activo: true } }),
-          Barrio.findAll(),
-          Categoria.findAll(),
-          Usuario.findAll({ where: { tipo: "cliente", activo: true } })
-        ]);
-
-        return res.render("products/productEdit", {
-          title: "Error al Actualizar Propiedad",
-          errors: errors.array(),
-          propiedad,
-          oldData: req.body,
-          agentes,
-          barrios,
-          categorias,
-          propietarios: propietarios || []
-        });
-      }
-
       const propiedad = await Propiedad.findByPk(req.params.id, {
         include: ["direccion"],
+        paranoid: false
       });
 
       if (!propiedad) {
-        return res.status(404).render("error", {
-          title: "Propiedad no encontrada",
-          message:
-            "La propiedad que intentas editar no existe o ha sido eliminada.",
-          error: { status: 404 },
-        });
+        return { error: 'Propiedad no encontrada' };
       }
 
-      await propiedad.direccion.update({
-        calle: req.body.calle,
-        numero: req.body.numero,
-        piso: req.body.piso,
-        departamento: req.body.departamento,
-        codigo_postal: req.body.codigo_postal,
-        ciudad: req.body.ciudad,
-        provincia: req.body.provincia,
-        pais: req.body.pais || "Argentina",
-      });
+      // Actualizar la dirección
+      if (propiedad.direccion) {
+        await propiedad.direccion.update({
+          calle: req.body.calle,
+          numero: req.body.numero,
+          piso: req.body.piso,
+          departamento: req.body.departamento,
+          codigo_postal: req.body.codigo_postal,
+          ciudad: req.body.ciudad,
+          provincia: req.body.provincia,
+          pais: req.body.pais || "Argentina",
+        });
+      }
 
       const updateData = {
         barrio_id: req.body.barrio_id,
@@ -573,6 +523,10 @@ const productsController = {
         maps_url: req.body.maps_url && req.body.maps_url.trim() !== '' ? req.body.maps_url.trim() : null,
         estado: req.body.estado || "disponible",
         descripcion: req.body.descripcion,
+        tipo: req.body.tipo,
+        titulo: req.body.titulo,
+        moneda: req.body.moneda,
+        agente_id: req.body.agente_id
       };
 
       if (req.file) {
@@ -581,43 +535,44 @@ const productsController = {
 
       await propiedad.update(updateData);
 
-      res.redirect("/inmuebles?message=Propiedad actualizada exitosamente");
+      return { success: true };
     } catch (error) {
       console.error("Error al actualizar la propiedad:", error);
-      res.status(500).render("error", {
-        title: "Error",
-        message: "Error al actualizar la propiedad",
-        error: { status: 500 },
-      });
+      return { error: 'Error al actualizar la propiedad' };
     }
   },
 
   // Eliminar propiedad
   destroy: async (req, res) => {
     try {
+      console.log('=== Iniciando eliminación de propiedad ===');
+      console.log('ID de propiedad a eliminar:', req.params.id);
+
       const propiedad = await Propiedad.findByPk(req.params.id, {
         include: ["direccion"],
+        paranoid: false
       });
 
       if (!propiedad) {
-        return res.status(404).render("error", {
-          title: "Propiedad no encontrada",
-          message:
-            "La propiedad que intentas eliminar no existe o ya ha sido eliminada.",
-          error: { status: 404 },
-        });
+        console.log('Propiedad no encontrada');
+        return { error: 'Propiedad no encontrada' };
       }
 
-      await propiedad.destroy();
+      // Eliminar la dirección asociada si existe
+      if (propiedad.direccion) {
+        console.log('Eliminando dirección asociada');
+        await propiedad.direccion.destroy({ force: true });
+      }
 
-      res.redirect("/inmuebles?message=Propiedad eliminada exitosamente");
+      // Eliminar la propiedad
+      console.log('Eliminando propiedad');
+      await propiedad.destroy({ force: true });
+
+      console.log('Propiedad eliminada exitosamente');
+      return { success: true };
     } catch (error) {
       console.error("Error al eliminar la propiedad:", error);
-      res.status(500).render("error", {
-        title: "Error",
-        message: "Error al eliminar la propiedad",
-        error: { status: 500 },
-      });
+      return { error: 'Error al eliminar la propiedad' };
     }
   },
 
@@ -740,6 +695,95 @@ const productsController = {
         error: error.message,
         debug: true,
       };
+    }
+  },
+
+  index: async (req, res) => {
+    try {
+      const page = parseInt(req.query.page) || 1;
+      const limit = 12;
+      const offset = (page - 1) * limit;
+
+      // Obtener todas las propiedades para la lista
+      const { count, rows: properties } = await Propiedad.findAndCountAll({
+        where: { estado: "disponible" },
+        include: [
+          { 
+            model: Direccion, 
+            as: "direccion",
+            required: false,
+            attributes: ['calle', 'numero', 'piso', 'departamento', 'codigo_postal', 'ciudad', 'provincia', 'pais']
+          },
+          { 
+            model: Barrio, 
+            as: "barrio",
+            required: false,
+            attributes: ['nombre']
+          },
+          { 
+            model: Categoria, 
+            as: "categoria",
+            required: false,
+            attributes: ['nombre']
+          },
+          { 
+            model: Usuario, 
+            as: "agente",
+            required: false,
+            attributes: ['nombre', 'apellido', 'email', 'telefono']
+          }
+        ],
+        order: [['createdAt', 'DESC']],
+        limit,
+        offset,
+        paranoid: false
+      });
+
+      // Formatear los productos igual que en adminController
+      const formattedProducts = properties.map(property => {
+        const propertyJSON = property.get({ plain: true });
+        let imagenPath = propertyJSON.imagen || "/images/imageDefault.png";
+        
+        if (!imagenPath.startsWith('/')) {
+          imagenPath = `/${imagenPath}`;
+        }
+        
+        if (imagenPath === '/images/imageDefault.png') {
+          imagenPath = '/images/products/budapest.jpg';
+        }
+
+        return {
+          id: propertyJSON.id,
+          titulo: propertyJSON.titulo || 'Propiedad sin título',
+          descripcion: propertyJSON.descripcion || 'Sin descripción',
+          precio: propertyJSON.precio || 0,
+          moneda: propertyJSON.moneda || 'USD',
+          foto: imagenPath,
+          ambientes: propertyJSON.ambientes || 0,
+          m2: propertyJSON.m2 || 0,
+          tipo: propertyJSON.tipo || 'venta',
+          barrio: propertyJSON.barrio ? propertyJSON.barrio.nombre : 'Sin barrio',
+          direccion: propertyJSON.direccion ? `${propertyJSON.direccion.calle} ${propertyJSON.direccion.numero}` : 'Sin dirección',
+          categoria: propertyJSON.categoria ? propertyJSON.categoria.nombre : 'Sin categoría'
+        };
+      });
+
+      console.log('Productos formateados:', JSON.stringify(formattedProducts, null, 2));
+
+      res.render('index', {
+        title: 'Mobi - Inicio',
+        products: formattedProducts,
+        currentPage: page,
+        totalPages: Math.ceil(count / limit),
+        hasNextPage: page < Math.ceil(count / limit),
+        hasPreviousPage: page > 1
+      });
+    } catch (error) {
+      console.error('Error al cargar la página principal:', error);
+      res.status(500).render('error', {
+        title: 'Error',
+        message: 'Error al cargar la página principal'
+      });
     }
   },
 };
