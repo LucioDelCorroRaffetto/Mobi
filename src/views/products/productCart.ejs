@@ -10,6 +10,7 @@
 </head>
 <body>
     <%- include('../partials/headCart.ejs') %>
+    <%- include('../partials/headCart.ejs') %>
 
     <main class="cart-container">
         <h1 class="cart-title">Mi Carrito de Compras</h1>
@@ -80,7 +81,64 @@
 
     <%- include('../partials/footer.ejs') %>
 
+
+    <%- include('../partials/footer.ejs') %>
+
     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Manejar cambios en la cantidad
+        const quantityInputs = document.querySelectorAll('.quantity-input');
+        quantityInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.value < 1) this.value = 1;
+                updateCartTotal();
+            });
+        });
+
+        // Manejar botones de cantidad
+        const quantityButtons = document.querySelectorAll('.quantity-btn');
+        quantityButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('.quantity-input');
+                if (this.classList.contains('minus')) {
+                    if (input.value > 1) input.value--;
+                } else {
+                    input.value++;
+                }
+                updateCartTotal();
+            });
+        });
+
+        // Manejar eliminación de items
+        const removeButtons = document.querySelectorAll('.btn-remove');
+        removeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const itemId = this.dataset.id;
+                if (confirm('¿Estás seguro de que deseas eliminar este item?')) {
+                    window.location.href = `/carts/remove/${itemId}`;
+                }
+            });
+        });
+
+        // Función para actualizar totales
+        function updateCartTotal() {
+            // Aquí iría la lógica para actualizar los totales
+            // Por ahora solo actualizamos la UI
+            const items = document.querySelectorAll('.cart-item');
+            let subtotal = 0;
+            
+            items.forEach(item => {
+                const price = parseFloat(item.querySelector('.price-amount').textContent.replace('$', '').replace('.', ''));
+                const quantity = parseInt(item.querySelector('.quantity-input').value);
+                subtotal += price * quantity;
+            });
+
+            const taxes = subtotal * 0.15;
+            const total = subtotal + taxes;
+
+            document.querySelector('.cart-total-amount').textContent = `$${total.toLocaleString('es-AR')}`;
+        }
+    });
     document.addEventListener('DOMContentLoaded', function() {
         // Manejar cambios en la cantidad
         const quantityInputs = document.querySelectorAll('.quantity-input');

@@ -4,9 +4,12 @@
 
 <div class="edit-container">
     <h1>Editar Propiedad</h1>
+    <h1>Editar Propiedad</h1>
 
     <% if (locals.error_msg && error_msg.length > 0) { %>
+    <% if (locals.error_msg && error_msg.length > 0) { %>
         <div class="alert alert-danger">
+            <%= error_msg %>
             <%= error_msg %>
         </div>
     <% } %>
@@ -15,15 +18,20 @@
         <form action="/admin/products/<%= product.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="foto">Imagen de la Propiedad:</label>
+                <label for="foto">Imagen de la Propiedad:</label>
                 <input type="file" name="foto" id="foto" accept="image/*">
                 <% if (product.imagen) { %>
+                <% if (product.imagen) { %>
                     <div class="current-image">
+                        <img src="<%= product.imagen %>" alt="Imagen actual de la propiedad">
                         <img src="<%= product.imagen %>" alt="Imagen actual de la propiedad">
                     </div>
                 <% } %>
             </div>
 
             <div class="form-group">
+                <label for="titulo">Título: *</label>
+                <input type="text" name="titulo" id="titulo" value="<%= product.titulo %>" required>
                 <label for="titulo">Título: *</label>
                 <input type="text" name="titulo" id="titulo" value="<%= product.titulo %>" required>
             </div>
@@ -34,9 +42,16 @@
                     <option value="venta" <%= product.tipo === 'venta' ? 'selected' : '' %>>Venta</option>
                     <option value="alquiler" <%= product.tipo === 'alquiler' ? 'selected' : '' %>>Alquiler</option>
                 </select>
+                <label for="tipo">Tipo: *</label>
+                <select name="tipo" id="tipo" required>
+                    <option value="venta" <%= product.tipo === 'venta' ? 'selected' : '' %>>Venta</option>
+                    <option value="alquiler" <%= product.tipo === 'alquiler' ? 'selected' : '' %>>Alquiler</option>
+                </select>
             </div>
 
             <div class="form-group">
+                <label for="precio">Precio: *</label>
+                <input type="number" name="precio" id="precio" value="<%= product.precio %>" required>
                 <label for="precio">Precio: *</label>
                 <input type="number" name="precio" id="precio" value="<%= product.precio %>" required>
             </div>
@@ -46,10 +61,32 @@
                 <select name="moneda" id="moneda" required>
                     <option value="USD" <%= product.moneda === 'USD' ? 'selected' : '' %>>USD</option>
                     <option value="ARS" <%= product.moneda === 'ARS' ? 'selected' : '' %>>ARS</option>
+                <label for="moneda">Moneda: *</label>
+                <select name="moneda" id="moneda" required>
+                    <option value="USD" <%= product.moneda === 'USD' ? 'selected' : '' %>>USD</option>
+                    <option value="ARS" <%= product.moneda === 'ARS' ? 'selected' : '' %>>ARS</option>
                 </select>
             </div>
 
             <div class="form-group">
+                <label for="ambientes">Ambientes: *</label>
+                <input type="number" name="ambientes" id="ambientes" value="<%= product.ambientes %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="m2">Metros Cuadrados: *</label>
+                <input type="number" name="m2" id="m2" value="<%= product.m2 %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="barrio_id">Barrio: *</label>
+                <select name="barrio_id" id="barrio_id" required>
+                    <% barrios.forEach(barrio => { %>
+                        <option value="<%= barrio.id %>" <%= product.barrio_id === barrio.id ? 'selected' : '' %>>
+                            <%= barrio.nombre %>
+                        </option>
+                    <% }); %>
+                </select>
                 <label for="ambientes">Ambientes: *</label>
                 <input type="number" name="ambientes" id="ambientes" value="<%= product.ambientes %>" required>
             </div>
@@ -79,9 +116,25 @@
                         </option>
                     <% }); %>
                 </select>
+                <label for="categoria_id">Categoría: *</label>
+                <select name="categoria_id" id="categoria_id" required>
+                    <% categorias.forEach(categoria => { %>
+                        <option value="<%= categoria.id %>" <%= product.categoria_id === categoria.id ? 'selected' : '' %>>
+                            <%= categoria.nombre %>
+                        </option>
+                    <% }); %>
+                </select>
             </div>
 
             <div class="form-group">
+                <label for="agente_id">Agente: *</label>
+                <select name="agente_id" id="agente_id" required>
+                    <% agentes.forEach(agente => { %>
+                        <option value="<%= agente.id %>" <%= product.agente_id === agente.id ? 'selected' : '' %>>
+                            <%= agente.nombre %> <%= agente.apellido %>
+                        </option>
+                    <% }); %>
+                </select>
                 <label for="agente_id">Agente: *</label>
                 <select name="agente_id" id="agente_id" required>
                     <% agentes.forEach(agente => { %>
@@ -95,6 +148,17 @@
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
                 <textarea name="descripcion" id="descripcion" rows="4"><%= product.descripcion %></textarea>
+                <label for="descripcion">Descripción:</label>
+                <textarea name="descripcion" id="descripcion" rows="4"><%= product.descripcion %></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado: *</label>
+                <select name="estado" id="estado" required>
+                    <option value="disponible" <%= product.estado === 'disponible' ? 'selected' : '' %>>Disponible</option>
+                    <option value="reservado" <%= product.estado === 'reservado' ? 'selected' : '' %>>Reservado</option>
+                    <option value="vendido" <%= product.estado === 'vendido' ? 'selected' : '' %>>Vendido</option>
+                </select>
             </div>
 
             <div class="form-group">

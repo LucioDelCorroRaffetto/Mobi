@@ -31,21 +31,23 @@ const usersControllers = {
         });
       }
 
-      const existingUser = await Usuario.findOne({
-        where: { email: req.body.email }
-      });
-
-      if (existingUser) {
-        return res.render("users/register", {
-          errores: {
-            email: {
-              msg: "Este email ya está registrado"
-            }
-          },
-          oldData: req.body,
-          title: "Registro"
+        console.log('Buscando usuario existente con email:', formData.email);
+        const existingUser = await Usuario.findOne({
+            where: { email: formData.email.trim() }
         });
-      }
+
+        if (existingUser) {
+            console.log('ERROR: Email ya existe:', formData.email);
+            return res.render("users/register", {
+                errores: {
+                    email: {
+                        msg: "Este email ya está registrado"
+                    }
+                },
+                oldData: formData,
+                title: "Registro"
+            });
+        }
 
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -79,6 +81,8 @@ const usersControllers = {
 
   processLogin: async (req, res) => {
     try {
+      console.log('Datos de login recibidos:', req.body);
+      
       const errores = validationResult(req);
 
       if (!errores.isEmpty()) {
@@ -89,6 +93,7 @@ const usersControllers = {
         });
       }
 
+      // Buscar el usuario sin filtrar por activo
       const usuario = await Usuario.findOne({
         where: { 
           email: req.body.email,
@@ -156,19 +161,37 @@ const usersControllers = {
   profile: async (req, res) => {
     try {
       if (!req.session.user) {
+        req.flash('error', 'Debes iniciar sesión para ver tu perfil');
         return res.redirect('/users/login');
       }
 
       const usuario = await Usuario.findByPk(req.session.user.id);
 
       if (!usuario) {
-        req.session.destroy();
+        req.flash('error', 'Usuario no encontrado');
         return res.redirect('/users/login');
       }
 
+      // Asegurar que la ruta de la imagen comience con /
+      let imagenPath = usuario.imagen;
+      if (imagenPath && !imagenPath.startsWith('/')) {
+        imagenPath = `/${imagenPath}`;
+      }
+
+      // Formatear la fecha de registro
+      const fechaRegistro = usuario.fecha_registro ? 
+        new Date(usuario.fecha_registro).toLocaleDateString('es-AR') : 
+        'No disponible';
+
       res.render('users/profile', {
         title: 'Mi Perfil',
-        user: usuario
+        user: {
+          ...usuario.get({ plain: true }),
+          imagen: imagenPath || '/images/users/default.jpg',
+          fecha_registro: fechaRegistro
+        },
+        success_msg: req.flash('success'),
+        error_msg: req.flash('error')
       });
     } catch (error) {
       console.error('Error en profile:', error);
@@ -181,6 +204,7 @@ const usersControllers = {
   update: async (req, res) => {
     try {
       const usuario = await Usuario.findByPk(req.session.user.id);
+
 
       if (!usuario) {
         return res.status(404).send('Usuario no encontrado');
@@ -200,7 +224,8 @@ const usersControllers = {
         imagen: usuario.imagen
       };
 
-      res.redirect('/users/profile');
+      req.flash('success', 'Perfil actualizado exitosamente');
+      return res.redirect('/users/profile');
     } catch (error) {
       console.error('Error en update:', error);
       res.status(500).render('error', {

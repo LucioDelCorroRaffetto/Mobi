@@ -27,8 +27,14 @@
                                  alt="<%= propiedad.titulo %>" 
                                  onerror="this.onerror=null; this.src='/images/products/budapest.jpg';">
                             <span class="tag"><%= propiedad.tipo === 'venta' ? 'Venta' : 'Alquiler' %></span>
+                            <img src="<%= propiedad.foto %>" 
+                                 alt="<%= propiedad.titulo %>" 
+                                 onerror="this.onerror=null; this.src='/images/products/budapest.jpg';">
+                            <span class="tag"><%= propiedad.tipo === 'venta' ? 'Venta' : 'Alquiler' %></span>
                         </div>
                         <div class="property-info">
+                            <h3><%= propiedad.titulo %></h3>
+                            <p class="description"><%= propiedad.descripcion %></p>
                             <h3><%= propiedad.titulo %></h3>
                             <p class="description"><%= propiedad.descripcion %></p>
                             <p class="location">
@@ -39,7 +45,16 @@
                             <div class="details">
                                 <% if (propiedad.ambientes) { %>
                                     <span><i class="fas fa-door-open"></i> <%= propiedad.ambientes %> amb.</span>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <%= propiedad.barrio ? propiedad.barrio.nombre : 'Sin barrio' %> - 
+                                <%= propiedad.direccion ? `${propiedad.direccion.calle} ${propiedad.direccion.numero}` : 'Sin dirección' %>
+                            </p>
+                            <div class="details">
+                                <% if (propiedad.ambientes) { %>
+                                    <span><i class="fas fa-door-open"></i> <%= propiedad.ambientes %> amb.</span>
                                 <% } %>
+                                <% if (propiedad.m2) { %>
+                                    <span><i class="fas fa-vector-square"></i> <%= propiedad.m2 %> m²</span>
                                 <% if (propiedad.m2) { %>
                                     <span><i class="fas fa-vector-square"></i> <%= propiedad.m2 %> m²</span>
                                 <% } %>

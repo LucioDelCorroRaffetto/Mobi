@@ -26,7 +26,9 @@ const storage = multer.diskStorage({
         cb(null, uploadDir);
     },
     filename: function(req, file, cb) {
+    filename: function(req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, 'user-' + uniqueSuffix + path.extname(file.originalname));
         cb(null, 'user-' + uniqueSuffix + path.extname(file.originalname));
     }
 });
@@ -47,6 +49,8 @@ const upload = multer({
 });
 
 // Rutas de login
+router.get('/login', isNotAuthenticated, login);
+router.post('/login', isNotAuthenticated, loginValidator, processLogin);
 router.get('/login', isNotAuthenticated, login);
 router.post('/login', isNotAuthenticated, loginValidator, processLogin);
 

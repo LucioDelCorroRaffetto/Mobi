@@ -25,7 +25,22 @@ const userStorage = multer.diskStorage({
 const userUpload = multer({ storage: userStorage });
 
 // Rutas principales
+// Configuración de multer para imágenes de usuario
+const userStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../../public/images/users'));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const userUpload = multer({ storage: userStorage });
+
+// Rutas principales
 // Ruta principal - muestra el carrusel de publicidad
+router.get('/', productsController.index);
 router.get('/', productsController.index);
 
 // Ruta de inicio
@@ -47,6 +62,15 @@ router.use('/users', usersRouter);
 
 // Rutas de productos
 router.use('/inmuebles', productsRouter);
+
+// Manejo de errores 404
+router.use((req, res) => {
+    res.status(404).render('error', { 
+        title: 'Error 404', 
+        message: 'Página no encontrada',
+        error: { status: 404 }
+    });
+});
 
 // Manejo de errores 404
 router.use((req, res) => {
