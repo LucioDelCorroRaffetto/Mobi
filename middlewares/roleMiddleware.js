@@ -17,4 +17,4 @@ const isNotAuthenticated = (req, res, next) => {
 module.exports = {
     isAuthenticated,
     isNotAuthenticated
-}; 
+};
