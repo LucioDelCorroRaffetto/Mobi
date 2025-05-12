@@ -601,8 +601,8 @@ img {
   background-color: var(--hover-bg);
 }
 
-.tab-btn.active {
-  color: var(--primary-color);
+.darkMode .tab-btn.active {
+  color: var(--text-color);
 }
 
 .tab-btn.active::after {
