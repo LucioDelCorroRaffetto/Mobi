@@ -1,0 +1,65 @@
+<%- include('./partials/headProduct.ejs')%>
+
+<%-include('./partials/header.ejs')%>
+
+<main>
+    <div class="tabs-container">
+        <div class="properties-grid" id="propertiesContainer">
+            <% if (favorites && favorites.length > 0) { %>
+                <% favorites.forEach(property => { %>
+                    <div class="property-card" data-tipo="<%= property.tipo %>">
+                        <div class="property-image">
+                            <img src="<%= property.imagen.startsWith('/') ? property.imagen : '/' + property.imagen %>"
+                                 alt="<%= property.titulo %>"
+                                 onerror="this.onerror=null; this.src='/images/products/budapest.jpg';">
+                            <span class="tag"><%= property.tipo === 'venta' ? 'Venta' : 'Alquiler' %></span>
+                        </div>
+                        <div class="property-info">
+                            <h3><%= property.titulo %></h3>
+                            <p class="description"><%= property.descripcion %></p>
+                            <p class="location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <%= property.barrio ? property.barrio.nombre : 'Sin barrio' %> -
+                                <%= property.direccion ? `${property.direccion.calle} ${property.direccion.numero}` : 'Sin dirección' %>
+                            </p>
+                            <div class="details">
+                                <% if (property.ambientes) { %>
+                                    <span><i class="fas fa-door-open"></i> <%= property.ambientes %> amb.</span>
+                                <% } %>
+                                <% if (property.m2) { %>
+                                    <span><i class="fas fa-vector-square"></i> <%= property.m2 %> m²</span>
+                                <% } %>
+                            </div>
+                            <div class="property-footer">
+                                <span class="price">$<%= property.precio.toLocaleString('es-AR') %></span>
+                                <div class="property-actions">
+                                    <a href="/inmuebles/<%= property.id %>" class="details-btn">Ver más</a>
+                                    <button class="favorite-button active" data-product-id="<%= property.id %>">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-products-message">
+                    <h2>No tienes propiedades favoritas</h2>
+                    <p>¡Explora nuestro catálogo y agrega algunas propiedades a tus favoritos!</p>
+                    <a href="/inmuebles" class="btn-primary">Ver propiedades</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</main>
+
+<!-- Scripts necesarios -->
+<script src="/javascripts/favorites.js"></script>
+
+<%-include('./partials/footer.ejs')%>
+<!-- Scripts -->
+<script src="/javascripts/home.js"></script>
+<script>
+    // Agregar evento de cambio al checkbox
+    document.getElementById("input").addEventListener("change", changeTheme);
+</script>

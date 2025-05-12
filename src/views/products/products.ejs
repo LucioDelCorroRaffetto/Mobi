@@ -5,8 +5,10 @@
 <main>
     <!-- Banner Principal -->
     <div class="banner">
-        <h1>Bienvenido a Nuestra Tienda</h1>
-        <p>Explora nuestros productos destacados y ofertas especiales.</p>
+        <div class="banner-content">
+            <h1 class="banner-title">Bienvenido a Nuestra Tienda</h1>
+            <p class="banner-msg">Explora nuestros productos destacados y ofertas especiales.</p>
+        </div>
     </div>
                 
     <div class="tabs-container">
@@ -27,14 +29,8 @@
                                  alt="<%= propiedad.titulo %>" 
                                  onerror="this.onerror=null; this.src='/images/products/budapest.jpg';">
                             <span class="tag"><%= propiedad.tipo === 'venta' ? 'Venta' : 'Alquiler' %></span>
-                            <img src="<%= propiedad.foto %>" 
-                                 alt="<%= propiedad.titulo %>" 
-                                 onerror="this.onerror=null; this.src='/images/products/budapest.jpg';">
-                            <span class="tag"><%= propiedad.tipo === 'venta' ? 'Venta' : 'Alquiler' %></span>
                         </div>
                         <div class="property-info">
-                            <h3><%= propiedad.titulo %></h3>
-                            <p class="description"><%= propiedad.descripcion %></p>
                             <h3><%= propiedad.titulo %></h3>
                             <p class="description"><%= propiedad.descripcion %></p>
                             <p class="location">
@@ -45,16 +41,7 @@
                             <div class="details">
                                 <% if (propiedad.ambientes) { %>
                                     <span><i class="fas fa-door-open"></i> <%= propiedad.ambientes %> amb.</span>
-                                <i class="fas fa-map-marker-alt"></i>
-                                <%= propiedad.barrio ? propiedad.barrio.nombre : 'Sin barrio' %> - 
-                                <%= propiedad.direccion ? `${propiedad.direccion.calle} ${propiedad.direccion.numero}` : 'Sin dirección' %>
-                            </p>
-                            <div class="details">
-                                <% if (propiedad.ambientes) { %>
-                                    <span><i class="fas fa-door-open"></i> <%= propiedad.ambientes %> amb.</span>
                                 <% } %>
-                                <% if (propiedad.m2) { %>
-                                    <span><i class="fas fa-vector-square"></i> <%= propiedad.m2 %> m²</span>
                                 <% if (propiedad.m2) { %>
                                     <span><i class="fas fa-vector-square"></i> <%= propiedad.m2 %> m²</span>
                                 <% } %>
@@ -75,18 +62,18 @@
             <% } %>
         </div>
 
-        <% if (!noResults && totalPages > 1) { %>
-        <div class="pagination">
-            <% if (hasPreviousPage) { %>
-                <a href="/inmuebles?page=<%= currentPage - 1 %>" class="page-link">&laquo; Anterior</a>
-            <% } %>
-            
-            <span class="page-info">Página <%= currentPage %> de <%= totalPages %></span>
-            
-            <% if (hasNextPage) { %>
-                <a href="/inmuebles?page=<%= currentPage + 1 %>" class="page-link">Siguiente &raquo;</a>
-            <% } %>
-        </div>
+        <% if (locals.totalPages && totalPages > 1) { %>
+            <div class="pagination">
+                <% if (locals.hasPreviousPage) { %>
+                    <a href="/inmuebles?page=<%= currentPage - 1 %>" class="page-link">&laquo; Anterior</a>
+                <% } %>
+                
+                <span class="page-info">Página <%= currentPage %> de <%= totalPages %></span>
+                
+                <% if (locals.hasNextPage) { %>
+                    <a href="/inmuebles?page=<%= currentPage + 1 %>" class="page-link">Siguiente &raquo;</a>
+                <% } %>
+            </div>
         <% } %>
     </div>
 </main>
@@ -96,41 +83,45 @@
 <!-- Scripts -->
 <script src="/javascripts/home.js"></script>
 <script>
-// Agregar evento de cambio al checkbox
-document.getElementById("input").addEventListener("change", changeTheme);
-
 document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById("input");
+    if (themeToggle) {
+        themeToggle.addEventListener("change", changeTheme);
+    }
+
     const propertyFilter = document.getElementById('propertyFilter');
     const propertyCards = document.querySelectorAll('.property-card');
 
-    propertyFilter.addEventListener('change', () => {
-        const filterValue = propertyFilter.value;
-        console.log('Filtro seleccionado:', filterValue);
-        
+    if (propertyFilter) {
+        propertyFilter.addEventListener('change', () => {
+            const filterValue = propertyFilter.value;
+            console.log('Filtro seleccionado:', filterValue);
+            
+            propertyCards.forEach(card => {
+                const cardType = card.getAttribute('data-tipo');
+                console.log('Tipo de propiedad:', cardType);
+                
+                if (filterValue === 'todos' || cardType === filterValue) {
+                    card.style.display = 'block';
+                    console.log('Mostrando propiedad');
+                } else {
+                    card.style.display = 'none';
+                    console.log('Ocultando propiedad');
+                }
+            });
+        });
+
+        // Aplicar filtro inicial
+        const initialFilter = propertyFilter.value;
         propertyCards.forEach(card => {
             const cardType = card.getAttribute('data-tipo');
-            console.log('Tipo de propiedad:', cardType);
-            
-            if (filterValue === 'todos' || cardType === filterValue) {
+            if (initialFilter === 'todos' || cardType === initialFilter) {
                 card.style.display = 'block';
-                console.log('Mostrando propiedad');
             } else {
                 card.style.display = 'none';
-                console.log('Ocultando propiedad');
             }
         });
-    });
-
-    // Aplicar filtro inicial
-    const initialFilter = propertyFilter.value;
-    propertyCards.forEach(card => {
-        const cardType = card.getAttribute('data-tipo');
-        if (initialFilter === 'todos' || cardType === initialFilter) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
-    });
+    }
 });
 </script>
 

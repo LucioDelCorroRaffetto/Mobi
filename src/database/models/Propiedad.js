@@ -61,6 +61,22 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       });
+
+      // Relación con Comments
+      Propiedad.hasMany(models.Comment, {
+        foreignKey: 'propiedad_id',
+        as: 'comments',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
+
+      // Relación con Favorites
+      Propiedad.hasMany(models.Favorite, {
+        foreignKey: 'propiedad_id',
+        as: 'favorites',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
     }
   }
 

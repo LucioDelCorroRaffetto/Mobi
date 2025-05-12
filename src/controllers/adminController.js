@@ -1,6 +1,5 @@
 const { Usuario, Propiedad, Direccion, Barrio, Categoria } = require('../database/models');
 const productsController = require('./productsController');
-const productsController = require('./productsController');
 
 const adminController = {
   // Formulario para agregar una propiedad
@@ -37,14 +36,6 @@ const adminController = {
           { model: Usuario, as: 'agente' }
         ],
         paranoid: false
-        include: [
-          { model: Direccion, as: 'direccion' },
-          { model: Barrio, as: 'barrio' },
-          { model: Categoria, as: 'categoria' },
-          { model: Usuario, as: 'propietario' },
-          { model: Usuario, as: 'agente' }
-        ],
-        paranoid: false
       });
       
       if (!propiedad) {
@@ -61,7 +52,6 @@ const adminController = {
       res.render('products/productEdit', { 
         title: 'Editar Propiedad',
         product: propiedad,
-        product: propiedad,
         agentes,
         barrios,
         categorias
@@ -74,40 +64,12 @@ const adminController = {
   },
 
   // Listar todas las propiedades para la vista de administración
-  // Listar todas las propiedades para la vista de administración
   listProperties: async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 1;
       const limit = 12;
-      const limit = 12;
       
       const { count, rows: propiedades } = await Propiedad.findAndCountAll({
-        include: [
-          { 
-            model: Direccion, 
-            as: "direccion",
-            required: false,
-            attributes: ['calle', 'numero', 'piso', 'departamento', 'codigo_postal', 'ciudad', 'provincia', 'pais']
-          },
-          { 
-            model: Barrio, 
-            as: "barrio",
-            required: false,
-            attributes: ['nombre']
-          },
-          { 
-            model: Categoria, 
-            as: "categoria",
-            required: false,
-            attributes: ['nombre']
-          },
-          { 
-            model: Usuario, 
-            as: "agente",
-            required: false,
-            attributes: ['nombre', 'apellido', 'email', 'telefono']
-          }
-        ],
         include: [
           { 
             model: Direccion, 
@@ -165,35 +127,6 @@ const adminController = {
           direccion: propiedadJSON.direccion ? `${propiedadJSON.direccion.calle} ${propiedadJSON.direccion.numero}` : 'Sin dirección',
           categoria: propiedadJSON.categoria || { nombre: 'Sin categoría' }
         };
-        order: [['createdAt', 'DESC']],
-        paranoid: false
-      });
-
-      const propiedadesConImagen = propiedades.map((propiedad) => {
-        const propiedadJSON = propiedad.get({ plain: true });
-        let imagenPath = propiedadJSON.imagen || "/images/imageDefault.png";
-        
-        if (!imagenPath.startsWith('/')) {
-          imagenPath = `/${imagenPath}`;
-        }
-        
-        if (imagenPath === '/images/imageDefault.png') {
-          imagenPath = '/images/products/budapest.jpg';
-        }
-        
-        return {
-          ...propiedadJSON,
-          foto: imagenPath,
-          titulo: propiedadJSON.titulo || 'Propiedad sin título',
-          precio: propiedadJSON.precio || 0,
-          moneda: propiedadJSON.moneda || 'USD',
-          ambientes: propiedadJSON.ambientes || 0,
-          m2: propiedadJSON.m2 || 0,
-          tipo: propiedadJSON.tipo || 'venta',
-          barrio: propiedadJSON.barrio ? propiedadJSON.barrio.nombre : 'Sin barrio',
-          direccion: propiedadJSON.direccion ? `${propiedadJSON.direccion.calle} ${propiedadJSON.direccion.numero}` : 'Sin dirección',
-          categoria: propiedadJSON.categoria || { nombre: 'Sin categoría' }
-        };
       });
       
       const totalPages = Math.ceil(count / limit);
@@ -201,30 +134,15 @@ const adminController = {
       res.render('products/admin', {
         title: 'Administrar Propiedades',
         products: propiedadesConImagen,
-        products: propiedadesConImagen,
         currentPage: page,
         totalPages,
         hasNextPage: page < totalPages,
         hasPreviousPage: page > 1,
         success_msg: req.flash('success'),
         error_msg: req.flash('error')
-        success_msg: req.flash('success'),
-        error_msg: req.flash('error')
       });
     } catch (error) {
       console.error('Error al listar propiedades:', error);
-      req.flash('error', 'Error al cargar las propiedades');
-      return res.redirect('/inmuebles/admin');
-    }
-  },
-
-  // Redirigir a la vista de administración después de cualquier operación CRUD
-  redirectToAdmin: (req, res, message) => {
-    return res.redirect(`/inmuebles/admin?message=${message}`);
-  },
-
-  // Envolver las funciones del productsController para redirigir a la vista de administración
-  store: async (req, res) => {
       req.flash('error', 'Error al cargar las propiedades');
       return res.redirect('/inmuebles/admin');
     }

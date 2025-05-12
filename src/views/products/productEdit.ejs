@@ -4,12 +4,9 @@
 
 <div class="edit-container">
     <h1>Editar Propiedad</h1>
-    <h1>Editar Propiedad</h1>
 
     <% if (locals.error_msg && error_msg.length > 0) { %>
-    <% if (locals.error_msg && error_msg.length > 0) { %>
         <div class="alert alert-danger">
-            <%= error_msg %>
             <%= error_msg %>
         </div>
     <% } %>
@@ -18,12 +15,9 @@
         <form action="/admin/products/<%= product.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="foto">Imagen de la Propiedad:</label>
-                <label for="foto">Imagen de la Propiedad:</label>
                 <input type="file" name="foto" id="foto" accept="image/*">
                 <% if (product.imagen) { %>
-                <% if (product.imagen) { %>
                     <div class="current-image">
-                        <img src="<%= product.imagen %>" alt="Imagen actual de la propiedad">
                         <img src="<%= product.imagen %>" alt="Imagen actual de la propiedad">
                     </div>
                 <% } %>
@@ -32,16 +26,9 @@
             <div class="form-group">
                 <label for="titulo">Título: *</label>
                 <input type="text" name="titulo" id="titulo" value="<%= product.titulo %>" required>
-                <label for="titulo">Título: *</label>
-                <input type="text" name="titulo" id="titulo" value="<%= product.titulo %>" required>
             </div>
 
             <div class="form-group">
-                <label for="tipo">Tipo: *</label>
-                <select name="tipo" id="tipo" required>
-                    <option value="venta" <%= product.tipo === 'venta' ? 'selected' : '' %>>Venta</option>
-                    <option value="alquiler" <%= product.tipo === 'alquiler' ? 'selected' : '' %>>Alquiler</option>
-                </select>
                 <label for="tipo">Tipo: *</label>
                 <select name="tipo" id="tipo" required>
                     <option value="venta" <%= product.tipo === 'venta' ? 'selected' : '' %>>Venta</option>
@@ -51,18 +38,13 @@
 
             <div class="form-group">
                 <label for="precio">Precio: *</label>
-                <input type="number" name="precio" id="precio" value="<%= product.precio %>" required>
-                <label for="precio">Precio: *</label>
-                <input type="number" name="precio" id="precio" value="<%= product.precio %>" required>
+                <input type="number" name="precio" id="precio" value="<%= product.precio %>" required min="0" step="0.01">
             </div>
 
             <div class="form-group">
                 <label for="moneda">Moneda: *</label>
                 <select name="moneda" id="moneda" required>
-                    <option value="USD" <%= product.moneda === 'USD' ? 'selected' : '' %>>USD</option>
-                    <option value="ARS" <%= product.moneda === 'ARS' ? 'selected' : '' %>>ARS</option>
-                <label for="moneda">Moneda: *</label>
-                <select name="moneda" id="moneda" required>
+                    <option value="">Seleccione una moneda</option>
                     <option value="USD" <%= product.moneda === 'USD' ? 'selected' : '' %>>USD</option>
                     <option value="ARS" <%= product.moneda === 'ARS' ? 'selected' : '' %>>ARS</option>
                 </select>
@@ -70,30 +52,22 @@
 
             <div class="form-group">
                 <label for="ambientes">Ambientes: *</label>
-                <input type="number" name="ambientes" id="ambientes" value="<%= product.ambientes %>" required>
+                <input type="number" name="ambientes" id="ambientes" value="<%= product.ambientes %>" required min="1">
             </div>
 
             <div class="form-group">
-                <label for="m2">Metros Cuadrados: *</label>
-                <input type="number" name="m2" id="m2" value="<%= product.m2 %>" required>
+                <label for="dormitorios">Dormitorios: *</label>
+                <input type="number" name="dormitorios" id="dormitorios" value="<%= product.dormitorios || 0 %>" required min="0">
             </div>
 
             <div class="form-group">
-                <label for="barrio_id">Barrio: *</label>
-                <select name="barrio_id" id="barrio_id" required>
-                    <% barrios.forEach(barrio => { %>
-                        <option value="<%= barrio.id %>" <%= product.barrio_id === barrio.id ? 'selected' : '' %>>
-                            <%= barrio.nombre %>
-                        </option>
-                    <% }); %>
-                </select>
-                <label for="ambientes">Ambientes: *</label>
-                <input type="number" name="ambientes" id="ambientes" value="<%= product.ambientes %>" required>
+                <label for="banos">Baños: *</label>
+                <input type="number" name="banos" id="banos" value="<%= product.banos || 0 %>" required min="0">
             </div>
 
             <div class="form-group">
-                <label for="m2">Metros Cuadrados: *</label>
-                <input type="number" name="m2" id="m2" value="<%= product.m2 %>" required>
+                <label for="m2">Metros cuadrados: *</label>
+                <input type="number" name="m2" id="m2" value="<%= product.m2 %>" required min="1">
             </div>
 
             <div class="form-group">
@@ -116,14 +90,6 @@
                         </option>
                     <% }); %>
                 </select>
-                <label for="categoria_id">Categoría: *</label>
-                <select name="categoria_id" id="categoria_id" required>
-                    <% categorias.forEach(categoria => { %>
-                        <option value="<%= categoria.id %>" <%= product.categoria_id === categoria.id ? 'selected' : '' %>>
-                            <%= categoria.nombre %>
-                        </option>
-                    <% }); %>
-                </select>
             </div>
 
             <div class="form-group">
@@ -135,30 +101,11 @@
                         </option>
                     <% }); %>
                 </select>
-                <label for="agente_id">Agente: *</label>
-                <select name="agente_id" id="agente_id" required>
-                    <% agentes.forEach(agente => { %>
-                        <option value="<%= agente.id %>" <%= product.agente_id === agente.id ? 'selected' : '' %>>
-                            <%= agente.nombre %> <%= agente.apellido %>
-                        </option>
-                    <% }); %>
-                </select>
             </div>
 
             <div class="form-group">
-                <label for="descripcion">Descripción:</label>
-                <textarea name="descripcion" id="descripcion" rows="4"><%= product.descripcion %></textarea>
-                <label for="descripcion">Descripción:</label>
-                <textarea name="descripcion" id="descripcion" rows="4"><%= product.descripcion %></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="estado">Estado: *</label>
-                <select name="estado" id="estado" required>
-                    <option value="disponible" <%= product.estado === 'disponible' ? 'selected' : '' %>>Disponible</option>
-                    <option value="reservado" <%= product.estado === 'reservado' ? 'selected' : '' %>>Reservado</option>
-                    <option value="vendido" <%= product.estado === 'vendido' ? 'selected' : '' %>>Vendido</option>
-                </select>
+                <label for="descripcion">Descripción: *</label>
+                <textarea name="descripcion" id="descripcion" rows="4" required><%= product.descripcion %></textarea>
             </div>
 
             <div class="form-group">
@@ -212,7 +159,8 @@
 }
 
 .form-group input,
-.form-group select {
+.form-group select,
+.form-group textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid var(--border-color);
@@ -222,7 +170,8 @@
 }
 
 .form-group input:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
@@ -238,12 +187,6 @@
     height: auto;
     border-radius: 4px;
     border: 1px solid var(--border-color);
-}
-
-.required-fields {
-    color: var(--danger-color);
-    font-size: 0.9em;
-    margin-bottom: 20px;
 }
 
 .form-actions {

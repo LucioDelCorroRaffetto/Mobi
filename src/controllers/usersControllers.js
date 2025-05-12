@@ -31,23 +31,23 @@ const usersControllers = {
         });
       }
 
-        console.log('Buscando usuario existente con email:', formData.email);
-        const existingUser = await Usuario.findOne({
-            where: { email: formData.email.trim() }
-        });
+      console.log('Buscando usuario existente con email:', req.body.email);
+      const existingUser = await Usuario.findOne({
+          where: { email: req.body.email.trim() }
+      });
 
-        if (existingUser) {
-            console.log('ERROR: Email ya existe:', formData.email);
-            return res.render("users/register", {
-                errores: {
-                    email: {
-                        msg: "Este email ya está registrado"
-                    }
-                },
-                oldData: formData,
-                title: "Registro"
-            });
-        }
+      if (existingUser) {
+          console.log('ERROR: Email ya existe:', req.body.email);
+          return res.render("users/register", {
+              errores: {
+                  email: {
+                      msg: "Este email ya está registrado"
+                  }
+              },
+              oldData: req.body,
+              title: "Registro"
+          });
+      }
 
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 

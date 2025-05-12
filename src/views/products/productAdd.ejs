@@ -18,43 +18,43 @@
           <h2>Información de la Dirección</h2>
           <div class="form-grid">
             <div class="form-group">
-              <label for="calle">Calle:</label>
-              <input type="text" id="calle" name="calle" required>
-              <div class="invalid-feedback"></div>
+              <label for="calle">Calle: *</label>
+              <input type="text" id="calle" name="calle" required minlength="2" maxlength="100">
+              <div class="invalid-feedback">La calle es obligatoria y debe tener entre 2 y 100 caracteres</div>
             </div>
             <div class="form-group">
-              <label for="numero">Número:</label>
-              <input type="text" id="numero" name="numero" required>
-              <div class="invalid-feedback"></div>
+              <label for="numero">Número: *</label>
+              <input type="text" id="numero" name="numero" required minlength="1" maxlength="10">
+              <div class="invalid-feedback">El número es obligatorio y debe tener entre 1 y 10 caracteres</div>
             </div>
             <div class="form-group">
               <label for="piso">Piso:</label>
-              <input type="text" id="piso" name="piso">
+              <input type="text" id="piso" name="piso" maxlength="10">
               <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">
               <label for="departamento">Departamento:</label>
-              <input type="text" id="departamento" name="departamento">
+              <input type="text" id="departamento" name="departamento" maxlength="10">
               <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">
               <label for="codigo_postal">Código Postal:</label>
-              <input type="text" id="codigo_postal" name="codigo_postal">
+              <input type="text" id="codigo_postal" name="codigo_postal" maxlength="10">
               <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">
-              <label for="ciudad">Ciudad:</label>
-              <input type="text" id="ciudad" name="ciudad" required>
-              <div class="invalid-feedback"></div>
+              <label for="ciudad">Ciudad: *</label>
+              <input type="text" id="ciudad" name="ciudad" required minlength="2" maxlength="100">
+              <div class="invalid-feedback">La ciudad es obligatoria y debe tener entre 2 y 100 caracteres</div>
             </div>
             <div class="form-group">
-              <label for="provincia">Provincia:</label>
-              <input type="text" id="provincia" name="provincia" required>
-              <div class="invalid-feedback"></div>
+              <label for="provincia">Provincia: *</label>
+              <input type="text" id="provincia" name="provincia" required minlength="2" maxlength="100">
+              <div class="invalid-feedback">La provincia es obligatoria y debe tener entre 2 y 100 caracteres</div>
             </div>
             <div class="form-group">
               <label for="pais">País:</label>
-              <input type="text" id="pais" name="pais" value="Argentina">
+              <input type="text" id="pais" name="pais" value="Argentina" maxlength="100">
               <div class="invalid-feedback"></div>
             </div>
           </div>
@@ -64,53 +64,53 @@
           <h2>Información de la Propiedad</h2>
           <div class="form-grid">
             <div class="form-group">
-              <label for="titulo">Título:</label>
-              <input type="text" id="titulo" name="titulo" required minlength="5">
-              <div class="invalid-feedback"></div>
+              <label for="titulo">Título: *</label>
+              <input type="text" id="titulo" name="titulo" required minlength="5" maxlength="255">
+              <div class="invalid-feedback">El título es obligatorio y debe tener entre 5 y 255 caracteres</div>
             </div>
             <div class="form-group">
-              <label for="tipo">Tipo:</label>
+              <label for="tipo">Tipo: *</label>
               <select id="tipo" name="tipo" required>
                 <option value="">Seleccione un tipo</option>
                 <option value="venta">Venta</option>
                 <option value="alquiler">Alquiler</option>
               </select>
-              <div class="invalid-feedback"></div>
+              <div class="invalid-feedback">Debe seleccionar un tipo de propiedad</div>
             </div>
             <div class="form-group">
-              <label for="barrio_id">Barrio:</label>
+              <label for="barrio_id">Barrio: *</label>
               <select id="barrio_id" name="barrio_id" required>
                 <option value="">Seleccione un barrio</option>
                 <% barrios.forEach(barrio => { %>
                   <option value="<%= barrio.id %>"><%= barrio.nombre %></option>
                 <% }); %>
               </select>
-              <div class="invalid-feedback"></div>
+              <div class="invalid-feedback">Debe seleccionar un barrio</div>
             </div>
             <div class="form-group">
-              <label for="categoria_id">Categoría:</label>
+              <label for="categoria_id">Categoría: *</label>
               <select id="categoria_id" name="categoria_id" required>
                 <option value="">Seleccione una categoría</option>
                 <% categorias.forEach(categoria => { %>
                   <option value="<%= categoria.id %>"><%= categoria.nombre %></option>
                 <% }); %>
               </select>
-              <div class="invalid-feedback"></div>
+              <div class="invalid-feedback">Debe seleccionar una categoría</div>
             </div>
             <div class="form-group">
-              <label for="ambientes">Ambientes:</label>
-              <input type="number" id="ambientes" name="ambientes" value="1" min="1">
-              <div class="invalid-feedback"></div>
+              <label for="ambientes">Ambientes: *</label>
+              <input type="number" id="ambientes" name="ambientes" required min="1" value="1">
+              <div class="invalid-feedback">Debe haber al menos un ambiente</div>
             </div>
             <div class="form-group">
-              <label for="dormitorios">Dormitorios:</label>
-              <input type="number" id="dormitorios" name="dormitorios" value="0" min="0">
-              <div class="invalid-feedback"></div>
+              <label for="dormitorios">Dormitorios: *</label>
+              <input type="number" id="dormitorios" name="dormitorios" required min="0" value="0">
+              <div class="invalid-feedback">El número de dormitorios no puede ser negativo</div>
             </div>
             <div class="form-group">
-              <label for="banos">Baños:</label>
-              <input type="number" id="banos" name="banos" value="1" min="0">
-              <div class="invalid-feedback"></div>
+              <label for="banos">Baños: *</label>
+              <input type="number" id="banos" name="banos" required min="0" value="0">
+              <div class="invalid-feedback">El número de baños no puede ser negativo</div>
             </div>
             <div class="form-group">
               <label for="orientacion">Orientación:</label>
@@ -124,22 +124,23 @@
               <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">
-              <label for="precio">Precio:</label>
-              <input type="number" id="precio" name="precio" required min="0">
-              <div class="invalid-feedback"></div>
+              <label for="precio">Precio: *</label>
+              <input type="number" id="precio" name="precio" required min="0" step="0.01">
+              <div class="invalid-feedback">El precio no puede ser negativo</div>
             </div>
             <div class="form-group">
-              <label for="moneda">Moneda:</label>
+              <label for="moneda">Moneda: *</label>
               <select id="moneda" name="moneda" required>
+                <option value="">Seleccione una moneda</option>
                 <option value="USD">USD</option>
                 <option value="ARS">ARS</option>
               </select>
-              <div class="invalid-feedback"></div>
+              <div class="invalid-feedback">Debe seleccionar una moneda</div>
             </div>
             <div class="form-group">
-              <label for="m2">Metros Cuadrados:</label>
+              <label for="m2">Metros cuadrados: *</label>
               <input type="number" id="m2" name="m2" required min="1">
-              <div class="invalid-feedback"></div>
+              <div class="invalid-feedback">Los metros cuadrados deben ser mayores a 0</div>
             </div>
             <div class="form-group">
               <label for="foto">Imagen:</label>
@@ -157,9 +158,9 @@
               <div class="invalid-feedback"></div>
             </div>
             <div class="form-group full-width">
-              <label for="descripcion">Descripción:</label>
-              <textarea id="descripcion" name="descripcion" required minlength="20" rows="5"></textarea>
-              <div class="invalid-feedback"></div>
+              <label for="descripcion">Descripción: *</label>
+              <textarea id="descripcion" name="descripcion" required minlength="20" maxlength="2000" rows="5"></textarea>
+              <div class="invalid-feedback">La descripción es obligatoria y debe tener entre 20 y 2000 caracteres</div>
             </div>
           </div>
         </div>

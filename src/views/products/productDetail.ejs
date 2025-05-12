@@ -10,6 +10,9 @@
                 <div class="product-meta">
                     <span class="product-type"><%= product.tipo %></span>
                     <span class="product-price">$<%= product.precio ? product.precio.toLocaleString() : '0' %> <%= product.moneda || 'USD' %></span>
+                    <button class="favorite-button" data-product-id="<%= product.id %>">
+                        <i class="fas fa-heart"></i>
+                    </button>
                 </div>
             </div>
 
@@ -116,6 +119,24 @@
                     <% } %>
                 </div>
             </div>
+
+            <!-- Sección de comentarios -->
+            <div class="comments-section">
+                <h2>Comentarios</h2>
+                
+                <% if (locals.user) { %>
+                    <form class="comment-form">
+                        <textarea name="content" placeholder="Escribe tu comentario..." required></textarea>
+                        <button type="submit" class="btn btn-primary">Enviar comentario</button>
+                    </form>
+                <% } else { %>
+                    <p>Debes <a href="/users/login">iniciar sesión</a> para dejar un comentario.</p>
+                <% } %>
+
+                <div class="comment-list">
+                    <!-- Los comentarios se cargarán dinámicamente aquí -->
+                </div>
+            </div>
         <% } else { %>
             <div class="error-message">
                 <h2>Producto no disponible</h2>
@@ -171,6 +192,8 @@
 
     <!-- Scripts -->
     <script src="/javascripts/home.js"></script>
+    <script src="/javascripts/comments.js"></script>
+    <script src="/javascripts/favorites.js"></script>
     <script>
       // Agregar evento de cambio al checkbox
       document.getElementById("input").addEventListener("change", changeTheme);

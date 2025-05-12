@@ -419,3 +419,103 @@ a{
 .darkMode .carousel-dot.active {
     background-color: var(--primary-color);
 }
+
+/* Modo oscuro */
+.darkMode .carrousel {
+    background: var(--background-primary);
+}
+
+.darkMode .carrousel .content {
+    color: var(--text-primary);
+}
+
+.darkMode .carrousel h2 {
+    color: var(--text-primary);
+}
+
+.darkMode .carrousel p {
+    color: var(--text-secondary);
+}
+
+.darkMode .carrousel .counter span {
+    color: var(--text-tertiary);
+}
+
+.darkMode .carrousel .btn {
+    background-color: var(--button-primary);
+}
+
+.darkMode .carrousel .btn:hover {
+    background-color: var(--button-hover);
+}
+
+.darkMode .swiper-slide {
+    background-color: var(--background-secondary);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.darkMode .swiper-slide span {
+    background: var(--primary-color);
+}
+
+.darkMode .swiper-slide h3 {
+    color: var(--text-primary);
+}
+
+.darkMode .swiper-slide p {
+    color: var(--text-secondary);
+}
+
+.darkMode .swiper-pagination-bullet {
+    background: var(--text-secondary);
+}
+
+.darkMode .swiper-pagination-bullet-active {
+    background: var(--primary-color);
+}
+
+.darkMode .circle {
+    background: var(--background-tertiary);
+}
+
+.darkMode .carousel-container {
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.darkMode .carousel-item {
+    background-color: var(--background-secondary);
+}
+
+.darkMode .carousel-item:hover {
+    background-color: var(--background-tertiary);
+}
+
+.darkMode .carousel-item-title {
+    color: var(--text-primary);
+}
+
+.darkMode .carousel-item-description {
+    color: var(--text-secondary);
+}
+
+.darkMode .carousel-button {
+    background-color: var(--button-primary);
+    color: var(--text-primary);
+}
+
+.darkMode .carousel-button:hover {
+    background-color: var(--button-hover);
+}
+
+.darkMode .carousel-button:disabled {
+    background-color: var(--background-tertiary);
+    color: var(--text-tertiary);
+}
+
+.darkMode .carousel-dot {
+    background-color: var(--text-tertiary);
+}
+
+.darkMode .carousel-dot.active {
+    background-color: var(--primary-color);
+}

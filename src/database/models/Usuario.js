@@ -22,6 +22,22 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'cliente_id',
         as: 'visitas'
       });
+
+      // Relación con Comments
+      Usuario.hasMany(models.Comment, {
+        foreignKey: 'usuario_id',
+        as: 'comments',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
+
+      // Relación con Favorites
+      Usuario.hasMany(models.Favorite, {
+        foreignKey: 'usuario_id',
+        as: 'favorites',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
     }
 
     // Método para validar la contraseña

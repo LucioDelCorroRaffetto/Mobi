@@ -1154,3 +1154,107 @@ body {
         gap: 10px;
     }
 }
+
+.banner {
+    min-height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(120deg, #6a9cfb 0%, #e66465 100%);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+.banner-content {
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+    backdrop-filter: blur(7px);
+    border-radius: 24px;
+    padding: 2.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    width: 100%;
+    margin: 2rem auto;
+}
+.banner-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 4px 24px #0006, 0 1px 0 #6a9cfb;
+    margin-bottom: 0.7rem;
+    text-align: center;
+    letter-spacing: 1px;
+}
+.banner-msg {
+    font-size:1.25rem;
+    margin-bottom:1.7rem;
+    color:#fff;
+    text-shadow:0 1px 4px #0007;
+    text-align:center;
+    max-width: 90%;
+}
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.button-group button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff2;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 0.7rem 1.3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #0002;
+    transition: background 0.2s;
+}
+.button-group button#btn-venta {
+    background: #4caf50cc;
+}
+.button-group button#btn-alquiler {
+    background: #2196f3cc;
+}
+.search {
+    display: flex;
+    gap: 0.7rem;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.search button {
+    background: #fff2;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.6rem 1.1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #0002;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.search button#btn-venta {
+    background: #4caf50cc;
+}
+.search button#btn-alquiler {
+    background: #2196f3cc;
+}
+.search input {
+    flex:1;
+    min-width: 180px;
+    max-width: 260px;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px #0001;
+}

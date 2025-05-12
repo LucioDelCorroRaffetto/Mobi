@@ -285,6 +285,7 @@ const productsController = {
       // Validar errores de express-validator
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
+        console.log('Errores de validación:', errors.array());
         // Obtener datos necesarios para re-renderizar el formulario
         const [agentes, barrios, categorias, propietarios] = await Promise.all([
           Usuario.findAll({ where: { tipo: "agente", activo: true } }),
@@ -324,8 +325,12 @@ const productsController = {
       console.log('Usuario logueado:', usuarioLogueado.toJSON());
 
       // Validar que todos los campos requeridos estén presentes y no estén vacíos
-      const requiredFields = ['calle', 'numero', 'ciudad', 'provincia', 'barrio_id', 'categoria_id', 
-                            'titulo', 'tipo', 'precio'];
+      const requiredFields = [
+        'calle', 'numero', 'ciudad', 'provincia', 
+        'barrio_id', 'categoria_id', 'titulo', 'tipo', 
+        'precio', 'ambientes', 'm2', 'descripcion',
+        'dormitorios', 'banos'
+      ];
       
       const missingFields = requiredFields.filter(field => !req.body[field] || req.body[field].toString().trim() === '');
       if (missingFields.length > 0) {
@@ -384,13 +389,28 @@ const productsController = {
         }
       } else {
         // Si no se proporciona propietario_id, usar el usuario actual como propietario
-        console.log('No se proporcionó propietario, usando el usuario actual como propietario');
+        propietarioId = usuarioLogueado.id;
+        console.log('Usando usuario actual como propietario:', propietarioId);
       }
 
       // Validar el tipo de propiedad
       const tiposValidos = ['venta', 'alquiler'];
       if (!tiposValidos.includes(req.body.tipo)) {
         throw new Error('El tipo de propiedad debe ser venta o alquiler');
+      }
+
+      // Validar la moneda
+      const monedasValidas = ['USD', 'ARS'];
+      if (!monedasValidas.includes(req.body.moneda)) {
+        throw new Error('La moneda debe ser USD o ARS');
+      }
+
+      // Validar la orientación si está presente
+      if (req.body.orientacion) {
+        const orientacionesValidas = ['norte', 'sur', 'este', 'oeste'];
+        if (!orientacionesValidas.includes(req.body.orientacion)) {
+          throw new Error('La orientación debe ser norte, sur, este u oeste');
+        }
       }
 
       console.log('=== Creando dirección ===');
@@ -413,8 +433,8 @@ const productsController = {
         categoria_id: parseInt(req.body.categoria_id),
         titulo: req.body.titulo.trim(),
         tipo: req.body.tipo.trim(),
-        propietario_id: propietarioId || usuarioLogueado.id,
-        agente_id: usuarioLogueado.id,
+        propietario_id: propietarioId,
+        agente_id: usuarioLogueado.id, // Usar el usuario actual como agente
         dormitorios: parseInt(req.body.dormitorios) || 0,
         banos: parseInt(req.body.banos) || 0,
         ambientes: parseInt(req.body.ambientes) || 1,
@@ -436,6 +456,15 @@ const productsController = {
       return propiedad;
     } catch (error) {
       console.error("Error al crear la propiedad:", error);
+      // Si se creó la dirección pero falló la creación de la propiedad, eliminar la dirección
+      if (direccion) {
+        try {
+          await direccion.destroy();
+          console.log('Dirección eliminada después del error');
+        } catch (destroyError) {
+          console.error('Error al eliminar la dirección:', destroyError);
+        }
+      }
       throw error; // Propagar el error para que el controlador de admin lo maneje
     }
   },

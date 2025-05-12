@@ -20,7 +20,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Middleware básicos
-// Middleware básicos
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -68,6 +67,17 @@ app.use('/inmuebles', productsRouter);
 
 // Manejo de errores 404
 app.use(function(req, res, next) {
+    // Si la petición es para la API, devolver JSON
+    if (req.path.startsWith('/api/')) {
+        console.log('Ruta API no encontrada:', req.path, req.method);
+        return res.status(404).json({ 
+            error: 'Ruta no encontrada',
+            path: req.path,
+            method: req.method
+        });
+    }
+    
+    // Si no, renderizar la vista de error
     res.status(404).render('error', {
         message: 'Página no encontrada',
         error: { status: 404 }
@@ -76,7 +86,18 @@ app.use(function(req, res, next) {
 
 // Manejo de errores generales
 app.use(function(err, req, res, next) {
-    console.error(err);
+    console.error('Error:', err);
+    
+    // Si la petición es para la API, devolver JSON
+    if (req.path.startsWith('/api/')) {
+        return res.status(err.status || 500).json({
+            error: err.message || 'Error interno del servidor',
+            path: req.path,
+            method: req.method
+        });
+    }
+    
+    // Si no, renderizar la vista de error
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
