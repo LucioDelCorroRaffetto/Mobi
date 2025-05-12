@@ -103,12 +103,6 @@ const usersControllers = {
         }
       });
 
-        where: { 
-          email: req.body.email,
-          activo: true
-        }
-      });
-
       if (!usuario || !await bcrypt.compare(req.body.password, usuario.password)) {
         return res.render("users/login", {
           errores: {

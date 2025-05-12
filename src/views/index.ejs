@@ -1,315 +1,260 @@
 <%- include('./partials/headIndex.ejs')%>
 
-<%-include('./partials/header.ejs')%>
+<%- include('./partials/header.ejs')%>
 
-        <!-- Contenido Principal -->
-        <main>
-            <!-- Banner Principal -->
-            <div class="banner">
-                <div class="banner-content">
-                    <h1 class="banner-title">Tu Inmobiliaria de Confianza</h1>
-                    <p class="banner-msg">Bienvenido a tu próximo hogar. Encuentra la propiedad ideal con nosotros.</p>
-                    <!-- Grupo de Botones -->
-                    <div class="button-group">
-                        <button id="btn-todos"><i class="fas fa-th-large"></i> Todos</button>
-                        <button id="btn-venta"><i class="fas fa-dollar-sign"></i> Venta</button>
-                        <button id="btn-alquiler"><i class="fas fa-key"></i> Alquiler</button>
-                    </div>
-                    <!-- Barra de Búsqueda -->
-                    <div class="search">
-                        <button id="btn-filtrar"><i class="fas fa-filter"></i> Filtrar</button>
-                        <input type="text" id="searchInput" name="searchInput" placeholder="Buscar por barrio o dirección...">
-                        <button id="btn-buscar"><i class="fas fa-search"></i> Buscar</button>
-                    </div>
-                </div>
+<!-- Contenido Principal -->
+<main>
+    <!-- Banner Principal -->
+    <div class="banner">
+        <div class="banner-content">
+            <h1 class="banner-title">Tu Inmobiliaria de Confianza</h1>
+            <p class="banner-msg">Bienvenido a tu próximo hogar. Encuentra la propiedad ideal con nosotros.</p>
+            <!-- Grupo de Botones -->
+            <div class="button-group">
+                <button id="btn-todos"><i class="fas fa-th-large"></i> Todos</button>
+                <button id="btn-venta"><i class="fas fa-dollar-sign"></i> Venta</button>
+                <button id="btn-alquiler"><i class="fas fa-key"></i> Alquiler</button>
             </div>
-            <!-- Contenedor Principal -->
-            <div class="container" id="content-section">
-                <!-- Sección de Nuestra Empresa -->
-                <div class="content-section">
-                    <img src="/images/empresa.webp" alt="Imagen de Propiedad">
-                    <div class="info">
-                        <h2>Nuestra Empresa</h2>
-                        <p>
-                            Nuestra empresa se especializa en ofrecer propiedades de alta calidad, diseñadas para satisfacer las necesidades de nuestros clientes. Con años de experiencia en el mercado, nos hemos ganado una reputación por nuestra atención al detalle y nuestro compromiso con la excelencia.
-                        </p>
-                    </div>
-                </div>
-                <!-- Sección de Confianza -->
-                <div class="content-section">
-                    <div class="info">
-                        <h2>¿Por qué confiar en nosotros?</h2>
-                        <p>
-                            Deberías confiar en nosotros porque nos enfocamos en entender las necesidades específicas de cada cliente y ofrecer soluciones personalizadas. Nuestro equipo de expertos trabajará contigo para encontrar la propiedad perfecta para ti, asegurándose de que tu experiencia sea lo más agradable posible.
-                        </p>
-                    </div>
-                    <div class="content-section">
-                        <img src="/images/empresa.jpg" alt="Imagen de Propiedad">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sección de Carrusel -->
-            <section class="featured-properties" id="carrousel">
-                <div class="section-header">
-                    <h2>Propiedades Destacadas</h2>
-                    <div class="filter-wrapper">
-                        <select id="propertyFilter">
-                            <option value="todos">Todas las Propiedades</option>
-                            <option value="venta">Venta</option>
-                            <option value="alquiler">Alquiler</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="carousel">
-                    <button class="carousel-button prev">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    
-                    <div class="carousel-container">
-                        <div class="carousel-track">
-                            <% if (locals.products && locals.products.length > 0) { %>
-                                <% locals.products.forEach(property => { %>
-                                    <div class="carousel-item" data-tipo="<%= property.tipo %>">
-                                        <div class="property-card">
-                                            <div class="property-image">
-                                                <img src="<%= property.foto %>" 
-                                                     alt="<%= property.titulo %>" 
-                                                     onerror="this.onerror=null; this.src='/images/products/budapest.jpg';">
-                                                <span class="tag"><%= property.tipo === 'venta' ? 'Venta' : 'Alquiler' %></span>
-                                            </div>
-                                            <div class="property-info">
-                                                <h3><%= property.titulo %></h3>
-                                                <p class="description"><%= property.descripcion %></p>
-                                                <p class="location">
-                                                    <i class="fas fa-map-marker-alt"></i>
-                                                    <%= property.barrio %> - <%= property.direccion %>
-                                                </p>
-                                                <div class="details">
-                                                    <% if (property.ambientes) { %>
-                                                        <span><i class="fas fa-door-open"></i> <%= property.ambientes %> amb.</span>
-                                                    <% } %>
-                                                    <% if (property.m2) { %>
-                                                        <span><i class="fas fa-vector-square"></i> <%= property.m2 %> m²</span>
-                                                    <% } %>
-                                                </div>
-                                                <div class="property-footer">
-                                                    <span class="price"><%= property.moneda %> <%= property.precio.toLocaleString('es-AR') %></span>
-                                                    <a href="/inmuebles/<%= property.id %>" class="details-btn">Ver más</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% }) %>
-                            <% } else { %>
-                                <p class="no-properties">No hay propiedades disponibles</p>
-                            <% } %>
-                        </div>
-                    </div>
-
-                    <button class="carousel-button next">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </section>
-                    <button class="carousel-button next">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </section>
-
-            <section class="review" id="Reviews">
-                <div class="reviews-section">
-                    <h2>Últimas reseñas</h2>
-                    <div class="reviews-container">
-                      <div class="review-card">
-                        <div class="stars">
-                          <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
-                        </div>
-                        <div class="review-title">Título de la reseña</div>
-                        <div class="review-body">Cuerpo de la reseña</div>
-                        <div class="review-footer">
-                          <div class="reviewer-img"></div>
-                          <div class="reviewer-details">
-                            Nombre del reseñador<br>
-                            Fecha
-                          </div>
-                        </div>
-                      </div>
-                
-                      <div class="review-card">
-                        <div class="stars">
-                          <span>★</span><span>★</span><span>★</span><span>☆</span><span>☆</span>
-                        </div>
-                        <div class="review-title">Título de la reseña</div>
-                        <div class="review-body">Cuerpo de la reseña</div>
-                        <div class="review-footer">
-                          <div class="reviewer-img"></div>
-                          <div class="reviewer-details">
-                            Nombre del reseñador<br>
-                            Fecha
-                          </div>
-                        </div>
-                      </div>
-                
-                      <div class="review-card">
-                        <div class="stars">
-                          <span>★</span><span>★</span><span>☆</span><span>☆</span><span>☆</span>
-                        </div>
-                        <div class="review-title">Título de la reseña</div>
-                        <div class="review-body">Cuerpo de la reseña</div>
-                        <div class="review-footer">
-                          <div class="reviewer-img"></div>
-                          <div class="reviewer-details">
-                            Nombre del reseñador<br>
-                            Fecha
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            </section>
-            <section class="review" id="Reviews">
-                <div class="reviews-section">
-                    <h2>Últimas reseñas</h2>
-                    <div class="reviews-container">
-                      <div class="review-card">
-                        <div class="stars">
-                          <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
-                        </div>
-                        <div class="review-title">Título de la reseña</div>
-                        <div class="review-body">Cuerpo de la reseña</div>
-                        <div class="review-footer">
-                          <div class="reviewer-img"></div>
-                          <div class="reviewer-details">
-                            Nombre del reseñador<br>
-                            Fecha
-                          </div>
-                        </div>
-                      </div>
-                
-                      <div class="review-card">
-                        <div class="stars">
-                          <span>★</span><span>★</span><span>★</span><span>☆</span><span>☆</span>
-                        </div>
-                        <div class="review-title">Título de la reseña</div>
-                        <div class="review-body">Cuerpo de la reseña</div>
-                        <div class="review-footer">
-                          <div class="reviewer-img"></div>
-                          <div class="reviewer-details">
-                            Nombre del reseñador<br>
-                            Fecha
-                          </div>
-                        </div>
-                      </div>
-                
-                      <div class="review-card">
-                        <div class="stars">
-                          <span>★</span><span>★</span><span>☆</span><span>☆</span><span>☆</span>
-                        </div>
-                        <div class="review-title">Título de la reseña</div>
-                        <div class="review-body">Cuerpo de la reseña</div>
-                        <div class="review-footer">
-                          <div class="reviewer-img"></div>
-                          <div class="reviewer-details">
-                            Nombre del reseñador<br>
-                            Fecha
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            </section>
-        </main>
-        <%-include('./partials/footer.ejs')%>
-        <!-- Scripts -->
-        <script src="/javascripts/home.js"></script>
-        <script>
-            // Agregar evento de cambio al checkbox
-            document.getElementById("input")?.addEventListener("change", changeTheme);
-
-            // --- FILTRADO DEL CARRUSEL ---
-            function filtrarCarrusel({tipo = null, busqueda = '', ambientes = null, m2 = null, precio = null} = {}) {
-                const items = document.querySelectorAll('.carousel-item');
-                items.forEach(item => {
-                    let mostrar = true;
-                    // Filtrar por tipo
-                    if (tipo && tipo !== 'todos') {
-                        mostrar = mostrar && item.getAttribute('data-tipo') === tipo;
-                    }
-                    // Filtrar por búsqueda
-                    if (busqueda) {
-                        const info = item.innerText.toLowerCase();
-                        mostrar = mostrar && info.includes(busqueda.toLowerCase());
-                    }
-                    // Filtrar por ambientes
-                    if (ambientes) {
-                        const amb = item.querySelector('.details span')?.innerText.match(/(\d+) amb\./);
-                        if (amb) {
-                            mostrar = mostrar && Number(amb[1]) >= ambientes;
-                        }
-                    }
-                    // Filtrar por m2
-                    if (m2) {
-                        const metros = item.querySelector('.details span:nth-child(2)')?.innerText.match(/(\d+) m²/);
-                        if (metros) {
-                            mostrar = mostrar && Number(metros[1]) >= m2;
-                        }
-                    }
-                    // Filtrar por precio
-                    if (precio) {
-                        const precioTxt = item.querySelector('.price')?.innerText.replace(/[^\d]/g, '');
-                        if (precioTxt) {
-                            mostrar = mostrar && Number(precioTxt) <= precio;
-                        }
-                    }
-                    item.style.display = mostrar ? '' : 'none';
-                });
-            }
-
-            // Botones de tipo
-            document.getElementById('btn-todos').addEventListener('click', () => filtrarCarrusel({tipo: 'todos'}));
-            document.getElementById('btn-venta').addEventListener('click', () => filtrarCarrusel({tipo: 'venta'}));
-            document.getElementById('btn-alquiler').addEventListener('click', () => filtrarCarrusel({tipo: 'alquiler'}));
-
-            // Búsqueda
-            document.getElementById('btn-buscar').addEventListener('click', () => {
-                const valor = document.getElementById('searchInput').value;
-                filtrarCarrusel({busqueda: valor});
-            });
-
-            // Modal de filtros avanzados
-            const modal = document.getElementById('modal-filtros');
-            document.getElementById('btn-filtrar').addEventListener('click', () => {
-                modal.style.display = 'flex';
-            });
-            document.getElementById('cerrar-modal').addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-            document.getElementById('aplicar-filtros').addEventListener('click', () => {
-                const ambientes = Number(document.getElementById('filtro-ambientes').value) || null;
-                const m2 = Number(document.getElementById('filtro-m2').value) || null;
-                const precio = Number(document.getElementById('filtro-precio').value) || null;
-                filtrarCarrusel({ambientes, m2, precio});
-                modal.style.display = 'none';
-            });
-        </script>
-        <!-- Modal de Filtros Avanzados -->
-        <div id="modal-filtros" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
-            <div style="background:#fff; padding:2rem; border-radius:10px; min-width:300px; position:relative;">
-                <h3>Filtros Avanzados</h3>
-                <label>Ambientes:
-                    <input type="number" id="filtro-ambientes" min="1" max="10">
-                </label><br>
-                <label>Metros cuadrados:
-                    <input type="number" id="filtro-m2" min="10" max="1000">
-                </label><br>
-                <label>Precio máximo:
-                    <input type="number" id="filtro-precio" min="0">
-                </label><br>
-                <button id="aplicar-filtros">Aplicar</button>
-                <button id="cerrar-modal" style="position:absolute; top:10px; right:10px;">X</button>
+            <!-- Barra de Búsqueda -->
+            <div class="search">
+                <button id="btn-filtrar"><i class="fas fa-filter"></i> Filtrar</button>
+                <input type="text" id="searchInput" name="searchInput" placeholder="Buscar por barrio o dirección...">
+                <button id="btn-buscar"><i class="fas fa-search"></i> Buscar</button>
             </div>
         </div>
+    </div>
+    <!-- Contenedor Principal -->
+    <div class="container" id="content-section">
+        <!-- Sección de Nuestra Empresa -->
+        <div class="content-section">
+            <img src="/images/empresa.webp" alt="Imagen de Propiedad">
+            <div class="info">
+                <h2>Nuestra Empresa</h2>
+                <p>
+                    Nuestra empresa se especializa en ofrecer propiedades de alta calidad, diseñadas para satisfacer las necesidades de nuestros clientes. Con años de experiencia en el mercado, nos hemos ganado una reputación por nuestra atención al detalle y nuestro compromiso con la excelencia.
+                </p>
+            </div>
+        </div>
+        <!-- Sección de Confianza -->
+        <div class="content-section">
+            <div class="info">
+                <h2>¿Por qué confiar en nosotros?</h2>
+                <p>
+                    Deberías confiar en nosotros porque nos enfocamos en entender las necesidades específicas de cada cliente y ofrecer soluciones personalizadas. Nuestro equipo de expertos trabajará contigo para encontrar la propiedad perfecta para ti, asegurándose de que tu experiencia sea lo más agradable posible.
+                </p>
+            </div>
+            <div class="content-section">
+                <img src="/images/empresa.jpg" alt="Imagen de Propiedad">
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Carrusel -->
+    <section class="featured-properties" id="carrousel">
+        <div class="section-header">
+            <h2>Propiedades Destacadas</h2>
+            <div class="filter-wrapper">
+                <select id="propertyFilter">
+                    <option value="todos">Todas las Propiedades</option>
+                    <option value="venta">Venta</option>
+                    <option value="alquiler">Alquiler</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="carousel">
+            <button class="carousel-button prev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <% if (locals.products && locals.products.length > 0) { %>
+                        <% locals.products.forEach(property => { %>
+                            <div class="carousel-item" data-tipo="<%= property.tipo %>">
+                                <div class="property-card">
+                                    <div class="property-image">
+                                        <img src="<%= property.foto %>" 
+                                             alt="<%= property.titulo %>" 
+                                             onerror="this.onerror=null; this.src='/images/products/budapest.jpg';">
+                                        <span class="tag"><%= property.tipo === 'venta' ? 'Venta' : 'Alquiler' %></span>
+                                    </div>
+                                    <div class="property-info">
+                                        <h3><%= property.titulo %></h3>
+                                        <p class="description"><%= property.descripcion %></p>
+                                        <p class="location">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <%= property.barrio %> - <%= property.direccion %>
+                                        </p>
+                                        <div class="details">
+                                            <% if (property.ambientes) { %>
+                                                <span><i class="fas fa-door-open"></i> <%= property.ambientes %> amb.</span>
+                                            <% } %>
+                                            <% if (property.m2) { %>
+                                                <span><i class="fas fa-vector-square"></i> <%= property.m2 %> m²</span>
+                                            <% } %>
+                                        </div>
+                                        <div class="property-footer">
+                                            <span class="price"><%= property.moneda %> <%= property.precio.toLocaleString('es-AR') %></span>
+                                            <a href="/inmuebles/<%= property.id %>" class="details-btn">Ver más</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p class="no-properties">No hay propiedades disponibles</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <button class="carousel-button next">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <section class="review" id="Reviews">
+        <div class="reviews-section">
+            <h2>Últimas reseñas</h2>
+            <div class="reviews-container">
+                <div class="review-card">
+                    <div class="stars">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+                    </div>
+                    <div class="review-title">Título de la reseña</div>
+                    <div class="review-body">Cuerpo de la reseña</div>
+                    <div class="review-footer">
+                        <div class="reviewer-img"></div>
+                        <div class="reviewer-details">
+                            Nombre del reseñador<br>
+                            Fecha
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+                    </div>
+                    <div class="review-title">Título de la reseña</div>
+                    <div class="review-body">Cuerpo de la reseña</div>
+                    <div class="review-footer">
+                        <div class="reviewer-img"></div>
+                        <div class="reviewer-details">
+                            Nombre del reseñador<br>
+                            Fecha
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+                    </div>
+                    <div class="review-title">Título de la reseña</div>
+                    <div class="review-body">Cuerpo de la reseña</div>
+                    <div class="review-footer">
+                        <div class="reviewer-img"></div>
+                        <div class="reviewer-details">
+                            Nombre del reseñador<br>
+                            Fecha
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<%- include('./partials/footer.ejs') %>
+
+<!-- Scripts -->
+<script src="/javascripts/home.js"></script>
+<script>
+    // Agregar evento de cambio al checkbox
+    document.getElementById("input")?.addEventListener("change", changeTheme);
+
+    // --- FILTRADO DEL CARRUSEL ---
+    function filtrarCarrusel({tipo = null, busqueda = '', ambientes = null, m2 = null, precio = null} = {}) {
+        const items = document.querySelectorAll('.carousel-item');
+        items.forEach(item => {
+            let mostrar = true;
+            // Filtrar por tipo
+            if (tipo && tipo !== 'todos') {
+                mostrar = mostrar && item.getAttribute('data-tipo') === tipo;
+            }
+            // Filtrar por búsqueda
+            if (busqueda) {
+                const info = item.innerText.toLowerCase();
+                mostrar = mostrar && info.includes(busqueda.toLowerCase());
+            }
+            // Filtrar por ambientes
+            if (ambientes) {
+                const amb = item.querySelector('.details span')?.innerText.match(/(\d+) amb\./);
+                if (amb) {
+                    mostrar = mostrar && Number(amb[1]) >= ambientes;
+                }
+            }
+            // Filtrar por m2
+            if (m2) {
+                const metros = item.querySelector('.details span:nth-child(2)')?.innerText.match(/(\d+) m²/);
+                if (metros) {
+                    mostrar = mostrar && Number(metros[1]) >= m2;
+                }
+            }
+            // Filtrar por precio
+            if (precio) {
+                const precioTxt = item.querySelector('.price')?.innerText.replace(/[^\d]/g, '');
+                if (precioTxt) {
+                    mostrar = mostrar && Number(precioTxt) <= precio;
+                }
+            }
+            item.style.display = mostrar ? '' : 'none';
+        });
+    }
+
+    // Botones de tipo
+    document.getElementById('btn-todos').addEventListener('click', () => filtrarCarrusel({tipo: 'todos'}));
+    document.getElementById('btn-venta').addEventListener('click', () => filtrarCarrusel({tipo: 'venta'}));
+    document.getElementById('btn-alquiler').addEventListener('click', () => filtrarCarrusel({tipo: 'alquiler'}));
+
+    // Búsqueda
+    document.getElementById('btn-buscar').addEventListener('click', () => {
+        const valor = document.getElementById('searchInput').value;
+        filtrarCarrusel({busqueda: valor});
+    });
+
+    // Modal de filtros avanzados
+    const modal = document.getElementById('modal-filtros');
+    document.getElementById('btn-filtrar').addEventListener('click', () => {
+        modal.style.display = 'flex';
+    });
+    document.getElementById('cerrar-modal').addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+    document.getElementById('aplicar-filtros').addEventListener('click', () => {
+        const ambientes = Number(document.getElementById('filtro-ambientes').value) || null;
+        const m2 = Number(document.getElementById('filtro-m2').value) || null;
+        const precio = Number(document.getElementById('filtro-precio').value) || null;
+        filtrarCarrusel({ambientes, m2, precio});
+        modal.style.display = 'none';
+    });
+</script>
+
+<!-- Modal de Filtros Avanzados -->
+<div id="modal-filtros" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
+    <div style="background:#fff; padding:2rem; border-radius:10px; min-width:300px; position:relative;">
+        <h3>Filtros Avanzados</h3>
+        <label>Ambientes:
+            <input type="number" id="filtro-ambientes" min="1" max="10">
+        </label><br>
+        <label>Metros cuadrados:
+            <input type="number" id="filtro-m2" min="10" max="1000">
+        </label><br>
+        <label>Precio máximo:
+            <input type="number" id="filtro-precio" min="0">
+        </label><br>
+        <button id="aplicar-filtros">Aplicar</button>
+        <button id="cerrar-modal" style="position:absolute; top:10px; right:10px;">X</button>
+    </div>
+</div>
 </html>
