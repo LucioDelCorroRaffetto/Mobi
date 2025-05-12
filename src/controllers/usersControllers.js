@@ -65,6 +65,7 @@ const usersControllers = {
       });
 
       res.redirect("/users/login");
+      res.redirect("/users/login");
     } catch (error) {
       console.error('Error en processRegister:', error);
       res.status(500).render("users/register", {
@@ -85,6 +86,7 @@ const usersControllers = {
       
       const errores = validationResult(req);
 
+
       if (!errores.isEmpty()) {
         return res.render("users/login", {
           errores: errores.mapped(),
@@ -95,6 +97,12 @@ const usersControllers = {
 
       // Buscar el usuario sin filtrar por activo
       const usuario = await Usuario.findOne({
+        where: { 
+          email: req.body.email,
+          activo: true
+        }
+      });
+
         where: { 
           email: req.body.email,
           activo: true
