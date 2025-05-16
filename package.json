@@ -6,8 +6,8 @@
   "main": "./router/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm start\" \"npm run dev --prefix Mobi\"",
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www",
     "dbmigrate": "sequelize-cli db:migrate",
     "dbseed": "sequelize-cli db:seed:all",
     "dbreset": "sequelize-cli db:drop && sequelize-cli db:create && sequelize-cli db:migrate && sequelize-cli db:seed:all",
@@ -45,5 +45,8 @@
     "sequelize": "^6.37.6",
     "sequelize-cli": "^6.6.2",
     "swiper": "^11.1.15"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }

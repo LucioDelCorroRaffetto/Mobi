@@ -38,15 +38,6 @@ Nuestra plataforma inmobiliaria está diseñada para ofrecer una amplia variedad
 
 </div>
 
-## 🗺️ Roadmap
-
-- [x] Sistema de autenticación implementado
-- [x] Base de datos relacional configurada
-- [ ] Implementar sistema de notificaciones en tiempo real
-- [ ] Agregar integración con mapas interactivos
-- [ ] Desarrollar aplicación móvil nativa
-- [ ] Implementar chat en tiempo real entre usuarios
-
 ## 👨‍💻 Sobre mí
 
 <details>

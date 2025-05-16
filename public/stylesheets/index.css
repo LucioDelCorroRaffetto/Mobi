@@ -1205,7 +1205,6 @@ body {
     align-items: center;
     gap: 0.5rem;
     background: #fff2;
-    color: #fff;
     border: none;
     border-radius: 12px;
     padding: 0.7rem 1.3rem;
@@ -1221,6 +1220,12 @@ body {
 .button-group button#btn-alquiler {
     background: #2196f3cc;
 }
+
+.button-group a,
+.search a{
+text-decoration: none;
+}
+
 .search {
     display: flex;
     gap: 0.7rem;
