@@ -28,6 +28,7 @@ const userUpload = multer({ storage: userStorage });
 // Rutas principales
 // Ruta principal - muestra el carrusel de publicidad
 router.get('/', productsController.index);
+router.get('/', productsController.index);
 
 // Ruta de inicio
 router.get('/home', productsController.index);

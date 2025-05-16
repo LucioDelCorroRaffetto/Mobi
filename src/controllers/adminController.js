@@ -52,6 +52,7 @@ const adminController = {
       res.render('products/productEdit', { 
         title: 'Editar Propiedad',
         product: propiedad,
+        product: propiedad,
         agentes,
         barrios,
         categorias
@@ -62,7 +63,6 @@ const adminController = {
       return res.redirect('/admin/products');
     }
   },
-
   // Listar todas las propiedades para la vista de administración
   listProperties: async (req, res) => {
     try {
@@ -70,6 +70,32 @@ const adminController = {
       const limit = 12;
       
       const { count, rows: propiedades } = await Propiedad.findAndCountAll({
+        include: [
+          { 
+            model: Direccion, 
+            as: "direccion",
+            required: false,
+            attributes: ['calle', 'numero', 'piso', 'departamento', 'codigo_postal', 'ciudad', 'provincia', 'pais']
+          },
+          { 
+            model: Barrio, 
+            as: "barrio",
+            required: false,
+            attributes: ['nombre']
+          },
+          { 
+            model: Categoria, 
+            as: "categoria",
+            required: false,
+            attributes: ['nombre']
+          },
+          { 
+            model: Usuario, 
+            as: "agente",
+            required: false,
+            attributes: ['nombre', 'apellido', 'email', 'telefono']
+          }
+        ],
         include: [
           { 
             model: Direccion, 
@@ -133,6 +159,7 @@ const adminController = {
       
       res.render('products/admin', {
         title: 'Administrar Propiedades',
+        products: propiedadesConImagen,
         products: propiedadesConImagen,
         currentPage: page,
         totalPages,

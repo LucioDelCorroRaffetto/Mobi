@@ -65,6 +65,7 @@ const usersControllers = {
       });
 
       res.redirect("/users/login");
+      res.redirect("/users/login");
     } catch (error) {
       console.error('Error en processRegister:', error);
       res.status(500).render("users/register", {
@@ -84,6 +85,7 @@ const usersControllers = {
       console.log('Datos de login recibidos:', req.body);
       
       const errores = validationResult(req);
+
 
       if (!errores.isEmpty()) {
         return res.render("users/login", {
